@@ -18,7 +18,6 @@ export const useLogin = (props) => {
         }
       )
       .then((item) => {
-        console.log(item);
         setCookies("access_token", item.data.data, 7);
         navigate("/table");
       });
