@@ -4,8 +4,9 @@ import { setCookies } from "./Cookies";
 
 export const useLogin = (props) => {
   const navigate = useNavigate();
+
+  //------------------------ FOR LOGIN USER ------------------------//
   const handleLogin = async (props) => {
-    console.log(props);
     await axios
       .post(
         "http://localhost:4000/api/users/login",
@@ -18,8 +19,11 @@ export const useLogin = (props) => {
         }
       )
       .then((item) => {
-        setCookies("access_token", item.data.data, 7);
-        navigate("/table");
+        if (item.data.status) {
+          setCookies("access_token", item.data.data, 7);
+          navigate("/table");
+        } else {
+        }
       });
   };
 

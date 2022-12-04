@@ -17,9 +17,11 @@ import { useLogin } from "../../Hooks";
 
 export const Login = () => {
   const { handleLogin } = useLogin();
-
   const { register, handleSubmit, control, errors } = useForm();
   const onSubmit = (data) => handleLogin(data);
+
+  console.log("register", register);
+
   return (
     <>
       <div className="dp-login-container">
@@ -86,9 +88,6 @@ export const Login = () => {
             </Box>
           </Container>
         </div>
-        {/* <div className="dp-login-image-block">
-          <img src="./login.jpg" alt="login_image" style={{ width: "370px" }} />
-        </div> */}
       </div>
     </>
   );

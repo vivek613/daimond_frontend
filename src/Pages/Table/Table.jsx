@@ -8,12 +8,11 @@ export const Table = () => {
   const { data } = useDemoData({
     dataSet: "Commodity",
     rowLength: 100,
-    maxColumns: 6,
+    maxColumns: 5,
   });
   return (
-    <Box sx={{ height: 520, width: "100%" }}>
+    <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
       <Navbar />
-
       <DataGrid {...data} />
     </Box>
   );
