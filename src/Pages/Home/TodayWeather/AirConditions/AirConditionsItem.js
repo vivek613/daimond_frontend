@@ -83,6 +83,7 @@ const AirConditionsItem = (props) => {
             color: "white",
             lineHeight: 1,
           }}
+          onClick={props.onClick}
         >
           {props.value}
         </Box>

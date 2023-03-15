@@ -1,0 +1,11 @@
+.main-div{
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-height: 100vh;
+    background: linear-gradient(-35deg, #000428 0%, #004e92);
+}

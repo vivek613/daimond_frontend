@@ -1,14 +1,21 @@
 import React from "react";
 import AirConditionsItem from "./AirConditionsItem";
 import { Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const TodayWeatherAirConditions = ({ data }) => {
+  const navigate = useNavigate();
   let content = (
     <>
       <AirConditionsItem title="Real Feel" value={`10 °C`} type="temperature" />
       <AirConditionsItem title="Wind" value={`12 m/s`} type="wind" />
       <AirConditionsItem title="Clouds" value={`20 %`} type="clouds" />
-      <AirConditionsItem title="Humidity" value={`25 %`} type="humidity" />
+      <AirConditionsItem
+        title="Humidity"
+        value={`25 %`}
+        type="humidity"
+        onClick={() => navigate("/login")}
+      />
     </>
   );
   return (

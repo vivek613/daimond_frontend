@@ -20,8 +20,6 @@ export const Login = () => {
   const { register, handleSubmit, control, errors } = useForm();
   const onSubmit = (data) => handleLogin(data);
 
-  console.log("register", register);
-
   return (
     <>
       <div className="dp-login-container">
