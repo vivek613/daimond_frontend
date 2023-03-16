@@ -34,7 +34,10 @@ export const Login = () => {
                 alignItems: "center",
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <Avatar
+                sx={{ m: 1, bgcolor: "secondary.main" }}
+                style={{ background: "#715d83cc" }}
+              >
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
@@ -43,45 +46,28 @@ export const Login = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
-                  id="email"
+                  required
                   label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
                   {...register("email")}
                 />
                 <TextField
                   margin="normal"
-                  required
                   fullWidth
-                  name="password"
+                  required
                   label="Password"
                   type="password"
-                  id="password"
-                  autoComplete="current-password"
                   {...register("password")}
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
+                  style={{ background: "#715d83cc" }}
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Sign In
                 </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                </Grid>
               </form>
             </Box>
           </Container>

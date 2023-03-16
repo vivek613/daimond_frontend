@@ -11,7 +11,15 @@ export const Navbar = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar
+          position="static"
+          style={{
+            height: "48px",
+            display: "flex",
+            justifyContent: "center",
+            background: "#715d83cc",
+          }}
+        >
           <Toolbar>
             <IconButton
               size="large"

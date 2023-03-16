@@ -1,10 +1,11 @@
 import React from "react";
 import AirConditionsItem from "./AirConditionsItem";
 import { Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLogin } from "../../../../Hooks/Auth/useLogin";
 
 const TodayWeatherAirConditions = ({ data }) => {
-  const navigate = useNavigate();
+  const { handleCheckLoginPage } = useLogin();
+
   let content = (
     <>
       <AirConditionsItem title="Real Feel" value={`10 °C`} type="temperature" />
@@ -14,10 +15,13 @@ const TodayWeatherAirConditions = ({ data }) => {
         title="Humidity"
         value={`25 %`}
         type="humidity"
-        onClick={() => navigate("/login")}
+        onClick={() => {
+          handleCheckLoginPage();
+        }}
       />
     </>
   );
+
   return (
     <Grid container>
       <Grid item xs={12}>
