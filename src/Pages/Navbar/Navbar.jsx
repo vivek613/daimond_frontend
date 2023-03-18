@@ -14,7 +14,7 @@ export const Navbar = () => {
         <AppBar
           position="static"
           style={{
-            height: "48px",
+            height: "60px",
             display: "flex",
             justifyContent: "center",
             background: "#715d83cc",

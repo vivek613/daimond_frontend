@@ -27,7 +27,7 @@ export const useLogin = (props) => {
   const handleLogin = async (props) => {
     await axios
       .post(
-        "http://localhost:4000/api/users/login",
+        "http://localhost:5000/api/users/login",
         {
           email: props.email,
           password: props.password,
@@ -38,8 +38,8 @@ export const useLogin = (props) => {
       )
       .then((item) => {
         if (item.data.status) {
-          setCookies("access_token", item.data.data, 7);
-          navigate("/table");
+          setCookies("access_token", item.data.accessToken);
+          navigate("/dataPage");
         } else {
         }
       });
