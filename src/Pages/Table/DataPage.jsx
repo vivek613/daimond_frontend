@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Navbar } from "../index";
 import { Table } from "../../Components/index";
+import { useCompanyDetails } from "../../Hooks";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -37,10 +38,21 @@ const rows = [
 ];
 
 export const DataPage = () => {
+  const { handleGetAllCompany } = useCompanyDetails();
+
+  useEffect(() => {
+    handleGetAllCompany();
+  }, []);
   return (
     <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
       <Navbar />
-      <Table data={rows} columns={columns} pageSize={5} />
+      <div className="content-wrapper">
+        <div className="content-wrapper-button-div">
+          <p className="content-wrapper-title">Company Data</p>
+          <button className="df-primary-button">Add Company</button>
+        </div>
+        <Table data={rows} columns={columns} pageSize={5} />
+      </div>
     </Box>
   );
 };

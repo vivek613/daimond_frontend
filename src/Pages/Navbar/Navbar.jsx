@@ -1,42 +1,51 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import React, { useState } from "react";
+import SideNav, {
+  Toggle,
+  Nav,
+  NavItem,
+  NavIcon,
+  NavText,
+} from "@trendmicro/react-sidenav";
+import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import { FaUserAlt, FaUsers } from "react-icons/fa";
+import { MdAccessTimeFilled } from "react-icons/md";
+import { BiLogOut } from "react-icons/bi";
 
 export const Navbar = () => {
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar
-          position="static"
-          style={{
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            background: "#715d83cc",
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </>
+    <SideNav
+      style={{ background: "#cdc6eb" }}
+      onSelect={(selected) => {
+        // Add your code here
+      }}
+    >
+      <SideNav.Toggle />
+      <SideNav.Nav>
+        <NavItem eventKey="home">
+          <NavIcon style={{ opacity: "1" }}>
+            <FaUserAlt style={{ fill: "black" }} />
+          </NavIcon>
+          <NavText style={{ color: "black" }}>Company</NavText>
+        </NavItem>
+        <NavItem selected eventKey="charts">
+          <NavIcon style={{ opacity: "1" }}>
+            <MdAccessTimeFilled style={{ fill: "black" }} />
+          </NavIcon>
+          <NavText style={{ color: "black" }}>Buy</NavText>
+        </NavItem>
+        <NavItem selected eventKey="charts">
+          <NavIcon style={{ opacity: "1" }}>
+            <FaUsers style={{ fill: "black" }} />
+          </NavIcon>
+          <NavText style={{ color: "black" }}>Sell</NavText>
+        </NavItem>
+        <NavItem selected eventKey="charts">
+          <NavIcon style={{ opacity: "1" }}>
+            <BiLogOut style={{ fill: "black" }} />
+          </NavIcon>
+          <NavText style={{ color: "black" }}>Reports</NavText>
+        </NavItem>
+      </SideNav.Nav>
+    </SideNav>
   );
 };

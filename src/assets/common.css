@@ -1,0 +1,35 @@
+.content-wrapper {
+  padding: 30px 10px 30px 95px;
+  overflow: auto;
+  height: calc(100vh - 60px);
+}
+.df-primary-button {
+  height: 40px;
+  background: rgb(205, 198, 235);
+  color: black;
+  border: 1px solid rgb(139, 131, 172);
+  letter-spacing: 0.7px;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+.df-primary-button:hover {
+  background: rgb(127, 108, 209);
+  color: white;
+  cursor: pointer;
+}
+.content-wrapper-button-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.content-wrapper-title {
+  color: gray;
+  letter-spacing: 0.5px;
+  font-size: x-large;
+  font-weight: 600;
+}
+::-webkit-scrollbar {
+  width: 2px;
+  background: rgb(205, 198, 235);
+}
