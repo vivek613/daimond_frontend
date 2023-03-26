@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
-import { Navbar } from "../index";
-import { Table } from "../../Components/index";
-import { useCompanyDetails } from "../../Hooks";
-
+import { Box } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import { Table } from "../../../Components";
+import { useBillData } from "../../../Hooks/Application/useBillData";
+import { Navbar } from "../../Navbar/Navbar";
+import { BillDataModel } from "./BillDataModel";
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "firstName", headerName: "First name", width: 130 },
@@ -36,23 +36,34 @@ const rows = [
   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
-
-export const DataPage = () => {
-  const { handleGetAllCompany } = useCompanyDetails();
+export const BillData = () => {
+  const { handleGetAllBill } = useBillData();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    handleGetAllCompany();
+    handleGetAllBill();
   }, []);
+
   return (
-    <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
-      <Navbar />
-      <div className="content-wrapper">
-        <div className="content-wrapper-button-div">
-          <p className="content-wrapper-title">Company Data</p>
-          <button className="df-primary-button">Add Company</button>
+    <>
+      <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
+        <Navbar />
+        <div className="content-wrapper">
+          <div className="content-wrapper-button-div">
+            <p className="content-wrapper-title">Company Data</p>
+            <button
+              className="df-primary-button"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              Add Company
+            </button>
+          </div>
+          <Table data={rows} columns={columns} pageSize={5} />
+          <BillDataModel open={open} setOpen={setOpen} />
         </div>
-        <Table data={rows} columns={columns} pageSize={5} />
-      </div>
-    </Box>
+      </Box>
+    </>
   );
 };

@@ -1,3 +1,4 @@
 export { Login } from "./Login/Login";
 export { Navbar } from "./Navbar/Navbar";
-export { DataPage } from "./Table/DataPage";
+export { CompanyTable } from "./Table/Company/CompanyTable";
+export { BillData } from "./Table/BillData/BillData";

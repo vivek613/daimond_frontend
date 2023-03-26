@@ -37,8 +37,12 @@ export const useLogin = (props) => {
         }
       )
       .then((item) => {
-        if (item.data.status) {
-          setCookies("access_token", item.data.accessToken);
+        console.log(item);
+
+        if (item.status) {
+          console.log(item.data.accessToken);
+          setCookies("access_token", item.data.data.accessToken);
+
           navigate("/dataPage");
         } else {
         }

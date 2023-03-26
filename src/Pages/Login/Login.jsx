@@ -14,11 +14,18 @@ import Container from "@mui/material/Container";
 import { useForm, Controller } from "react-hook-form";
 import "./Login.css";
 import { useLogin } from "../../Hooks";
+import { getCookies } from "../../Hooks/Auth/Cookies";
+import { useNavigate } from "react-router";
 
 export const Login = () => {
   const { handleLogin } = useLogin();
+  const navigate = useNavigate();
   const { register, handleSubmit, control, errors } = useForm();
   const onSubmit = (data) => handleLogin(data);
+  const token = getCookies("access_token");
+  React.useEffect(() => {
+    token && navigate("/company");
+  }, [token]);
 
   return (
     <>

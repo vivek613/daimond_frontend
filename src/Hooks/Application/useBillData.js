@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 
-export const useCompanyDetails = (props) => {
+export const useBillData = (props) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
 
   const tokenStr = getCookies("access_token");
   console.log(tokenStr);
   //------------------------ FOR LOGIN USER ------------------------//
-  const handleGetAllCompany = async (props) => {
+  const handleGetAllBill = async (props) => {
     await axios
       .post(
-        "http://localhost:5000/api/company",
+        "http://localhost:5000/api/bills/allBills",
         {
-          skip: 0,
-          take: 10,
-          search_text: "",
+          skip: 7,
+          take: 3,
+          sort_model: {
+            sort: "asc",
+            field: "name",
+          },
         },
+
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
         }
@@ -24,13 +28,10 @@ export const useCompanyDetails = (props) => {
       .then((item) => {
         console.log("item", item);
         if (item.data.status) {
-          setAllCompanyData(item.data.data);
         } else {
         }
       });
   };
 
-  const columns = [{ field: "name", headerName: "Company name", width: 130 }];
-
-  return { handleGetAllCompany, allCompanyData, columns };
+  return { handleGetAllBill };
 };
