@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Navbar } from "../../index";
-import { Table } from "../../../Components/index";
+import { Table } from "../../../components/index";
 import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
-import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";
 
 export const CompanyTable = () => {
   const {
@@ -18,7 +17,6 @@ export const CompanyTable = () => {
   useEffect(() => {
     handleGetAllCompany();
   }, []);
-  console.log(open);
   return (
     <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
       <Navbar />
@@ -45,11 +43,3 @@ export const CompanyTable = () => {
     </Box>
   );
 };
-
-export const Wrapper = () => (
-  <CompanyDetailsProvider>
-    <CompanyTable />
-  </CompanyDetailsProvider>
-);
-
-export default Wrapper;

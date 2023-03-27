@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -14,6 +15,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useForm } from "react-hook-form";
 import { useCompanyDetails } from "../../../Hooks";
+import { useBillData } from "../../../Hooks/Application/useBillData";
+import Grid from "@mui/system/Unstable_Grid/Grid";
 
 const style = {
   position: "absolute",
@@ -26,11 +29,26 @@ const style = {
   boxShadow: 24,
   border: "none",
   borderRadius: "5px",
-  p: 4,
+  padding: "10px",
+  // height: 600,
+  // overflow: "scroll",
 };
 
 export function BillDataModel({ open, setOpen }) {
-  const { allCompanyData, handleGetAllCompany } = useCompanyDetails();
+  // const { allCompanyData, handleGetAllCompany } = useCompanyDetails();
+  const {
+    handleOnSubmit,
+    expiryDate,
+    setExpiryDate,
+    startDate,
+    setStartDate,
+    allCompanyData,
+    setAllCompanyData,
+    handleGetAllCompany,
+    companyID,
+    setCompanyID,
+  } = useBillData();
+
   const {
     register,
     handleSubmit,
@@ -43,91 +61,124 @@ export function BillDataModel({ open, setOpen }) {
   });
   const { company_name } = watch();
   const handleClose = () => setOpen(false);
-  const onSubmit = (data) => console.log(data);
+  const handleChange = (e) => {
+    e.preventdefault();
+    setCompanyID(e.target.value);
+    console.log(e);
+    console.log(companyID);
+  };
 
-  console.log(allCompanyData, company_name);
-  React.useEffect(() => {
+  useEffect(() => {
     handleGetAllCompany();
   }, []);
 
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <h2 id="parent-modal-title">Add bill</h2>
+          <p id="parent-modal-title">Add bill</p>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleOnSubmit)}
             className={styles["model-field"]}
           >
-            {/* <InputLabel id="demo-simple-select-helper-label">
-                Select Company
-              </InputLabel> */}
-            <TextField
-              select
-              fullWidth
-              label="Select"
-              {...register("company_name", {
-                required: "Please enter currency",
-              })}
+            <FormControl>
+              <Select label="company" value={companyID} onChange={handleChange}>
+                <React.Fragment>
+                  <MenuItem value={10}>{"fdsf"}</MenuItem>
+                  {/* <MenuItem>{"fgdg"}</MenuItem> */}
+                  {/* {allCompanyData.map(({ name, _id }) => {
+                    return (
+                      <>
+                        <MenuItem key={_id} value={name}>
+                          {name}
+                        </MenuItem>
+                      </>
+                    );
+                  })} */}
+                </React.Fragment>
+              </Select>
+            </FormControl>
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 1, md: 2 }}
             >
-              <>
-                {allCompanyData.map(({ name, _id }) => {
-                  return (
-                    <>
-                      <MenuItem key={_id} value={name}>
-                        {name}
-                      </MenuItem>
-                    </>
-                  );
-                })}
-              </>
-            </TextField>
-            <TextField
-              id="outlined-basic"
-              label="bill_no"
-              variant="outlined"
-              {...register("bill_no")}
-            />
-            <TextField
-              id="outlined-basic"
-              label="total"
-              variant="outlined"
-              {...register("total")}
-            />
-            <TextField
-              id="outlined-basic"
-              label="take"
-              variant="outlined"
-              {...register("take")}
-            />
-            <TextField
-              id="outlined-basic"
-              label="give"
-              variant="outlined"
-              {...register("give")}
-            />
-            <TextField
-              id="outlined-basic"
-              label="prize type"
-              variant="outlined"
-              {...register("prize_type")}
-            />
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Description"
+                  variant="outlined"
+                  {...register("description")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="currency type"
+                  variant="outlined"
+                  {...register("currency_type")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="total payment"
+                  variant="outlined"
+                  {...register("total_payment")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="remaining"
+                  variant="outlined"
+                  {...register("remaining")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="price"
+                  variant="outlined"
+                  {...register("price")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="due days"
+                  variant="outlined"
+                  {...register("due_days")}
+                />
+              </Grid>
+            </Grid>
+
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="start date" {...register("start_date")} />
+                <DatePicker
+                  label="start date"
+                  value={startDate}
+                  onChange={(newValue) => {
+                    setStartDate(newValue);
+                  }}
+                />
               </DemoContainer>
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Expiry date" {...register("expiry_date")} />
+                <DatePicker
+                  label="Expiry date"
+                  value={expiryDate}
+                  onChange={(newValue) => {
+                    setExpiryDate(newValue);
+                  }}
+                />
               </DemoContainer>
             </LocalizationProvider>
             <div className={styles["button-div"]}>
+              <Button variant="outlined" onClick={handleClose}>
+                Close
+              </Button>
               <Button variant="contained" type="submit">
                 Submit
               </Button>

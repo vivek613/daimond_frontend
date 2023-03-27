@@ -14,6 +14,7 @@ export const Table = ({
       columns={columns}
       pageSize={pageSize}
       rowsPerPageOptions={[rowsPerPageOptions]}
+      paginationMode="server"
       {...rest}
     />
   );

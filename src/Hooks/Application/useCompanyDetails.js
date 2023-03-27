@@ -2,10 +2,7 @@ import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 
-const ctx = createContext();
-export const useCompanyDetails = () => useContext(ctx);
-
-export const CompanyDetailsProvider = ({ children }) => {
+export const useCompanyDetails = () => {
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
 
@@ -57,18 +54,12 @@ export const CompanyDetailsProvider = ({ children }) => {
 
   const columns = [{ field: "name", headerName: "Company name", width: 230 }];
 
-  return (
-    <ctx.Provider
-      value={{
-        handleGetAllCompany,
-        allCompanyData,
-        columns,
-        handleOnSubmit,
-        open,
-        setOpen,
-      }}
-    >
-      {children}
-    </ctx.Provider>
-  );
+  return {
+    handleGetAllCompany,
+    allCompanyData,
+    columns,
+    handleOnSubmit,
+    open,
+    setOpen,
+  };
 };
