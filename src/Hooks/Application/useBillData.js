@@ -20,7 +20,6 @@ export const useBillData = (props) => {
             field: "name",
           },
         },
-
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
         }

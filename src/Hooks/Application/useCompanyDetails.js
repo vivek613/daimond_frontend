@@ -30,7 +30,7 @@ export const useCompanyDetails = (props) => {
       });
   };
 
-  const columns = [{ field: "name", headerName: "Company name", width: 130 }];
+  const columns = [{ field: "name", headerName: "Company name", width: 230 }];
 
   return { handleGetAllCompany, allCompanyData, columns };
 };
