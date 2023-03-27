@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import styles from "./Company.module.css";
 
 import { useForm } from "react-hook-form";
+import { useCompanyDetails } from "../../../Hooks";
 
 const style = {
   position: "absolute",
@@ -22,7 +23,8 @@ const style = {
   p: 4,
 };
 
-export function CompanyModel({ open, setOpen }) {
+export function CompanyModel() {
+  const { handleOnSubmit, open, setOpen } = useCompanyDetails();
   const {
     register,
     handleSubmit,
@@ -35,7 +37,8 @@ export function CompanyModel({ open, setOpen }) {
   });
   const { company_name } = watch();
   const handleClose = () => setOpen(false);
-  const onSubmit = (data) => console.log(data);
+  //   const onSubmit = (data) => console.log(data);
+  console.log(open);
 
   return (
     <div>
@@ -48,7 +51,7 @@ export function CompanyModel({ open, setOpen }) {
         <Box sx={style}>
           <h2 id="parent-modal-title">Add Company</h2>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleOnSubmit)}
             className={styles["model-field"]}
           >
             <TextField

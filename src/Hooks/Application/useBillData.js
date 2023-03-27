@@ -6,7 +6,6 @@ export const useBillData = (props) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
 
   const tokenStr = getCookies("access_token");
-  console.log(tokenStr);
   //------------------------ FOR LOGIN USER ------------------------//
   const handleGetAllBill = async (props) => {
     await axios

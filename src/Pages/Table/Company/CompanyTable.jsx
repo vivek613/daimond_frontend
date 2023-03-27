@@ -4,14 +4,21 @@ import { Navbar } from "../../index";
 import { Table } from "../../../Components/index";
 import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
+import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";
 
 export const CompanyTable = () => {
-  const { handleGetAllCompany, allCompanyData, columns } = useCompanyDetails();
-  const [open, setOpen] = useState(false);
+  const {
+    handleGetAllCompany,
+    allCompanyData,
+    columns,
+    open,
+    setOpen,
+  } = useCompanyDetails();
 
   useEffect(() => {
     handleGetAllCompany();
   }, []);
+  console.log(open);
   return (
     <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
       <Navbar />
@@ -33,8 +40,16 @@ export const CompanyTable = () => {
           pageSize={5}
           getRowId={(row) => row._id}
         />
-        <CompanyModel open={open} setOpen={setOpen} />
+        <CompanyModel />
       </div>
     </Box>
   );
 };
+
+export const Wrapper = () => (
+  <CompanyDetailsProvider>
+    <CompanyTable />
+  </CompanyDetailsProvider>
+);
+
+export default Wrapper;
