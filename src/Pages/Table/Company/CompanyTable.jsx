@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Navbar } from "../../Navbar/Navbar";
-import { Table } from "../../../Components";
+import { Table } from "../../../components";
 import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
 import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";

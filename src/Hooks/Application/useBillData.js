@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 import { async } from "q";
 import { productContext } from "../../App";
-import { createContext } from "react";
+import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
+import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 
 const ctx = createContext();
 
 export const useBillData = () => useContext(ctx);
-
 
 export const BillDataProvider = ({ children }) => {
   const { open, setOpen } = useContext(productContext);
@@ -24,6 +24,92 @@ export const BillDataProvider = ({ children }) => {
 
   const tokenStr = getCookies("access_token");
 
+  const customActionCell = ({ row }) => {
+    console.log(row);
+    return (
+      <>
+        <div className="df-custom-action-cell">
+          <div className="df-custom-action-cell">
+            <EditIcon
+              className="df-action-edit-icon"
+              onClick={() => {
+                console.log("edit");
+              }}
+            />
+          </div>
+          <div className="df-custom-action-cell">
+            <DeleteIcon
+              className="df-action-delete-icon"
+              onClick={() => {
+                console.log("delete");
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const columns = [
+    { field: "company_name", headerName: "company", flex: 1 },
+    { field: "description", headerName: "description", flex: 1 },
+    {
+      field: "currency_type",
+      headerName: "currency",
+      // type: "number",
+      maxWidth: 90,
+      flex: 1,
+    },
+    {
+      field: "total_payment",
+      headerName: "Total",
+      sortable: false,
+      maxWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "remaining",
+      headerName: "Remaining",
+      sortable: false,
+      maxWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "price",
+      headerName: "price",
+      sortable: false,
+      maxWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "due_days",
+      headerName: "due Days",
+      sortable: false,
+      maxWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "start_date",
+      headerName: "start date",
+      sortable: false,
+      width: 150,
+      flex: 1,
+    },
+    {
+      field: "end_date",
+      headerName: "Expiry date",
+      sortable: false,
+      width: 150,
+
+      flex: 1,
+    },
+    {
+      field: "action",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: customActionCell,
+    },
+  ];
   const handleGetAllCompany = async (props) => {
     await axios
       .post(
@@ -100,7 +186,6 @@ export const BillDataProvider = ({ children }) => {
       });
   };
 
-
   return (
     <ctx.Provider
       value={{
@@ -118,8 +203,10 @@ export const BillDataProvider = ({ children }) => {
         billData,
         setPaginationModel,
         paginationModel,
+        columns,
       }}
     >
       {children}
-    </ctx.Provider>)
+    </ctx.Provider>
+  );
 };

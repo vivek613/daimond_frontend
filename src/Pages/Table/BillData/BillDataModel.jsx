@@ -35,7 +35,6 @@ const style = {
 };
 
 export function BillDataModel({ open, setOpen }) {
-  // const { allCompanyData, handleGetAllCompany } = useCompanyDetails();
   const {
     handleOnSubmit,
     expiryDate,
@@ -43,7 +42,6 @@ export function BillDataModel({ open, setOpen }) {
     startDate,
     setStartDate,
     allCompanyData,
-    setAllCompanyData,
     handleGetAllCompany,
     companyID,
     setCompanyID,
@@ -62,10 +60,8 @@ export function BillDataModel({ open, setOpen }) {
   const { company_name } = watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
-    // e.preventdefault();
+    console.log(e.target.value);
     setCompanyID(e.target.value);
-    console.log(e);
-    console.log(companyID);
   };
 
   useEffect(() => {
@@ -82,19 +78,23 @@ export function BillDataModel({ open, setOpen }) {
             className={styles["model-field"]}
           >
             <FormControl>
-              <Select label="company" value={companyID} onChange={handleChange}>
-                <MenuItem value={10}>{"fdsf"}</MenuItem>
-                {/* <MenuItem>{"fgdg"}</MenuItem> */}
-                {/* {allCompanyData.map(({ name, _id }) => {
+              <InputLabel id="demo-simple-select-label">Age</InputLabel>
+              <>
+                <Select
+                  value={companyID}
+                  onClick={(e) => {
+                    console.log(e.target.value);
+                  }}
+                >
+                  {allCompanyData.map(({ name, _id }) => {
                     return (
                       <>
-                        <MenuItem key={_id} value={name}>
-                          {name}
-                        </MenuItem>
+                        <MenuItem value={_id}>{name}</MenuItem>
                       </>
                     );
-                  })} */}
-              </Select>
+                  })}
+                </Select>
+              </>
             </FormControl>
             <Grid
               container
