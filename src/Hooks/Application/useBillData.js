@@ -3,8 +3,14 @@ import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 import { async } from "q";
 import { productContext } from "../../App";
+import { createContext } from "react";
 
-export const useBillData = (props) => {
+const ctx = createContext();
+
+export const useBillData = () => useContext(ctx);
+
+
+export const BillDataProvider = ({ children }) => {
   const { open, setOpen } = useContext(productContext);
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [billData, setBillData] = useState([]);
@@ -93,20 +99,27 @@ export const useBillData = (props) => {
         }
       });
   };
-  return {
-    handleGetAllBill,
-    handleOnSubmit,
-    expiryDate,
-    setExpiryDate,
-    startDate,
-    setStartDate,
-    handleGetAllCompany,
-    allCompanyData,
-    setAllCompanyData,
-    companyID,
-    setCompanyID,
-    billData,
-    setPaginationModel,
-    paginationModel,
-  };
+
+
+  return (
+    <ctx.Provider
+      value={{
+        handleGetAllBill,
+        handleOnSubmit,
+        expiryDate,
+        setExpiryDate,
+        startDate,
+        setStartDate,
+        handleGetAllCompany,
+        allCompanyData,
+        setAllCompanyData,
+        companyID,
+        setCompanyID,
+        billData,
+        setPaginationModel,
+        paginationModel,
+      }}
+    >
+      {children}
+    </ctx.Provider>)
 };

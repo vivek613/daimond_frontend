@@ -1,8 +1,14 @@
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
+import { changeSectionValueFormat } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 
-export const useCompanyDetails = () => {
+
+const ctx = createContext();
+
+export const useCompanyDetails = () => useContext(ctx);
+
+export const CompanyDetailsProvider = ({ children }) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
 
@@ -54,12 +60,17 @@ export const useCompanyDetails = () => {
 
   const columns = [{ field: "name", headerName: "Company name", width: 230 }];
 
-  return {
-    handleGetAllCompany,
-    allCompanyData,
-    columns,
-    handleOnSubmit,
-    open,
-    setOpen,
-  };
+  return (
+    <ctx.Provider
+      value={{
+        handleGetAllCompany,
+        allCompanyData,
+        columns,
+        handleOnSubmit,
+        open,
+        setOpen,
+      }}>
+      {children}
+    </ctx.Provider>
+  )
 };

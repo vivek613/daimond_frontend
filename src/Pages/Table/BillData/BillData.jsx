@@ -1,8 +1,11 @@
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
 import { productContext } from "../../../App";
-import { Table } from "../../../components";
-import { useBillData } from "../../../Hooks/Application/useBillData";
+import { Table } from "../../../Components";
+import {
+  BillDataProvider,
+  useBillData,
+} from "../../../Hooks/Application/useBillData";
 import { Navbar } from "../../Navbar/Navbar";
 import { BillDataModel } from "./BillDataModel";
 const columns = [
@@ -59,14 +62,10 @@ const columns = [
   },
 ];
 
-export const BillData = () => {
+const BillData = () => {
   const { open, setOpen } = useContext(productContext);
-  const {
-    handleGetAllBill,
-    billData,
-    setPaginationModel,
-    paginationModel,
-  } = useBillData();
+  const { handleGetAllBill, billData, setPaginationModel, paginationModel } =
+    useBillData();
   // const [open, setOpen] = useState(false);
   console.log(paginationModel);
   const handleChange = (e) => {
@@ -111,3 +110,11 @@ export const BillData = () => {
     </>
   );
 };
+
+export const Wrapper = () => (
+  <BillDataProvider>
+    <BillData />
+  </BillDataProvider>
+);
+
+export default Wrapper;
