@@ -99,3 +99,11 @@ p {
 .df-action-delete-icon {
   padding: 5px;
 }
+.df-custom-edit-cell {
+  padding: 5px;
+  cursor: pointer;
+}
+.df-custom-delete-cell {
+  padding: 5px;
+  cursor: pointer;
+}

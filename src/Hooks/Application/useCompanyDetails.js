@@ -3,6 +3,8 @@ import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
+import { changeSectionValueFormat } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
+import { useForm } from "react-hook-form";
 
 const ctx = createContext();
 
@@ -13,7 +15,23 @@ export const CompanyDetailsProvider = ({ children }) => {
   const [open, setOpen] = useState();
 
   const tokenStr = getCookies("access_token");
-  //------------------------ FOR LOGIN USER ------------------------//
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      id: "",
+      company_name: "",
+      company_description: "",
+    },
+  });
+
+  //------------------------ FOR GET ALL COMPANY ------------------------//
   const handleGetAllCompany = async () => {
     await axios
       .post(
@@ -34,13 +52,15 @@ export const CompanyDetailsProvider = ({ children }) => {
         }
       });
   };
+
   //------------------------ FOR ADD COMPANY ------------------------//
-  const handleAddCompany = async (props) => {
+  const handleOnSubmit = async (data) => {
     await axios
       .post(
         "http://localhost:5000/api/company/add",
         {
-          name: `${props.company_name}`,
+          name: data.company_name,
+          description: data.company_description,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -61,8 +81,9 @@ export const CompanyDetailsProvider = ({ children }) => {
       .post(
         "http://localhost:5000/api/company/update",
         {
-          id: "",
-          name: "",
+          id: props.id,
+          name: props.company_name,
+          description: props.company_description,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -70,29 +91,56 @@ export const CompanyDetailsProvider = ({ children }) => {
       )
       .then((item) => {
         if (item.data.status) {
+          setOpen(false);
+          handleGetAllCompany();
+          reset({
+            ...getValues(),
+            id: "",
+            company_name: "",
+            company_description: "",
+          });
+        } else {
+        }
+      });
+  };
+
+  //------------------------ FOR DELETE COMPANY ------------------------//
+  const handleDeleteCompany = async (props) => {
+    await axios
+      .delete(`http://localhost:5000/api/company/${props.row._id}`, {
+        headers: { Authorization: `Bearer ${tokenStr}` },
+      })
+      .then((item) => {
+        if (item.data.status) {
+          handleGetAllCompany();
         } else {
         }
       });
   };
 
   const customActionCell = (props) => {
-    console.log("props1111", props);
     return (
       <>
         <div className="df-custom-action-cell">
-          <div className="df-custom-action-cell">
+          <div className="df-custom-edit-cell">
             <EditIcon
               className="df-action-edit-icon"
               onClick={() => {
-                console.log("edit");
+                reset({
+                  ...getValues(),
+                  id: `${props.row._id}`,
+                  company_name: `${props.row.name}`,
+                  company_description: `${props.row.description}`,
+                });
+                setOpen(true);
               }}
             />
           </div>
-          <div className="df-custom-action-cell">
+          <div className="df-custom-delete-cell">
             <DeleteIcon
               className="df-action-delete-icon"
               onClick={() => {
-                console.log("delete");
+                handleDeleteCompany(props);
               }}
             />
           </div>
@@ -116,28 +164,6 @@ export const CompanyDetailsProvider = ({ children }) => {
     },
   ];
 
-  const handleOnSubmit = async (data) => {
-    await axios
-      .post(
-        "http://localhost:5000/api/company/add",
-        {
-          name: data.company_name,
-        },
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
-      .then((item) => {
-        console.log("item", item);
-
-        if (item.data.status) {
-          setOpen(false);
-          handleGetAllCompany();
-        } else {
-        }
-      });
-  };
-
   return (
     <ctx.Provider
       value={{
@@ -147,8 +173,12 @@ export const CompanyDetailsProvider = ({ children }) => {
         handleOnSubmit,
         open,
         setOpen,
-        handleAddCompany,
         handleUpdateCompany,
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        getValues,
       }}
     >
       {children}

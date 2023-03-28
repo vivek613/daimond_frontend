@@ -11,7 +11,6 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { FaUserAlt, FaUsers } from "react-icons/fa";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
-import { HiOfficeBuilding } from "react-icons/hi";
 import { useNavigate } from "react-router";
 
 export const Navbar = () => {
