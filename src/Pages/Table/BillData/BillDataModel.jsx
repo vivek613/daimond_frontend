@@ -62,7 +62,7 @@ export function BillDataModel({ open, setOpen }) {
   const { company_name } = watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
-    e.preventdefault();
+    // e.preventdefault();
     setCompanyID(e.target.value);
     console.log(e);
     console.log(companyID);
@@ -83,10 +83,9 @@ export function BillDataModel({ open, setOpen }) {
           >
             <FormControl>
               <Select label="company" value={companyID} onChange={handleChange}>
-                <React.Fragment>
-                  <MenuItem value={10}>{"fdsf"}</MenuItem>
-                  {/* <MenuItem>{"fgdg"}</MenuItem> */}
-                  {/* {allCompanyData.map(({ name, _id }) => {
+                <MenuItem value={10}>{"fdsf"}</MenuItem>
+                {/* <MenuItem>{"fgdg"}</MenuItem> */}
+                {/* {allCompanyData.map(({ name, _id }) => {
                     return (
                       <>
                         <MenuItem key={_id} value={name}>
@@ -95,7 +94,6 @@ export function BillDataModel({ open, setOpen }) {
                       </>
                     );
                   })} */}
-                </React.Fragment>
               </Select>
             </FormControl>
             <Grid
