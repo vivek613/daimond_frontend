@@ -1,11 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-
 import styles from "./Company.module.css";
-
 import { useForm } from "react-hook-form";
 import { useCompanyDetails } from "../../../Hooks";
 
@@ -24,7 +21,13 @@ const style = {
 };
 
 export function CompanyModel() {
-  const { handleOnSubmit, open, setOpen } = useCompanyDetails();
+  const {
+    handleOnSubmit,
+    open,
+    setOpen,
+    handleAddCompany,
+    handleUpdateCompany,
+  } = useCompanyDetails();
   const {
     register,
     handleSubmit,
@@ -35,10 +38,12 @@ export function CompanyModel() {
       company_name: "",
     },
   });
+
   const { company_name } = watch();
   const handleClose = () => setOpen(false);
-  //   const onSubmit = (data) => console.log(data);
-  console.log(open);
+  const onSubmit = (data) => {
+    handleAddCompany(data);
+  };
 
   return (
     <div>
@@ -49,7 +54,7 @@ export function CompanyModel() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <h2 id="parent-modal-title">Add Company</h2>
+          <p id="parent-modal-title">Add Company</p>
           <form
             onSubmit={handleSubmit(handleOnSubmit)}
             className={styles["model-field"]}
@@ -60,11 +65,10 @@ export function CompanyModel() {
               variant="outlined"
               {...register("company_name")}
             />
-
             <div className={styles["button-div"]}>
-              <Button variant="contained" type="submit">
+              <button className="df-primary-button" type="submit">
                 Submit
-              </Button>
+              </button>
             </div>
           </form>
         </Box>

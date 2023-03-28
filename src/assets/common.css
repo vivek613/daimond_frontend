@@ -4,7 +4,7 @@ p {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .content-wrapper {
-  padding: 0px 25px 30px 95px;
+  padding: 0px 25px 0px 95px;
   overflow: auto;
   height: calc(100vh - 60px);
 }
@@ -82,4 +82,20 @@ p {
   height: 55px;
   padding: 12px 0;
   color: gray;
+}
+.df-custom-action-cell {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+.df-action-cell-icon {
+  height: 52px;
+}
+.df-action-edit-icon {
+  padding: 5px;
+}
+.df-action-delete-icon {
+  padding: 5px;
 }

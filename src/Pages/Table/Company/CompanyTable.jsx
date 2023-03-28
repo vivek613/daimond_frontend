@@ -7,12 +7,18 @@ import { CompanyModel } from "./CompanyModel";
 import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";
 
 const CompanyTable = () => {
-  const { handleGetAllCompany, allCompanyData, columns, open, setOpen } =
-    useCompanyDetails();
+  const {
+    handleGetAllCompany,
+    allCompanyData,
+    columns,
+    open,
+    setOpen,
+  } = useCompanyDetails();
 
   useEffect(() => {
     handleGetAllCompany();
   }, []);
+
   return (
     <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
       <Navbar />
@@ -32,7 +38,7 @@ const CompanyTable = () => {
         <Table
           data={allCompanyData}
           columns={columns}
-          pageSize={5}
+          pageSize={10}
           getRowId={(row) => row._id}
         />
         <CompanyModel />
