@@ -83,17 +83,13 @@ export function BillDataModel({ open, setOpen }) {
           >
             <FormControl>
               <Select label="company" value={companyID} onChange={handleChange}>
-                <MenuItem value={10}>{"fdsf"}</MenuItem>
-                {/* <MenuItem>{"fgdg"}</MenuItem> */}
-                {/* {allCompanyData.map(({ name, _id }) => {
-                    return (
-                      <>
-                        <MenuItem key={_id} value={name}>
-                          {name}
-                        </MenuItem>
-                      </>
-                    );
-                  })} */}
+                {allCompanyData.map(({ name, _id }) => {
+                  return (
+                    <MenuItem key={_id} value={name}>
+                      {name}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
             <Grid
