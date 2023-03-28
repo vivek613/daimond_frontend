@@ -24,7 +24,11 @@ export const Navbar = () => {
         <div className="df-navbar-header-title">Diamond Management System</div>
       </div>
       <SideNav
-        style={{ background: "#ededed", borderRight: "1px solid #cbcbcb" }}
+        style={{
+          background: "#ededed",
+          top: "55px",
+          borderRight: "1px solid #cbcbcb",
+        }}
         onSelect={(selected) => {
           // Add your code here
         }}
@@ -54,7 +58,7 @@ export const Navbar = () => {
             selected
             eventKey="charts"
             onClick={() => {
-              navigate("/bill");
+              navigate("/buy");
             }}
             className={
               location.pathname.includes("bill")
@@ -75,7 +79,7 @@ export const Navbar = () => {
             selected
             eventKey="charts"
             onClick={() => {
-              navigate("/bill");
+              navigate("/sell");
             }}
             className={
               location.pathname.includes("sell")

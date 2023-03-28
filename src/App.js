@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { useProduct } from "./context/useProduct";
 import Home from "./Pages/Home/Home";
-import { Login, CompanyTable, BillData } from "./Pages/index";
+import { Login, CompanyTable, BuyData, sellData } from "./Pages/index";
 export const productContext = createContext();
 
 const paths = [
@@ -21,24 +21,23 @@ const paths = [
     component: CompanyTable,
   },
   {
-    path: "bill",
-    component: BillData,
+    path: "buy",
+    component: BuyData,
   },
-]
+  {
+    path: "sell",
+    component: sellData,
+  },
+];
 
 const Common = (route) => (
-  <Suspense
-    fallback={
-      <div>Loading..</div>
-    }
-  >
+  <Suspense fallback={<div>Loading..</div>}>
     <route.component />
   </Suspense>
 );
 
 const createNestedRoutes = (routes, RouteType) => {
   return paths.map((route, i) => {
-
     return (
       <Route
         key={i}
@@ -47,22 +46,15 @@ const createNestedRoutes = (routes, RouteType) => {
         element={<RouteType component={route.component} />}
       />
     );
-
   });
 };
-
 
 function App() {
   const { value } = useProduct();
   console.log(value);
   return (
     <>
-      <Suspense
-        fallback={
-          <div>Loading..</div>
-        }
-      >
-
+      <Suspense fallback={<div>Loading..</div>}>
         <BrowserRouter>
           <productContext.Provider value={value}>
             <Routes>
@@ -84,7 +76,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/company" element={<CompanyTable />} />
               <Route path="/bill" element={<BillData />} /> */}
-
             </Routes>
           </productContext.Provider>
         </BrowserRouter>

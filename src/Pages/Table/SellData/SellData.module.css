@@ -1,0 +1,11 @@
+.model-field{
+    display:flex ;
+    flex-direction: column;
+    gap: 10px;
+}
+.button-div{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+    gap: 10px;
+}

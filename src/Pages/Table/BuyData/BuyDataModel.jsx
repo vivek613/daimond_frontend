@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import styles from "./BillData.module.css";
+import styles from "./BuyData.module.css";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useForm } from "react-hook-form";
-import { useCompanyDetails } from "../../../Hooks";
 import { useBillData } from "../../../Hooks/Application/useBillData";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  border: "none",
-  borderRadius: "5px",
-  padding: "10px",
-  // height: 600,
-  // overflow: "scroll",
-};
-
-export function BillDataModel({ open, setOpen }) {
+export function BuyDataModel({ open, setOpen }) {
   const {
     handleOnSubmit,
     expiryDate,
@@ -45,86 +26,123 @@ export function BillDataModel({ open, setOpen }) {
     handleGetAllCompany,
     companyID,
     setCompanyID,
-  } = useBillData();
-
-  const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      company_name: "",
-    },
-  });
-  const { company_name } = watch();
+    reset,
+    getValues,
+  } = useBillData();
+
+  const {
+    company_name,
+    currency_type,
+    buy_id,
+    give,
+    price,
+    total_payment,
+  } = watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
     console.log(e.target.value);
     setCompanyID(e.target.value);
   };
+  console.log(price);
 
   useEffect(() => {
     handleGetAllCompany();
   }, []);
 
+  useEffect(() => {
+    reset({
+      ...getValues(),
+
+      // price: currency_type === "Rs" ? 0 : 0,
+
+      total_payment: currency_type === "Doller" ? give * price : give,
+    });
+  }, [currency_type, price, give]);
+  console.log(total_payment);
+
   return (
     <div>
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <p id="parent-modal-title">Add bill</p>
+      <Drawer anchor={"right"} open={open} onClose={handleClose}>
+        <Box sx={{ width: 500, padding: "15px", marginTop: "30px" }}>
+          <h2 id="parent-modal-title">Add Buy</h2>
           <form
             onSubmit={handleSubmit(handleOnSubmit)}
             className={styles["model-field"]}
           >
             <FormControl>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <>
+              <Select
+                label="company"
+                disabled={buy_id ? true : false}
+                value={company_name}
+                onChange={handleChange}
+                {...register("company_name")}
+              >
+                {allCompanyData.map(({ name, _id }) => {
+                  return (
+                    <MenuItem key={_id} value={_id}>
+                      {name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <TextField
+              id="outlined-basic"
+              label="Description"
+              variant="outlined"
+              {...register("description")}
+            />
+
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1 }}>
+              <Grid item xs={6}>
                 <Select
-                  value={companyID}
-                  onClick={(e) => {
-                    console.log(e.target.value);
+                  style={{
+                    width: "100%",
                   }}
+                  label="company"
+                  value={currency_type}
+                  // onChange={handleChange}
+                  {...register("currency_type")}
                 >
-                  {allCompanyData.map(({ name, _id }) => {
+                  {["Rs", "Doller"].map((item) => {
                     return (
-                      <>
-                        <MenuItem value={_id}>{name}</MenuItem>
-                      </>
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
                     );
                   })}
                 </Select>
-              </>
-            </FormControl>
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 1, md: 2 }}
-            >
+              </Grid>
+              <Grid item xs={6}>
+                {currency_type === "Doller" && (
+                  <TextField
+                    id="outlined-basic"
+                    label="price"
+                    variant="outlined"
+                    {...register("price")}
+                  />
+                )}
+              </Grid>
               <Grid item xs={6}>
                 <TextField
                   id="outlined-basic"
-                  label="Description"
+                  label="due days"
                   variant="outlined"
-                  {...register("description")}
+                  {...register("due_days")}
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   id="outlined-basic"
-                  label="currency type"
+                  label="give"
                   variant="outlined"
-                  {...register("currency_type")}
+                  {...register("give")}
                 />
               </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-basic"
-                  label="total payment"
-                  variant="outlined"
-                  {...register("total_payment")}
-                />
-              </Grid>
+
               <Grid item xs={6}>
                 <TextField
                   id="outlined-basic"
@@ -136,17 +154,11 @@ export function BillDataModel({ open, setOpen }) {
               <Grid item xs={6}>
                 <TextField
                   id="outlined-basic"
-                  label="price"
+                  disabled
+                  label="total payment"
+                  // value={total}
                   variant="outlined"
-                  {...register("price")}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-basic"
-                  label="due days"
-                  variant="outlined"
-                  {...register("due_days")}
+                  {...register("total_payment")}
                 />
               </Grid>
             </Grid>
@@ -183,7 +195,7 @@ export function BillDataModel({ open, setOpen }) {
             </div>
           </form>
         </Box>
-      </Modal>
+      </Drawer>
     </div>
   );
 }

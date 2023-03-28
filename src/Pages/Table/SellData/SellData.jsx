@@ -1,15 +1,14 @@
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
-import { productContext } from "../../../App";
 import { Table } from "../../../components/index";
 import {
-  BillDataProvider,
-  useBillData,
-} from "../../../Hooks/Application/useBillData";
+  SellDataProvider,
+  useSellData,
+} from "../../../Hooks/Application/useSellData";
 import { Navbar } from "../../Navbar/Navbar";
-import { BillDataModel } from "./BillDataModel";
+import { SellDataModel } from "./SellDataModel";
 
-const BillData = () => {
+const SellData = () => {
   const {
     handleGetAllBill,
     billData,
@@ -18,7 +17,7 @@ const BillData = () => {
     open,
     setOpen,
     columns,
-  } = useBillData();
+  } = useSellData();
   // const [open, setOpen] = useState(false);
   console.log(paginationModel);
   const handleChange = (e) => {
@@ -35,14 +34,14 @@ const BillData = () => {
         <Navbar />
         <div className="content-wrapper">
           <div className="content-wrapper-button-div">
-            <p className="content-wrapper-title">bill Data</p>
+            <p className="content-wrapper-title">Sell Data</p>
             <button
               className="df-primary-button"
               onClick={() => {
                 setOpen(true);
               }}
             >
-              Add bill
+              Add Sell
             </button>
           </div>
           <Table
@@ -57,7 +56,7 @@ const BillData = () => {
             paginationModel={paginationModel}
             onPaginationModelChange={handleChange}
           />
-          <BillDataModel open={open} setOpen={setOpen} />
+          <SellDataModel open={open} setOpen={setOpen} />
         </div>
       </Box>
     </>
@@ -65,9 +64,9 @@ const BillData = () => {
 };
 
 export const Wrapper = () => (
-  <BillDataProvider>
-    <BillData />
-  </BillDataProvider>
+  <SellDataProvider>
+    <SellData />
+  </SellDataProvider>
 );
 
 export default Wrapper;

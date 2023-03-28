@@ -9,9 +9,9 @@ import { useForm } from "react-hook-form";
 
 const ctx = createContext();
 
-export const useBillData = () => useContext(ctx);
+export const useSellData = () => useContext(ctx);
 
-export const BillDataProvider = ({ children }) => {
+export const SellDataProvider = ({ children }) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
 
@@ -68,7 +68,7 @@ export const BillDataProvider = ({ children }) => {
   const handleGetAllBill = async (props) => {
     await axios
       .post(
-        "http://localhost:5000/api/buy/all",
+        "http://localhost:5000/api/sell/all",
         {
           skip: paginationModel.page,
           take: paginationModel.pageSize,
@@ -94,7 +94,7 @@ export const BillDataProvider = ({ children }) => {
     console.log("Fsdfsdf", data);
     await axios
       .post(
-        "http://localhost:5000/api/buy/add",
+        "http://localhost:5000/api/sell/add",
         {
           company_id: data.company_name,
           description: data.description,
@@ -137,7 +137,7 @@ export const BillDataProvider = ({ children }) => {
   const handleDeleteBuy = async (data) => {
     await axios
       .delete(
-        `http://localhost:5000/api/buy/${data}`,
+        `http://localhost:5000/api/sell/${data}`,
 
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
