@@ -13,6 +13,8 @@ const CompanyTable = () => {
     columns,
     open,
     setOpen,
+    reset,
+    getValues,
   } = useCompanyDetails();
 
   useEffect(() => {
@@ -29,6 +31,12 @@ const CompanyTable = () => {
           <button
             className="df-primary-button"
             onClick={() => {
+              reset({
+                ...getValues(),
+                id: "",
+                company_name: "",
+                company_description: "",
+              });
               setOpen(true);
             }}
           >

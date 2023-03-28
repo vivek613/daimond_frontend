@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import styles from "./Company.module.css";
-import { useForm } from "react-hook-form";
 import { useCompanyDetails } from "../../../Hooks";
 
 const style = {
@@ -25,25 +24,14 @@ export function CompanyModel() {
     handleOnSubmit,
     open,
     setOpen,
-    handleAddCompany,
     handleUpdateCompany,
-  } = useCompanyDetails();
-  const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      company_name: "",
-    },
-  });
+  } = useCompanyDetails();
 
-  const { company_name } = watch();
+  const { id } = watch();
   const handleClose = () => setOpen(false);
-  const onSubmit = (data) => {
-    handleAddCompany(data);
-  };
 
   return (
     <div>
@@ -54,20 +42,28 @@ export function CompanyModel() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <p id="parent-modal-title">Add Company</p>
+          <p id="parent-modal-title">{id ? "Update company" : "Add company"}</p>
           <form
-            onSubmit={handleSubmit(handleOnSubmit)}
+            onSubmit={handleSubmit(id ? handleUpdateCompany : handleOnSubmit)}
             className={styles["model-field"]}
           >
             <TextField
+              margin="normal"
               id="outlined-basic"
-              label="company_name"
+              label="Company name"
               variant="outlined"
-              {...register("company_name")}
+              {...register("company_name", { required: true })}
+            />
+            <TextField
+              margin="normal"
+              id="outlined-basic"
+              label="Description"
+              variant="outlined"
+              {...register("company_description")}
             />
             <div className={styles["button-div"]}>
               <button className="df-primary-button" type="submit">
-                Submit
+                {id ? "Update" : "Submit"}
               </button>
             </div>
           </form>
