@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { Navbar } from "../../index";
+import { Navbar } from "../../Navbar/Navbar";
 import { Table } from "../../../Components";
 import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
@@ -16,6 +16,7 @@ const CompanyTable = () => {
   return (
     <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>
       <Navbar />
+
       <div className="content-wrapper">
         <div className="content-wrapper-button-div">
           <p className="content-wrapper-title">Company Data</p>
@@ -39,6 +40,7 @@ const CompanyTable = () => {
     </Box>
   );
 };
+
 export const Wrapper = () => (
   <CompanyDetailsProvider>
     <CompanyTable />
