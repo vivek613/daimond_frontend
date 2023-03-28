@@ -2,9 +2,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setCookies } from "./Cookies";
 
-
-
-
 export const useLogin = (props) => {
   const navigate = useNavigate();
 
@@ -42,7 +39,6 @@ export const useLogin = (props) => {
       .then((item) => {
         if (item.status) {
           setCookies("access_token", item.data.data.accessToken);
-
           navigate("/company");
         } else {
         }
