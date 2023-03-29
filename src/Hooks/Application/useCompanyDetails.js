@@ -57,7 +57,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   const handleOnSubmit = async (data) => {
     await axios
       .post(
-        `${process.env.REACT_APP_URL}company/add}`,
+        `${process.env.REACT_APP_URL}company/add`,
         {
           name: data.company_name,
           description: data.company_description,

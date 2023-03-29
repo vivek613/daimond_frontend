@@ -13,9 +13,8 @@ export const AuthProvider = (props) => {
   const handleCheckLoginPage = async (props) => {
     await axios
       .get(
-        `${process.env.REACT_APP_URL}users/check-login}`,
+        `${process.env.REACT_APP_URL}users/check-login`,
 
-        {},
         {
           withCredentials: false,
         }
@@ -32,7 +31,7 @@ export const AuthProvider = (props) => {
   const handleLogin = async (props) => {
     await axios
       .post(
-        `${process.env.REACT_APP_URL}users/login}`,
+        `${process.env.REACT_APP_URL}users/login`,
         {
           email: props.email,
           password: props.password,

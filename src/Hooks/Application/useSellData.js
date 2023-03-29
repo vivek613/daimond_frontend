@@ -94,7 +94,7 @@ export const SellDataProvider = ({ children }) => {
     console.log("Fsdfsdf", data);
     await axios
       .post(
-        `${process.env.REACT_APP_URL}sell/add}`,
+        `${process.env.REACT_APP_URL}sell/add`,
         {
           company_id: data.company_name,
           description: data.description,

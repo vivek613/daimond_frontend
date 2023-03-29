@@ -8,16 +8,17 @@ import { useLogin } from "../Hooks/Auth/useLogin";
 import Home from "./Home/Home";
 import { Login, CompanyTable, BuyData, sellData } from "./index";
 
-const publicRouts = [{
-    path: "/",
-    component: Home,
-},
-{
-    path: "login",
-    component: Login,
-},];
+const publicRouts = [
+    {
+        path: "/",
+        component: Home,
+    },
+    {
+        path: "login",
+        component: Login,
+    },
+];
 const privateRouts = [
-
     {
         path: "company",
         component: CompanyTable,
@@ -54,11 +55,7 @@ const Private = (route) => {
     //     return <Navigate to={"/unauthorized"} replace />;
 
     return (
-        <Suspense
-            fallback={
-                <>Loading</>
-            }
-        >
+        <Suspense fallback={<>Loading</>}>
             <Component />
         </Suspense>
     );
@@ -77,7 +74,6 @@ const createNestedRoutes = (routes, RouteType) => {
     });
 };
 const Product = () => {
-
     const { setAuth } = useLogin();
 
     useEffect(() => {
@@ -89,27 +85,8 @@ const Product = () => {
         <Routes>
             {createNestedRoutes(privateRouts, Private)}
             {createNestedRoutes(publicRouts, Common)}
-
-
-            {/* <Route path="/" element={<Suspense fallback={<div>Loading...</div>}>
-  <Home />
-</Suspense>} />
-<Route path="/login" element={<Suspense fallback={<div>Loading...</div>}>
-  <Login />
-</Suspense>} />
-<Route path="/company" element={<Suspense fallback={<div>Loading...</div>}>
-  <CompanyTable />
-</Suspense>} />
-<Route path="/bill" element={<Suspense fallback={<div>Loading...</div>}>
-  <BillData />
-</Suspense>} /> */}
-
-            {/* <Route path="/" element={<Home />} />
-  <Route path="/login" element={<Login />} />
-  <Route path="/company" element={<CompanyTable />} />
-  <Route path="/bill" element={<BillData />} /> */}
         </Routes>
-    )
-}
+    );
+};
 
-export default Product
+export default Product;
