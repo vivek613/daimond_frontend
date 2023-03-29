@@ -194,7 +194,11 @@ export const BillDataProvider = ({ children }) => {
   };
 
   const columns = [
-    { field: "company_name", headerName: "company", flex: 1 },
+    {
+      field: "company_name", headerName: "company", flex: 1,
+      renderCell: ({ row }) =>
+        row?.company?.name
+    },
     { field: "description", headerName: "description", flex: 1 },
     {
       field: "currency_type",
