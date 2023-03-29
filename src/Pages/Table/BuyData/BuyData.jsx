@@ -18,8 +18,6 @@ const BillData = () => {
     setOpen,
     columns,
   } = useBillData();
-  // const [open, setOpen] = useState(false);
-  console.log(paginationModel);
   const handleChange = (e) => {
     console.log(e);
   };

@@ -112,9 +112,10 @@ export const BillDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        console.log("item", item);
         if (item.data.status) {
           setOpen(false);
+          setStartDate(null);
+          setExpiryDate(null);
           reset({
             ...getValues(),
             company_name: "",
@@ -137,14 +138,13 @@ export const BillDataProvider = ({ children }) => {
   const handleDeleteBuy = async (data) => {
     await axios
       .delete(
-        `${process.env.REACT_APP_URL}buy/delete/${data}`,
+        `${process.env.REACT_APP_URL}buy/${data}`,
 
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
         }
       )
       .then((item) => {
-        console.log("item", item);
         if (item.data.status) {
           // setOpen(false);
           handleGetAllBill();
@@ -160,8 +160,6 @@ export const BillDataProvider = ({ children }) => {
             <EditIcon
               className="df-action-edit-icon"
               onClick={() => {
-                console.log(row);
-                setOpen(true);
                 reset({
                   ...getValues(),
                   company_name: row.company_id,
@@ -176,6 +174,9 @@ export const BillDataProvider = ({ children }) => {
                   end_date: row.end_date,
                   buy_id: row._id,
                 });
+                // setStartDate(row.start_date);
+                // setExpiryDate(row.end_date);
+                setOpen(true);
               }}
             />
           </div>
@@ -183,7 +184,6 @@ export const BillDataProvider = ({ children }) => {
             <DeleteIcon
               className="df-action-delete-icon"
               onClick={() => {
-                console.log(row);
                 handleDeleteBuy(row._id);
               }}
             />
@@ -195,15 +195,15 @@ export const BillDataProvider = ({ children }) => {
 
   const columns = [
     {
-      field: "company_name", headerName: "company", flex: 1,
-      renderCell: ({ row }) =>
-        row?.company?.name
+      field: "company_name",
+      headerName: "Company",
+      flex: 1,
+      renderCell: ({ row }) => row?.company?.name,
     },
-    { field: "description", headerName: "description", flex: 1 },
+    { field: "description", headerName: "Desc...", flex: 1 },
     {
       field: "currency_type",
-      headerName: "currency",
-      // type: "number",
+      headerName: "Currency",
       maxWidth: 90,
       flex: 1,
     },
@@ -222,29 +222,22 @@ export const BillDataProvider = ({ children }) => {
       flex: 1,
     },
     {
-      field: "price",
-      headerName: "price",
-      sortable: false,
-      maxWidth: 100,
-      flex: 1,
-    },
-    {
       field: "give",
-      headerName: "give",
+      headerName: "Give",
       sortable: true,
       maxWidth: 100,
       flex: 1,
     },
     {
       field: "due_days",
-      headerName: "due Days",
+      headerName: "Due days",
       sortable: false,
       maxWidth: 100,
       flex: 1,
     },
     {
       field: "start_date",
-      headerName: "start date",
+      headerName: "Start date",
       sortable: false,
       width: 150,
       flex: 1,
@@ -254,7 +247,6 @@ export const BillDataProvider = ({ children }) => {
       headerName: "Expiry date",
       sortable: false,
       width: 150,
-
       flex: 1,
     },
     {
@@ -264,6 +256,7 @@ export const BillDataProvider = ({ children }) => {
       renderCell: customActionCell,
     },
   ];
+
   return (
     <ctx.Provider
       value={{

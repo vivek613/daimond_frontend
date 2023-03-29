@@ -1,9 +1,9 @@
+import React from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setCookies } from "./Cookies";
-
 
 const loginCtx = createContext();
 export const AuthProvider = (props) => {
@@ -14,7 +14,7 @@ export const AuthProvider = (props) => {
     await axios
       .get(
         `${process.env.REACT_APP_URL}users/check-login`,
-
+        {},
         {
           withCredentials: false,
         }
@@ -42,7 +42,7 @@ export const AuthProvider = (props) => {
       )
       .then((item) => {
         if (item.status) {
-          setAuth(true)
+          setAuth(true);
           setCookies("access_token", item.data.data.accessToken);
           navigate("/company");
         } else {
@@ -51,7 +51,9 @@ export const AuthProvider = (props) => {
   };
 
   return (
-    <loginCtx.Provider value={{ auth, setAuth, handleLogin, handleCheckLoginPage }}>
+    <loginCtx.Provider
+      value={{ auth, setAuth, handleLogin, handleCheckLoginPage }}
+    >
       {props.children}
     </loginCtx.Provider>
   );

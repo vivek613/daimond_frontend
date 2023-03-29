@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -43,25 +42,12 @@ export function BuyDataModel({ open, setOpen }) {
   } = watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
-    console.log(e.target.value);
     setCompanyID(e.target.value);
   };
-  console.log(price);
 
   useEffect(() => {
     handleGetAllCompany();
   }, []);
-
-  useEffect(() => {
-    reset({
-      ...getValues(),
-
-      // price: currency_type === "Rs" ? 0 : 0,
-
-      total_payment: currency_type === "Doller" ? give * price : give,
-    });
-  }, [currency_type, price, give]);
-  console.log(total_payment);
 
   return (
     <div>
@@ -94,6 +80,8 @@ export function BuyDataModel({ open, setOpen }) {
               label="Description"
               variant="outlined"
               {...register("description")}
+              minRows={3}
+              multiline
             />
 
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1 }}>
@@ -107,7 +95,7 @@ export function BuyDataModel({ open, setOpen }) {
                   // onChange={handleChange}
                   {...register("currency_type")}
                 >
-                  {["Rs", "Doller"].map((item) => {
+                  {["₹", "$"].map((item) => {
                     return (
                       <MenuItem key={item} value={item}>
                         {item}
@@ -117,74 +105,84 @@ export function BuyDataModel({ open, setOpen }) {
                 </Select>
               </Grid>
               <Grid item xs={6}>
-                {currency_type === "Doller" && (
+                {currency_type === "$" && (
                   <TextField
                     id="outlined-basic"
-                    label="price"
+                    label="Price"
                     variant="outlined"
                     {...register("price")}
+                    className="df-text-field"
                   />
                 )}
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   id="outlined-basic"
-                  label="due days"
-                  variant="outlined"
-                  {...register("due_days")}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-basic"
-                  label="give"
-                  variant="outlined"
-                  {...register("give")}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-basic"
-                  label="remaining"
-                  variant="outlined"
-                  {...register("remaining")}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-basic"
-                  disabled
-                  label="total payment"
-                  // value={total}
+                  disabled={buy_id ? true : false}
+                  label="Total payment"
                   variant="outlined"
                   {...register("total_payment")}
+                  className="df-text-field"
                 />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Give"
+                  variant="outlined"
+                  {...register("give")}
+                  className="df-text-field"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Remaining"
+                  variant="outlined"
+                  {...register("remaining")}
+                  className="df-text-field"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Due days"
+                  variant="outlined"
+                  {...register("due_days")}
+                  className="df-text-field"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Start date"
+                      value={startDate}
+                      onChange={(newValue) => {
+                        setStartDate(newValue);
+                      }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      label="Expiry date"
+                      value={expiryDate}
+                      onChange={(newValue) => {
+                        {
+                          console.log("newValue", newValue);
+                        }
+                        setExpiryDate(newValue);
+                      }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
               </Grid>
             </Grid>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                  label="start date"
-                  value={startDate}
-                  onChange={(newValue) => {
-                    setStartDate(newValue);
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                  label="Expiry date"
-                  value={expiryDate}
-                  onChange={(newValue) => {
-                    setExpiryDate(newValue);
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
             <div className={styles["button-div"]}>
               <Button variant="outlined" onClick={handleClose}>
                 Close

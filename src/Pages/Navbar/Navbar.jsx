@@ -60,7 +60,7 @@ export const Navbar = () => {
               navigate("/buy");
             }}
             className={
-              location.pathname.includes("bill")
+              location.pathname.includes("buy")
                 ? "df-normal-icon-selected"
                 : "df-normal-icon"
             }
@@ -99,7 +99,7 @@ export const Navbar = () => {
             selected
             eventKey="charts"
             onClick={() => {
-              navigate("/bill");
+              navigate("/company");
             }}
             className={
               location.pathname.includes("reports")

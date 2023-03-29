@@ -107,3 +107,6 @@ p {
   padding: 5px;
   cursor: pointer;
 }
+.df-text-field {
+  width: 100%;
+}
