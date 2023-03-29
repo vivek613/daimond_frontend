@@ -47,7 +47,7 @@ export const SellDataProvider = ({ children }) => {
   const handleGetAllCompany = async (props) => {
     await axios
       .post(
-        "http://localhost:5000/api/company",
+        `${process.env.REACT_APP_URL}company`,
         {
           skip: 0,
           take: 10,
@@ -68,7 +68,7 @@ export const SellDataProvider = ({ children }) => {
   const handleGetAllBill = async (props) => {
     await axios
       .post(
-        "http://localhost:5000/api/sell/all",
+        `${process.env.REACT_APP_URL}sell/all`,
         {
           skip: paginationModel.page,
           take: paginationModel.pageSize,
@@ -94,7 +94,7 @@ export const SellDataProvider = ({ children }) => {
     console.log("Fsdfsdf", data);
     await axios
       .post(
-        "http://localhost:5000/api/sell/add",
+        `${process.env.REACT_APP_URL}sell/add}`,
         {
           company_id: data.company_name,
           description: data.description,
@@ -137,7 +137,7 @@ export const SellDataProvider = ({ children }) => {
   const handleDeleteBuy = async (data) => {
     await axios
       .delete(
-        `http://localhost:5000/api/sell/${data}`,
+        `${process.env.REACT_APP_URL}sell/${data}`,
 
         {
           headers: { Authorization: `Bearer ${tokenStr}` },

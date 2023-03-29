@@ -35,8 +35,8 @@ export const CompanyDetailsProvider = ({ children }) => {
   const handleGetAllCompany = async () => {
     await axios
       .post(
-        "http://localhost:5000/api/company",
-        {
+        `${process.env.REACT_APP_URL}company`
+        , {
           skip: 0,
           take: 100,
           search_text: "",
@@ -57,7 +57,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   const handleOnSubmit = async (data) => {
     await axios
       .post(
-        "http://localhost:5000/api/company/add",
+        `${process.env.REACT_APP_URL}company/add}`,
         {
           name: data.company_name,
           description: data.company_description,
@@ -79,7 +79,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   const handleUpdateCompany = async (props) => {
     await axios
       .post(
-        "http://localhost:5000/api/company/update",
+        `${process.env.REACT_APP_URL}company/update`,
         {
           id: props.id,
           name: props.company_name,
@@ -107,7 +107,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   //------------------------ FOR DELETE COMPANY ------------------------//
   const handleDeleteCompany = async (props) => {
     await axios
-      .delete(`http://localhost:5000/api/company/${props.row._id}`, {
+      .delete(`${process.env.REACT_APP_URL}company/${props.row._id}`, {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {

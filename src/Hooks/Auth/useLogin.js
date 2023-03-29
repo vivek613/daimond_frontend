@@ -1,15 +1,20 @@
 import axios from "axios";
+import { useContext } from "react";
+import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setCookies } from "./Cookies";
 
-export const useLogin = (props) => {
-  const navigate = useNavigate();
 
+const loginCtx = createContext();
+export const AuthProvider = (props) => {
+  const navigate = useNavigate();
+  const [auth, setAuth] = useState(false);
   //------------------------ FOR LOGIN USER ------------------------//
   const handleCheckLoginPage = async (props) => {
     await axios
       .get(
-        "http://localhost:5000/api/users/check-login",
+        `${process.env.REACT_APP_URL}users/check-login}`,
+
         {},
         {
           withCredentials: false,
@@ -27,7 +32,7 @@ export const useLogin = (props) => {
   const handleLogin = async (props) => {
     await axios
       .post(
-        "http://localhost:5000/api/users/login",
+        `${process.env.REACT_APP_URL}users/login}`,
         {
           email: props.email,
           password: props.password,
@@ -38,6 +43,7 @@ export const useLogin = (props) => {
       )
       .then((item) => {
         if (item.status) {
+          setAuth(true)
           setCookies("access_token", item.data.data.accessToken);
           navigate("/company");
         } else {
@@ -45,5 +51,12 @@ export const useLogin = (props) => {
       });
   };
 
-  return { handleLogin, handleCheckLoginPage };
+  return (
+    <loginCtx.Provider value={{ auth, setAuth, handleLogin, handleCheckLoginPage }}>
+      {props.children}
+    </loginCtx.Provider>
+  );
+  // return { handleLogin, handleCheckLoginPage };
 };
+
+export const useLogin = () => useContext(loginCtx);

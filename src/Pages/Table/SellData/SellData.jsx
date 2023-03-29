@@ -1,6 +1,6 @@
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
-import { Table } from "../../../components/index";
+import { Table } from "../../../Components/index";
 import {
   SellDataProvider,
   useSellData,
