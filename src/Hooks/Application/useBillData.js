@@ -23,6 +23,7 @@ export const BillDataProvider = ({ children }) => {
     pageSize: 5,
   });
   const [companyID, setCompanyID] = useState("");
+  const [buyLoading, setBuyLoading] = useState(false);
 
   const tokenStr = getCookies("access_token");
   const {
@@ -44,6 +45,7 @@ export const BillDataProvider = ({ children }) => {
     },
   });
 
+  const { company_name, currency_type, buy_id } = watch();
   const handleGetAllCompany = async (props) => {
     await axios
       .post(
@@ -66,6 +68,7 @@ export const BillDataProvider = ({ children }) => {
   };
   //------------------------ FOR LOGIN USER ------------------------//
   const handleGetAllBill = async (props) => {
+    setBuyLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}buy/all`,
@@ -82,58 +85,125 @@ export const BillDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
+        setBuyLoading(false);
+
         if (item.data.status) {
           setBillData(item.data);
         } else {
         }
+      })
+      .catch((err) => {
+        setBuyLoading(false);
       });
   };
 
   const handleOnSubmit = async (data) => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_URL}buy/add`,
-        {
-          company_id: data.company_name,
-          description: data.description,
-          currency_type: data.currency_type,
-          total_payment: data.total_payment,
-          remaining: data.remaining,
-          price: data.price,
-          give: data.give,
-          due_days: data.due_days,
-          end_date: expiryDate,
-          start_date: startDate,
-        },
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
-      .then((item) => {
-        if (item.data.status) {
-          setOpen(false);
-          setStartDate(null);
-          setExpiryDate(null);
-          reset({
-            ...getValues(),
-            company_name: "",
-            description: "",
-            currency_type: "",
-            price: "",
-            remaining: "",
-            due_days: "",
-            give: "",
-            total_payment: 0,
-            start_date: "",
-            end_date: "",
+    try {
+      setBuyLoading(true);
+      if (buy_id) {
+        await axios
+          .post(
+            `${process.env.REACT_APP_URL}buy/${buy_id}`,
+            {
+              company_id: data.company_name,
+              description: data.description,
+              currency_type: data.currency_type,
+              total_payment: data.total_payment,
+              remaining: data.remaining,
+              price: data.price,
+              give: data.give,
+              due_days: data.due_days,
+              end_date: expiryDate,
+              start_date: startDate,
+            },
+            {
+              headers: { Authorization: `Bearer ${tokenStr}` },
+            }
+          )
+          .then((item) => {
+            setBuyLoading(false);
+
+            if (item.data.status) {
+              setOpen(false);
+              setStartDate(null);
+              setExpiryDate(null);
+              reset({
+                ...getValues(),
+                company_name: "",
+                description: "",
+                currency_type: "",
+                price: "",
+                remaining: "",
+                due_days: "",
+                give: "",
+                total_payment: 0,
+                start_date: "",
+                end_date: "",
+              });
+              handleGetAllBill();
+            } else {
+            }
+          })
+          .catch((err) => {
+            setBuyLoading(false);
           });
-          handleGetAllBill();
-        } else {
-        }
-      });
+      } else {
+        await axios
+          .post(
+            `${process.env.REACT_APP_URL}buy/add`,
+            {
+              company_id: data.company_name,
+              description: data.description,
+              currency_type: data.currency_type,
+              total_payment: data.total_payment,
+              remaining: data.remaining,
+              price: data.price,
+              give: data.give,
+              due_days: data.due_days,
+              end_date: expiryDate,
+              start_date: startDate,
+            },
+            {
+              headers: { Authorization: `Bearer ${tokenStr}` },
+            }
+          )
+          .then((item) => {
+            setBuyLoading(false);
+
+            if (item.data.status) {
+              setOpen(false);
+              setStartDate(null);
+              setExpiryDate(null);
+              reset({
+                ...getValues(),
+                company_name: "",
+                description: "",
+                currency_type: "",
+                price: "",
+                remaining: "",
+                due_days: "",
+                give: "",
+                total_payment: 0,
+                start_date: "",
+                end_date: "",
+              });
+              handleGetAllBill();
+            } else {
+            }
+          })
+          .catch((err) => {
+            setBuyLoading(false);
+          });
+      }
+    } catch (error) {
+      setBuyLoading(false);
+    }
+
+    console.log(data, buy_id);
   };
 
   const handleDeleteBuy = async (data) => {
+    setBuyLoading(true);
     await axios
       .delete(
         `${process.env.REACT_APP_URL}buy/${data}`,
@@ -143,11 +213,15 @@ export const BillDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
+        setBuyLoading(false);
         if (item.data.status) {
           // setOpen(false);
           handleGetAllBill();
         } else {
         }
+      })
+      .catch((err) => {
+        setBuyLoading(false);
       });
   };
   const customActionCell = ({ row }) => {
@@ -196,7 +270,7 @@ export const BillDataProvider = ({ children }) => {
       field: "company_name",
       headerName: "Company",
       flex: 1,
-      renderCell: ({ row }) => row?.company?.name,
+      renderCell: ({ row }) => row.company.name,
     },
     { field: "description", headerName: "Desc...", flex: 1 },
     {
@@ -280,6 +354,7 @@ export const BillDataProvider = ({ children }) => {
         watch,
         reset,
         getValues,
+        buyLoading,
       }}
     >
       {children}

@@ -19,6 +19,7 @@ const CompanyTable = () => {
     getValues,
     openReport,
     setOpenReport,
+    companyLoading,
   } = useCompanyDetails();
 
   useEffect(() => {
@@ -52,6 +53,7 @@ const CompanyTable = () => {
           columns={columns}
           pageSize={10}
           getRowId={(row) => row._id}
+          loading={companyLoading}
         />
         <CompanyModel />
         <ReportModel />

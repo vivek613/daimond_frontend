@@ -16,6 +16,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   const [companyReport, setCompanyReport] = useState([]);
   const [open, setOpen] = useState();
   const [openReport, setOpenReport] = useState(false);
+  const [companyLoading, setCompanyLoading] = useState(false);
 
   const tokenStr = getCookies("access_token");
 
@@ -36,6 +37,7 @@ export const CompanyDetailsProvider = ({ children }) => {
 
   //------------------------ FOR GET ALL COMPANY ------------------------//
   const handleGetAllCompany = async () => {
+    setCompanyLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}company`,
@@ -49,31 +51,40 @@ export const CompanyDetailsProvider = ({ children }) => {
         }
       )
       .then((item) => {
+        setCompanyLoading(false);
         if (item.data.status) {
           setAllCompanyData(item.data.data);
         } else {
         }
+      })
+      .catch((err) => {
+        setCompanyLoading(false);
       });
   };
 
   //------------------------ FOR GET  COMPANY REPORT ------------------------//
   const handleGetCompanyReport = async (data) => {
+    setCompanyLoading(true);
     await axios
       .get(`${process.env.REACT_APP_URL}company/${data}`, {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
+        setCompanyLoading(false);
         if (item.data.status) {
-
           setCompanyReport(item.data.data.reverse());
           setOpenReport(true);
         } else {
         }
+      })
+      .catch((err) => {
+        setCompanyLoading(false);
       });
   };
 
   //------------------------ FOR ADD COMPANY ------------------------//
   const handleOnSubmit = async (data) => {
+    setCompanyLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}company/add`,
@@ -86,54 +97,74 @@ export const CompanyDetailsProvider = ({ children }) => {
         }
       )
       .then((item) => {
+        setCompanyLoading(false);
         if (item.data.status) {
           setOpen(false);
           handleGetAllCompany();
         } else {
         }
+      })
+      .catch((err) => {
+        setCompanyLoading(false);
       });
   };
 
   //------------------------ FOR UPDATE COMPANY ------------------------//
   const handleUpdateCompany = async (props) => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_URL}company/update`,
-        {
-          id: props.id,
-          name: props.company_name,
-          description: props.company_description,
-        },
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
-      .then((item) => {
-        if (item.data.status) {
-          setOpen(false);
-          handleGetAllCompany();
-          reset({
-            ...getValues(),
-            id: "",
-            company_name: "",
-            company_description: "",
-          });
-        } else {
-        }
-      });
+    setCompanyLoading(true);
+    try {
+      await axios
+        .post(
+          `${process.env.REACT_APP_URL}company/update`,
+          {
+            id: props.id,
+            name: props.company_name,
+            description: props.company_description,
+          },
+          {
+            headers: { Authorization: `Bearer ${tokenStr}` },
+          }
+        )
+        .then((item) => {
+          setCompanyLoading(false);
+          if (item.data.status) {
+            setOpen(false);
+            handleGetAllCompany();
+            reset({
+              ...getValues(),
+              id: "",
+              company_name: "",
+              company_description: "",
+            });
+          } else {
+          }
+        })
+        .catch((err) => {
+          setCompanyLoading(false);
+        });
+    } catch (error) {
+      setCompanyLoading(false);
+    }
   };
 
   //------------------------ FOR DELETE COMPANY ------------------------//
   const handleDeleteCompany = async (props) => {
+    setCompanyLoading(true);
+
     await axios
       .delete(`${process.env.REACT_APP_URL}company/${props.row._id}`, {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
+        setCompanyLoading(false);
+
         if (item.data.status) {
           handleGetAllCompany();
         } else {
         }
+      })
+      .catch((err) => {
+        setCompanyLoading(false);
       });
   };
 
@@ -176,7 +207,22 @@ export const CompanyDetailsProvider = ({ children }) => {
   };
 
   const columns = [
-    { field: "name", headerName: "Company name", width: 230 },
+    {
+      field: "name",
+      headerName: "Company name",
+      width: 230,
+      renderCell: (data) => {
+        return (
+          <div
+            onClick={() => {
+              handleGetCompanyReport(data.row._id);
+            }}
+          >
+            {data.row.name}
+          </div>
+        );
+      },
+    },
     {
       field: "description",
       headerName: "Description",
@@ -208,6 +254,7 @@ export const CompanyDetailsProvider = ({ children }) => {
         setOpenReport,
         getValues,
         companyReport,
+        companyLoading,
       }}
     >
       {children}

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import { useCompanyDetails } from "../../../Hooks";
+import Button from "@mui/material/Button";
 
 import ReactApexChart from "react-apexcharts";
 const Body = ({
@@ -128,7 +129,7 @@ const ReportModel = ({}) => {
 
   var max = Math.max.apply(
     null,
-    companyReport?.map((item) => item.buy)
+    companyReport.map((item) => item.buy)
   ); // Calculate the maximum value from your data
   var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
   const chartData = useMemo(() => {
@@ -136,15 +137,15 @@ const ReportModel = ({}) => {
       chartData: [
         {
           name: "Total Buy",
-          data: companyReport?.map((i) => i.total_buy),
+          data: companyReport.map((i) => i.total_buy),
         },
         {
           name: "Total Sell",
-          data: companyReport?.map((i) => i.total_sell),
+          data: companyReport.map((i) => i.total_sell),
         },
       ],
       xaxis: {
-        categories: companyReport?.map((i) => i.month),
+        categories: companyReport.map((i) => i.month),
       },
       yaxis: {
         opposite: false,
@@ -178,7 +179,23 @@ const ReportModel = ({}) => {
         }}
       >
         <Box sx={{ width: "1000px", padding: "15px", marginTop: "30px" }}>
-          <h2 id="parent-modal-title">Report</h2>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h2 id="parent-modal-title">Report</h2>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setOpenReport(false);
+              }}
+            >
+              Close
+            </Button>
+          </div>
           <Body {...chartData} />
         </Box>
       </Drawer>

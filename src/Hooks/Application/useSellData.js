@@ -23,6 +23,7 @@ export const SellDataProvider = ({ children }) => {
     pageSize: 5,
   });
   const [companyID, setCompanyID] = useState("");
+  const [sellLoading, setSelloading] = useState(false);
 
   const tokenStr = getCookies("access_token");
   const {
@@ -40,9 +41,10 @@ export const SellDataProvider = ({ children }) => {
       price: 0,
       buy_id: "",
       total_payment: 0,
-      give: 0,
+      take: 0,
     },
   });
+  const { company_name, currency_type, buy_id } = watch();
 
   const handleGetAllCompany = async (props) => {
     await axios
@@ -66,6 +68,7 @@ export const SellDataProvider = ({ children }) => {
   };
   //------------------------ FOR LOGIN USER ------------------------//
   const handleGetAllBill = async (props) => {
+    setSelloading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}sell/all`,
@@ -82,56 +85,116 @@ export const SellDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
+        setSelloading(false);
         if (item.data.status) {
           setBillData(item.data);
         } else {
         }
+      })
+      .catch((err) => {
+        setSelloading(false);
       });
   };
 
   const handleOnSubmit = async (data) => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_URL}sell/add`,
-        {
-          company_id: data.company_name,
-          description: data.description,
-          currency_type: data.currency_type,
-          total_payment: data.total_payment,
-          remaining: data.remaining,
-          price: data.price,
-          give: data.give,
-          due_days: data.due_days,
-          end_date: expiryDate,
-          start_date: startDate,
-        },
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
-      .then((item) => {
-        if (item.data.status) {
-          setOpen(false);
-          reset({
-            ...getValues(),
-            company_name: "",
-            description: "",
-            currency_type: "",
-            price: "",
-            remaining: "",
-            due_days: "",
-            give: "",
-            total_payment: 0,
-            start_date: "",
-            end_date: "",
+    setSelloading(true);
+    try {
+      if (buy_id) {
+        await axios
+          .post(
+            `${process.env.REACT_APP_URL}sell/${buy_id}`,
+            {
+              company_id: data.company_name,
+              description: data.description,
+              currency_type: data.currency_type,
+              total_payment: data.total_payment,
+              remaining: data.remaining,
+              price: data.price,
+              take: data.take,
+              due_days: data.due_days,
+              end_date: expiryDate,
+              start_date: startDate,
+            },
+            {
+              headers: { Authorization: `Bearer ${tokenStr}` },
+            }
+          )
+          .then((item) => {
+            setSelloading(false);
+            if (item.data.status) {
+              setOpen(false);
+              reset({
+                ...getValues(),
+                company_name: "",
+                description: "",
+                currency_type: "",
+                price: "",
+                remaining: "",
+                due_days: "",
+                take: "",
+                total_payment: 0,
+                start_date: "",
+                end_date: "",
+              });
+              handleGetAllBill();
+            } else {
+            }
+          })
+          .catch((err) => {
+            setSelloading(false);
           });
-          handleGetAllBill();
-        } else {
-        }
-      });
+      } else {
+        await axios
+          .post(
+            `${process.env.REACT_APP_URL}sell/add`,
+            {
+              company_id: data.company_name,
+              description: data.description,
+              currency_type: data.currency_type,
+              total_payment: data.total_payment,
+              remaining: data.remaining,
+              price: data.price,
+              take: data.take,
+              due_days: data.due_days,
+              end_date: expiryDate,
+              start_date: startDate,
+            },
+            {
+              headers: { Authorization: `Bearer ${tokenStr}` },
+            }
+          )
+          .then((item) => {
+            setSelloading(false);
+            if (item.data.status) {
+              setOpen(false);
+              reset({
+                ...getValues(),
+                company_name: "",
+                description: "",
+                currency_type: "",
+                price: "",
+                remaining: "",
+                due_days: "",
+                take: "",
+                total_payment: 0,
+                start_date: "",
+                end_date: "",
+              });
+              handleGetAllBill();
+            } else {
+            }
+          })
+          .catch((err) => {
+            setSelloading(false);
+          });
+      }
+    } catch (error) {
+      setSelloading(false);
+    }
   };
 
   const handleDeleteBuy = async (data) => {
+    setSelloading(true);
     await axios
       .delete(
         `${process.env.REACT_APP_URL}sell/${data}`,
@@ -141,11 +204,15 @@ export const SellDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
+        setSelloading(false);
         if (item.data.status) {
           // setOpen(false);
           handleGetAllBill();
         } else {
         }
+      })
+      .catch((err) => {
+        setSelloading(false);
       });
   };
   const customActionCell = ({ row }) => {
@@ -165,7 +232,7 @@ export const SellDataProvider = ({ children }) => {
                   price: row.price,
                   remaining: row.remaining,
                   due_days: row.due_days,
-                  give: row.give,
+                  take: row.take,
                   total_payment: row.total_payment,
                   start_date: row.start_date,
                   end_date: row.end_date,
@@ -188,7 +255,12 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const columns = [
-    { field: "company_name", headerName: "company", flex: 1 },
+    {
+      field: "company_name",
+      headerName: "company",
+      flex: 1,
+      renderCell: ({ row }) => row.company.name,
+    },
     { field: "description", headerName: "description", flex: 1 },
     {
       field: "currency_type",
@@ -219,8 +291,8 @@ export const SellDataProvider = ({ children }) => {
       flex: 1,
     },
     {
-      field: "give",
-      headerName: "give",
+      field: "take",
+      headerName: "take",
       sortable: true,
       maxWidth: 100,
       flex: 1,
@@ -279,6 +351,7 @@ export const SellDataProvider = ({ children }) => {
         watch,
         reset,
         getValues,
+        sellLoading,
       }}
     >
       {children}

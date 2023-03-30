@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Box from "@mui/material/Box";
+import dayjs from "dayjs";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -32,8 +34,7 @@ export function BuyDataModel({ open, setOpen }) {
     getValues,
   } = useBillData();
 
-  const { company_name, currency_type, buy_id, give, price, total_payment } =
-    watch();
+  const { company_name, currency_type, buy_id } = watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
     setCompanyID(e.target.value);
@@ -43,6 +44,15 @@ export function BuyDataModel({ open, setOpen }) {
     handleGetAllCompany();
   }, []);
 
+  const dayNames = {
+    su: "sun",
+    mo: "mon",
+    tu: "tue",
+    we: "wed",
+    th: "thu",
+    fr: "fri",
+    sa: "sat",
+  };
   return (
     <div>
       <Drawer anchor={"right"} open={open} onClose={handleClose}>
@@ -150,11 +160,17 @@ export function BuyDataModel({ open, setOpen }) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker
-                      label="Start date"
                       value={startDate}
                       onChange={(newValue) => {
+                        console.log(moment(newValue).format("MM/DD/YYYY"));
+                        console.log(newValue);
                         setStartDate(newValue);
                       }}
+                      formatDate={(date) => moment(date).format("MM/DD/YYYY")}
+                      // minDate={dayjs().add(1, "day")}
+                      inputFormat="MM/DD/YYYY"
+
+                      // views={["day", "month", "year"]}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
@@ -168,6 +184,7 @@ export function BuyDataModel({ open, setOpen }) {
                       onChange={(newValue) => {
                         setExpiryDate(newValue);
                       }}
+                      format="DD-MM-YYYY"
                     />
                   </DemoContainer>
                 </LocalizationProvider>

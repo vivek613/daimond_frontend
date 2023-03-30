@@ -17,6 +17,7 @@ const BillData = () => {
     open,
     setOpen,
     columns,
+    buyLoading,
   } = useBillData();
   const handleChange = (e) => {
     console.log(e);
@@ -53,6 +54,7 @@ const BillData = () => {
             getRowId={(row) => row._id}
             paginationModel={paginationModel}
             onPaginationModelChange={handleChange}
+            loading={buyLoading}
           />
           <BuyDataModel open={open} setOpen={setOpen} />
         </div>

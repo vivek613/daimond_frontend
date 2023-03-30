@@ -56,16 +56,18 @@ export const Navbar = () => {
           <NavItem
             selected
             eventKey="charts"
-            onClick={() => {
-              navigate("/buy");
-            }}
             className={
               location.pathname.includes("buy")
                 ? "df-normal-icon-selected"
                 : "df-normal-icon"
             }
           >
-            <NavIcon style={{ opacity: "1" }}>
+            <NavIcon
+              style={{ opacity: "1" }}
+              onClick={() => {
+                navigate("/buy");
+              }}
+            >
               <div className="df-title-icon-sidebar">
                 <div className="df-side-bar-icon">
                   <MdAccessTimeFilled style={{ fill: "black" }} />

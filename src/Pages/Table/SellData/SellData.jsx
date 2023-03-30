@@ -17,6 +17,7 @@ const SellData = () => {
     open,
     setOpen,
     columns,
+    sellLoading,
   } = useSellData();
   // const [open, setOpen] = useState(false);
   const handleChange = (e) => {
@@ -54,6 +55,7 @@ const SellData = () => {
             getRowId={(row) => row._id}
             paginationModel={paginationModel}
             onPaginationModelChange={handleChange}
+            loading={sellLoading}
           />
           <SellDataModel open={open} setOpen={setOpen} />
         </div>
