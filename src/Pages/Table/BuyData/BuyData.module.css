@@ -1,11 +1,13 @@
-.model-field{
-    display:flex ;
-    flex-direction: column;
-    gap: 10px;
+.model-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  overflow: auto;
+  height: calc(100vh - 119px);
 }
-.button-div{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 15px;
-    gap: 10px;
+.button-div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }

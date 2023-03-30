@@ -27,6 +27,7 @@ export const Navbar = () => {
           background: "#ededed",
           top: "55px",
           borderRight: "1px solid #cbcbcb",
+          zIndex: "99",
         }}
         onSelect={(selected) => {
           // Add your code here

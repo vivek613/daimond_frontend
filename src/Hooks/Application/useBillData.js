@@ -14,7 +14,8 @@ export const useBillData = () => useContext(ctx);
 export const BillDataProvider = ({ children }) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
-
+  const [updateCurrency, setUpdateCurrency] = useState();
+  const [updateGive, setUpdateGive] = useState();
   const [billData, setBillData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
@@ -22,9 +23,7 @@ export const BillDataProvider = ({ children }) => {
     page: 0,
     pageSize: 5,
   });
-  const [companyID, setCompanyID] = useState("");
   const [buyLoading, setBuyLoading] = useState(false);
-
   const tokenStr = getCookies("access_token");
   const {
     register,
@@ -32,7 +31,6 @@ export const BillDataProvider = ({ children }) => {
     watch,
     getValues,
     reset,
-
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -42,6 +40,8 @@ export const BillDataProvider = ({ children }) => {
       buy_id: "",
       total_payment: 0,
       give: 0,
+      add_give: 0,
+      dollar_price: 0,
     },
   });
 
@@ -66,7 +66,7 @@ export const BillDataProvider = ({ children }) => {
         }
       });
   };
-  //------------------------ FOR LOGIN USER ------------------------//
+  //------------------------ FOR GET ALL BILL ------------------------//
   const handleGetAllBill = async (props) => {
     setBuyLoading(true);
     await axios
@@ -86,7 +86,6 @@ export const BillDataProvider = ({ children }) => {
       )
       .then((item) => {
         setBuyLoading(false);
-
         if (item.data.status) {
           setBillData(item.data);
         } else {
@@ -103,15 +102,32 @@ export const BillDataProvider = ({ children }) => {
       if (buy_id) {
         await axios
           .post(
-            `${process.env.REACT_APP_URL}buy/${buy_id}`,
+            `${process.env.REACT_APP_URL}buy/${data.buy_id}`,
             {
               company_id: data.company_name,
               description: data.description,
               currency_type: data.currency_type,
               total_payment: data.total_payment,
-              remaining: data.remaining,
+              remaining:
+                Number(data.dollar_price) > 0
+                  ? data.currency_type === "₹"
+                    ? Number(data.total_payment) -
+                      (Number(data.give) +
+                        Number(data.add_give) / Number(data.dollar_price))
+                    : Number(data.total_payment) -
+                      (Number(data.give) +
+                        Number(data.add_give) * Number(data.dollar_price))
+                  : Number(data.total_payment) -
+                    (Number(data.give) + Number(data.add_give)),
               price: data.price,
-              give: data.give,
+              give:
+                Number(data.dollar_price) > 0
+                  ? data.currency_type === "₹"
+                    ? Number(data.give) +
+                      Number(data.add_give) / Number(data.dollar_price)
+                    : Number(data.give) +
+                      Number(data.add_give) * Number(data.dollar_price)
+                  : Number(data.give) + Number(data.add_give),
               due_days: data.due_days,
               end_date: expiryDate,
               start_date: startDate,
@@ -122,7 +138,6 @@ export const BillDataProvider = ({ children }) => {
           )
           .then((item) => {
             setBuyLoading(false);
-
             if (item.data.status) {
               setOpen(false);
               setStartDate(null);
@@ -139,6 +154,8 @@ export const BillDataProvider = ({ children }) => {
                 total_payment: 0,
                 start_date: "",
                 end_date: "",
+                add_give: 0,
+                dollar_price: 0,
               });
               handleGetAllBill();
             } else {
@@ -169,7 +186,6 @@ export const BillDataProvider = ({ children }) => {
           )
           .then((item) => {
             setBuyLoading(false);
-
             if (item.data.status) {
               setOpen(false);
               setStartDate(null);
@@ -186,6 +202,8 @@ export const BillDataProvider = ({ children }) => {
                 total_payment: 0,
                 start_date: "",
                 end_date: "",
+                add_give: 0,
+                dollar_price: 0,
               });
               handleGetAllBill();
             } else {
@@ -198,24 +216,16 @@ export const BillDataProvider = ({ children }) => {
     } catch (error) {
       setBuyLoading(false);
     }
-
-    console.log(data, buy_id);
   };
 
   const handleDeleteBuy = async (data) => {
     setBuyLoading(true);
     await axios
-      .delete(
-        `${process.env.REACT_APP_URL}buy/${data}`,
-
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
+      .delete(`${process.env.REACT_APP_URL}buy/${data}`, {
+        headers: { Authorization: `Bearer ${tokenStr}` },
+      })
       .then((item) => {
-        setBuyLoading(false);
         if (item.data.status) {
-          // setOpen(false);
           handleGetAllBill();
         } else {
         }
@@ -224,6 +234,7 @@ export const BillDataProvider = ({ children }) => {
         setBuyLoading(false);
       });
   };
+
   const customActionCell = ({ row }) => {
     return (
       <>
@@ -232,6 +243,8 @@ export const BillDataProvider = ({ children }) => {
             <EditIcon
               className="df-action-edit-icon"
               onClick={() => {
+                setUpdateCurrency(row.currency_type);
+                setUpdateGive(row.give);
                 reset({
                   ...getValues(),
                   company_name: row.company_id,
@@ -272,11 +285,17 @@ export const BillDataProvider = ({ children }) => {
       flex: 1,
       renderCell: ({ row }) => row.company.name,
     },
-    { field: "description", headerName: "Desc...", flex: 1 },
+    { field: "description", headerName: "Description", flex: 1 },
+    {
+      field: "price",
+      headerName: "Bill No",
+      maxWidth: 100,
+      flex: 1,
+    },
     {
       field: "currency_type",
-      headerName: "Currency",
-      maxWidth: 90,
+      headerName: "₹ / $",
+      maxWidth: 50,
       flex: 1,
     },
     {
@@ -287,16 +306,16 @@ export const BillDataProvider = ({ children }) => {
       flex: 1,
     },
     {
-      field: "remaining",
-      headerName: "Remaining",
-      sortable: false,
+      field: "give",
+      headerName: "Give",
+      sortable: true,
       maxWidth: 100,
       flex: 1,
     },
     {
-      field: "give",
-      headerName: "Give",
-      sortable: true,
+      field: "remaining",
+      headerName: "Remaining",
+      sortable: false,
       maxWidth: 100,
       flex: 1,
     },
@@ -341,8 +360,6 @@ export const BillDataProvider = ({ children }) => {
         handleGetAllCompany,
         allCompanyData,
         setAllCompanyData,
-        companyID,
-        setCompanyID,
         billData,
         setPaginationModel,
         paginationModel,
@@ -355,6 +372,9 @@ export const BillDataProvider = ({ children }) => {
         reset,
         getValues,
         buyLoading,
+        updateCurrency,
+        setUpdateCurrency,
+        handleUpdateBuy,
       }}
     >
       {children}

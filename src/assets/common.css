@@ -70,7 +70,7 @@ p {
   height: 55px;
   background: rgb(237, 237, 237);
   position: sticky;
-  z-index: 2147483647;
+  z-index: 999;
   border-bottom: 1px solid rgb(203, 203, 203);
 }
 .df-navbar-header-title {
@@ -109,4 +109,18 @@ p {
 }
 .df-text-field {
   width: 100%;
+}
+.df-side-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  border-bottom: 1px solid black;
+}
+.df-side-modal-title {
+  margin: 0;
+  padding: 0;
+}
+.df-side-modal-body {
+  padding: 20px;
 }

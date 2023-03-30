@@ -329,6 +329,8 @@ export const SellDataProvider = ({ children }) => {
   return (
     <ctx.Provider
       value={{
+        companyID,
+        setCompanyID,
         handleGetAllBill,
         handleOnSubmit,
         expiryDate,
@@ -338,8 +340,6 @@ export const SellDataProvider = ({ children }) => {
         handleGetAllCompany,
         allCompanyData,
         setAllCompanyData,
-        companyID,
-        setCompanyID,
         billData,
         setPaginationModel,
         paginationModel,

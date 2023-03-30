@@ -24,8 +24,6 @@ export function SellDataModel({ open, setOpen }) {
     setStartDate,
     allCompanyData,
     handleGetAllCompany,
-    companyID,
-    setCompanyID,
     register,
     handleSubmit,
     watch,
@@ -57,7 +55,6 @@ export function SellDataModel({ open, setOpen }) {
                 label="company"
                 disabled={buy_id ? true : false}
                 value={company_name}
-                onChange={handleChange}
                 {...register("company_name")}
               >
                 {allCompanyData.map(({ name, _id }) => {
