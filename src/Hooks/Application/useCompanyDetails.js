@@ -3,6 +3,7 @@ import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
+import { ReactComponent as Graph } from "../../assets/graph.svg";
 import { changeSectionValueFormat } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 import { useForm } from "react-hook-form";
 
@@ -12,7 +13,9 @@ export const useCompanyDetails = () => useContext(ctx);
 
 export const CompanyDetailsProvider = ({ children }) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
+  const [companyReport, setCompanyReport] = useState([]);
   const [open, setOpen] = useState();
+  const [openReport, setOpenReport] = useState(false);
 
   const tokenStr = getCookies("access_token");
 
@@ -35,8 +38,8 @@ export const CompanyDetailsProvider = ({ children }) => {
   const handleGetAllCompany = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_URL}company`
-        , {
+        `${process.env.REACT_APP_URL}company`,
+        {
           skip: 0,
           take: 100,
           search_text: "",
@@ -48,6 +51,22 @@ export const CompanyDetailsProvider = ({ children }) => {
       .then((item) => {
         if (item.data.status) {
           setAllCompanyData(item.data.data);
+        } else {
+        }
+      });
+  };
+
+  //------------------------ FOR GET  COMPANY REPORT ------------------------//
+  const handleGetCompanyReport = async (data) => {
+    await axios
+      .get(`${process.env.REACT_APP_URL}company/${data}`, {
+        headers: { Authorization: `Bearer ${tokenStr}` },
+      })
+      .then((item) => {
+        if (item.data.status) {
+
+          setCompanyReport(item.data.data.reverse());
+          setOpenReport(true);
         } else {
         }
       });
@@ -144,6 +163,13 @@ export const CompanyDetailsProvider = ({ children }) => {
               }}
             />
           </div>
+          <div className="df-custom-delete-cell">
+            <Graph
+              onClick={() => {
+                handleGetCompanyReport(props.row._id);
+              }}
+            />
+          </div>
         </div>
       </>
     );
@@ -178,7 +204,10 @@ export const CompanyDetailsProvider = ({ children }) => {
         handleSubmit,
         watch,
         reset,
+        openReport,
+        setOpenReport,
         getValues,
+        companyReport,
       }}
     >
       {children}

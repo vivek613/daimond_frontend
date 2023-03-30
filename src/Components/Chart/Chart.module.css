@@ -1,0 +1,4 @@
+.label {
+  fill: var(--secondary-light-color);
+  font-size: 11px;
+}

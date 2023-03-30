@@ -5,6 +5,8 @@ import { Table } from "../../../Components";
 import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
 import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";
+import { ReportOff } from "@mui/icons-material";
+import ReportModel from "./ReportModel";
 
 const CompanyTable = () => {
   const {
@@ -15,6 +17,8 @@ const CompanyTable = () => {
     setOpen,
     reset,
     getValues,
+    openReport,
+    setOpenReport,
   } = useCompanyDetails();
 
   useEffect(() => {
@@ -50,6 +54,7 @@ const CompanyTable = () => {
           getRowId={(row) => row._id}
         />
         <CompanyModel />
+        <ReportModel />
       </div>
     </Box>
   );
