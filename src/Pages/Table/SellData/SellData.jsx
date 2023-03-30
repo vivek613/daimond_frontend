@@ -19,7 +19,6 @@ const SellData = () => {
     columns,
   } = useSellData();
   // const [open, setOpen] = useState(false);
-  console.log(paginationModel);
   const handleChange = (e) => {
     console.log(e);
   };

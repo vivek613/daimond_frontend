@@ -82,7 +82,6 @@ export const BillDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        console.log("item", item);
         if (item.data.status) {
           setBillData(item.data);
         } else {
@@ -91,7 +90,6 @@ export const BillDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
-    console.log("Fsdfsdf", data);
     await axios
       .post(
         `${process.env.REACT_APP_URL}buy/add`,

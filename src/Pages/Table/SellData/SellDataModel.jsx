@@ -33,20 +33,12 @@ export function SellDataModel({ open, setOpen }) {
     getValues,
   } = useSellData();
 
-  const {
-    company_name,
-    currency_type,
-    buy_id,
-    give,
-    price,
-    total_payment,
-  } = watch();
+  const { company_name, currency_type, buy_id, give, price, total_payment } =
+    watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
-    console.log(e.target.value);
     setCompanyID(e.target.value);
   };
-  console.log(price);
 
   useEffect(() => {
     handleGetAllCompany();
@@ -61,7 +53,6 @@ export function SellDataModel({ open, setOpen }) {
       total_payment: currency_type === "Doller" ? give * price : give,
     });
   }, [currency_type, price, give]);
-  console.log(total_payment);
 
   return (
     <div>

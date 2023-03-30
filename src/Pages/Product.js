@@ -41,7 +41,6 @@ const Common = (route) => (
 
 const Private = (route) => {
     const { auth } = useLogin();
-    console.log(auth);
 
     if (!auth) return <Navigate to="/login" replace />;
 

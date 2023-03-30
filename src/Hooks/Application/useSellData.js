@@ -82,7 +82,6 @@ export const SellDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        console.log("item", item);
         if (item.data.status) {
           setBillData(item.data);
         } else {
@@ -91,7 +90,6 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
-    console.log("Fsdfsdf", data);
     await axios
       .post(
         `${process.env.REACT_APP_URL}sell/add`,
@@ -112,7 +110,6 @@ export const SellDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        console.log("item", item);
         if (item.data.status) {
           setOpen(false);
           reset({
@@ -144,7 +141,6 @@ export const SellDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        console.log("item", item);
         if (item.data.status) {
           // setOpen(false);
           handleGetAllBill();
@@ -160,7 +156,6 @@ export const SellDataProvider = ({ children }) => {
             <EditIcon
               className="df-action-edit-icon"
               onClick={() => {
-                console.log(row);
                 setOpen(true);
                 reset({
                   ...getValues(),
@@ -183,7 +178,6 @@ export const SellDataProvider = ({ children }) => {
             <DeleteIcon
               className="df-action-delete-icon"
               onClick={() => {
-                console.log(row);
                 handleDeleteBuy(row._id);
               }}
             />

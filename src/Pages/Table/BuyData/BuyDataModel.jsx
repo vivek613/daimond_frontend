@@ -32,14 +32,8 @@ export function BuyDataModel({ open, setOpen }) {
     getValues,
   } = useBillData();
 
-  const {
-    company_name,
-    currency_type,
-    buy_id,
-    give,
-    price,
-    total_payment,
-  } = watch();
+  const { company_name, currency_type, buy_id, give, price, total_payment } =
+    watch();
   const handleClose = () => setOpen(false);
   const handleChange = (e) => {
     setCompanyID(e.target.value);
@@ -172,9 +166,6 @@ export function BuyDataModel({ open, setOpen }) {
                       label="Expiry date"
                       value={expiryDate}
                       onChange={(newValue) => {
-                        {
-                          console.log("newValue", newValue);
-                        }
                         setExpiryDate(newValue);
                       }}
                     />

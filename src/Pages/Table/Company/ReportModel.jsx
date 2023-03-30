@@ -62,7 +62,6 @@ const Body = ({
 };
 const ReportModel = ({}) => {
   const { companyReport, openReport, setOpenReport } = useCompanyDetails();
-  console.log("companyReport", companyReport);
   const data = [
     {
       month: "Jan",
