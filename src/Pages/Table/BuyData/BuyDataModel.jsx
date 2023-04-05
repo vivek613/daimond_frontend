@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import moment from "moment";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
-import dayjs from "dayjs";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -29,11 +27,8 @@ export function BuyDataModel({ open, setOpen }) {
     register,
     handleSubmit,
     watch,
-    reset,
-    getValues,
-    updateCurrency,
-    setUpdateCurrency,
-    handleUpdateBuy,
+    dataCurrency,
+    buyLoading,
   } = useBillData();
 
   const { company_name, currency_type, buy_id } = watch();
@@ -43,30 +38,21 @@ export function BuyDataModel({ open, setOpen }) {
     handleGetAllCompany();
   }, []);
 
-  const dayNames = {
-    su: "sun",
-    mo: "mon",
-    tu: "tue",
-    we: "wed",
-    th: "thu",
-    fr: "fri",
-    sa: "sat",
-  };
   return (
     <div>
       <Drawer anchor={"right"} open={open} onClose={handleClose}>
         <Box sx={{ width: 500 }}>
-          <form
-            onSubmit={handleSubmit(buy_id ? handleUpdateBuy : handleOnSubmit)}
-          >
+          <form onSubmit={handleSubmit(handleOnSubmit)}>
             <div className="df-side-modal-header">
-              <h2 className="df-side-modal-title">Add Buy</h2>
+              <h2 className="df-side-modal-title">
+                {buy_id ? "Update Buy Bill" : "Add Buy Bill"}
+              </h2>
               <div className={styles["button-div"]}>
                 <Button variant="outlined" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="contained" type="submit">
-                  Submit
+                <Button variant="contained" type="submit" disabled={buyLoading}>
+                  {buyLoading ? "Loading..." : buy_id ? "Update" : "Submit"}
                 </Button>
               </div>
             </div>
@@ -131,7 +117,7 @@ export function BuyDataModel({ open, setOpen }) {
                 {buy_id && (
                   <Grid
                     item
-                    xs={buy_id && updateCurrency !== currency_type ? 6 : 12}
+                    xs={buy_id && dataCurrency !== currency_type ? 6 : 12}
                   >
                     <TextField
                       id="outlined-basic"
@@ -143,7 +129,7 @@ export function BuyDataModel({ open, setOpen }) {
                     />
                   </Grid>
                 )}
-                {buy_id && updateCurrency !== currency_type && (
+                {buy_id && dataCurrency !== currency_type && (
                   <Grid item xs={6}>
                     <TextField
                       id="outlined-basic"

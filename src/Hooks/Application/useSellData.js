@@ -1,8 +1,6 @@
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
-import { async } from "q";
-import { productContext } from "../../App";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
@@ -14,7 +12,7 @@ export const useSellData = () => useContext(ctx);
 export const SellDataProvider = ({ children }) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
-
+  const [dataCurrency, setDataCurrency] = useState();
   const [billData, setBillData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
@@ -22,9 +20,7 @@ export const SellDataProvider = ({ children }) => {
     page: 0,
     pageSize: 5,
   });
-  const [companyID, setCompanyID] = useState("");
   const [sellLoading, setSelloading] = useState(false);
-
   const tokenStr = getCookies("access_token");
   const {
     register,
@@ -32,7 +28,6 @@ export const SellDataProvider = ({ children }) => {
     watch,
     getValues,
     reset,
-
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -42,9 +37,12 @@ export const SellDataProvider = ({ children }) => {
       buy_id: "",
       total_payment: 0,
       take: 0,
+      add_take: 0,
+      dollar_price: 0,
     },
   });
-  const { company_name, currency_type, buy_id } = watch();
+
+  const { buy_id } = watch();
 
   const handleGetAllCompany = async (props) => {
     await axios
@@ -97,8 +95,8 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
-    setSelloading(true);
     try {
+      setSelloading(true);
       if (buy_id) {
         await axios
           .post(
@@ -106,11 +104,28 @@ export const SellDataProvider = ({ children }) => {
             {
               company_id: data.company_name,
               description: data.description,
-              currency_type: data.currency_type,
+              currency_type: dataCurrency,
               total_payment: data.total_payment,
-              remaining: data.remaining,
+              remaining:
+                Number(data.dollar_price) > 0
+                  ? data.currency_type === "₹"
+                    ? Number(data.total_payment) -
+                      (Number(data.take) +
+                        Number(data.add_take) / Number(data.dollar_price))
+                    : Number(data.total_payment) -
+                      (Number(data.take) +
+                        Number(data.add_take) * Number(data.dollar_price))
+                  : Number(data.total_payment) -
+                    (Number(data.take) + Number(data.add_take)),
               price: data.price,
-              take: data.take,
+              take:
+                Number(data.dollar_price) > 0
+                  ? data.currency_type === "₹"
+                    ? Number(data.take) +
+                      Number(data.add_take) / Number(data.dollar_price)
+                    : Number(data.take) +
+                      Number(data.add_take) * Number(data.dollar_price)
+                  : Number(data.take) + Number(data.add_take),
               due_days: data.due_days,
               end_date: expiryDate,
               start_date: startDate,
@@ -123,6 +138,8 @@ export const SellDataProvider = ({ children }) => {
             setSelloading(false);
             if (item.data.status) {
               setOpen(false);
+              setStartDate(null);
+              setExpiryDate(null);
               reset({
                 ...getValues(),
                 company_name: "",
@@ -135,6 +152,9 @@ export const SellDataProvider = ({ children }) => {
                 total_payment: 0,
                 start_date: "",
                 end_date: "",
+                add_take: 0,
+                dollar_price: 0,
+                buy_id: "",
               });
               handleGetAllBill();
             } else {
@@ -167,6 +187,8 @@ export const SellDataProvider = ({ children }) => {
             setSelloading(false);
             if (item.data.status) {
               setOpen(false);
+              setStartDate(null);
+              setExpiryDate(null);
               reset({
                 ...getValues(),
                 company_name: "",
@@ -179,6 +201,9 @@ export const SellDataProvider = ({ children }) => {
                 total_payment: 0,
                 start_date: "",
                 end_date: "",
+                add_take: 0,
+                dollar_price: 0,
+                buy_id: "",
               });
               handleGetAllBill();
             } else {
@@ -196,17 +221,11 @@ export const SellDataProvider = ({ children }) => {
   const handleDeleteBuy = async (data) => {
     setSelloading(true);
     await axios
-      .delete(
-        `${process.env.REACT_APP_URL}sell/${data}`,
-
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
+      .delete(`${process.env.REACT_APP_URL}sell/${data}`, {
+        headers: { Authorization: `Bearer ${tokenStr}` },
+      })
       .then((item) => {
-        setSelloading(false);
         if (item.data.status) {
-          // setOpen(false);
           handleGetAllBill();
         } else {
         }
@@ -215,6 +234,7 @@ export const SellDataProvider = ({ children }) => {
         setSelloading(false);
       });
   };
+
   const customActionCell = ({ row }) => {
     return (
       <>
@@ -223,7 +243,7 @@ export const SellDataProvider = ({ children }) => {
             <EditIcon
               className="df-action-edit-icon"
               onClick={() => {
-                setOpen(true);
+                setDataCurrency(row.currency_type);
                 reset({
                   ...getValues(),
                   company_name: row.company_id,
@@ -237,7 +257,12 @@ export const SellDataProvider = ({ children }) => {
                   start_date: row.start_date,
                   end_date: row.end_date,
                   buy_id: row._id,
+                  add_take: 0,
+                  dollar_price: 0,
                 });
+                // setStartDate(row.start_date);
+                // setExpiryDate(row.end_date);
+                setOpen(true);
               }}
             />
           </div>
@@ -257,22 +282,34 @@ export const SellDataProvider = ({ children }) => {
   const columns = [
     {
       field: "company_name",
-      headerName: "company",
+      headerName: "Company",
       flex: 1,
       renderCell: ({ row }) => row.company.name,
     },
-    { field: "description", headerName: "description", flex: 1 },
+    { field: "description", headerName: "Description", flex: 1 },
+    {
+      field: "price",
+      headerName: "Bill No",
+      maxWidth: 100,
+      flex: 1,
+    },
     {
       field: "currency_type",
-      headerName: "currency",
-      // type: "number",
-      maxWidth: 90,
+      headerName: "₹ / $",
+      maxWidth: 50,
       flex: 1,
     },
     {
       field: "total_payment",
       headerName: "Total",
       sortable: false,
+      maxWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "take",
+      headerName: "Take",
+      sortable: true,
       maxWidth: 100,
       flex: 1,
     },
@@ -284,29 +321,15 @@ export const SellDataProvider = ({ children }) => {
       flex: 1,
     },
     {
-      field: "price",
-      headerName: "price",
-      sortable: false,
-      maxWidth: 100,
-      flex: 1,
-    },
-    {
-      field: "take",
-      headerName: "take",
-      sortable: true,
-      maxWidth: 100,
-      flex: 1,
-    },
-    {
       field: "due_days",
-      headerName: "due Days",
+      headerName: "Due days",
       sortable: false,
       maxWidth: 100,
       flex: 1,
     },
     {
       field: "start_date",
-      headerName: "start date",
+      headerName: "Start date",
       sortable: false,
       width: 150,
       flex: 1,
@@ -316,7 +339,6 @@ export const SellDataProvider = ({ children }) => {
       headerName: "Expiry date",
       sortable: false,
       width: 150,
-
       flex: 1,
     },
     {
@@ -326,11 +348,10 @@ export const SellDataProvider = ({ children }) => {
       renderCell: customActionCell,
     },
   ];
+
   return (
     <ctx.Provider
       value={{
-        companyID,
-        setCompanyID,
         handleGetAllBill,
         handleOnSubmit,
         expiryDate,
@@ -352,6 +373,7 @@ export const SellDataProvider = ({ children }) => {
         reset,
         getValues,
         sellLoading,
+        dataCurrency,
       }}
     >
       {children}

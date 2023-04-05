@@ -1,8 +1,6 @@
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
-import { async } from "q";
-import { productContext } from "../../App";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
@@ -14,12 +12,11 @@ export const useBillData = () => useContext(ctx);
 export const BillDataProvider = ({ children }) => {
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
-  const [updateCurrency, setUpdateCurrency] = useState();
-  const [updateGive, setUpdateGive] = useState();
+  const [dataCurrency, setDataCurrency] = useState();
   const [billData, setBillData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
-  const [paginationModel, setPaginationModel] = React.useState({
+  const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
   });
@@ -45,7 +42,8 @@ export const BillDataProvider = ({ children }) => {
     },
   });
 
-  const { company_name, currency_type, buy_id } = watch();
+  const { buy_id } = watch();
+
   const handleGetAllCompany = async (props) => {
     await axios
       .post(
@@ -106,7 +104,7 @@ export const BillDataProvider = ({ children }) => {
             {
               company_id: data.company_name,
               description: data.description,
-              currency_type: data.currency_type,
+              currency_type: dataCurrency,
               total_payment: data.total_payment,
               remaining:
                 Number(data.dollar_price) > 0
@@ -156,6 +154,7 @@ export const BillDataProvider = ({ children }) => {
                 end_date: "",
                 add_give: 0,
                 dollar_price: 0,
+                buy_id: "",
               });
               handleGetAllBill();
             } else {
@@ -204,6 +203,7 @@ export const BillDataProvider = ({ children }) => {
                 end_date: "",
                 add_give: 0,
                 dollar_price: 0,
+                buy_id: "",
               });
               handleGetAllBill();
             } else {
@@ -243,8 +243,7 @@ export const BillDataProvider = ({ children }) => {
             <EditIcon
               className="df-action-edit-icon"
               onClick={() => {
-                setUpdateCurrency(row.currency_type);
-                setUpdateGive(row.give);
+                setDataCurrency(row.currency_type);
                 reset({
                   ...getValues(),
                   company_name: row.company_id,
@@ -258,6 +257,8 @@ export const BillDataProvider = ({ children }) => {
                   start_date: row.start_date,
                   end_date: row.end_date,
                   buy_id: row._id,
+                  add_give: 0,
+                  dollar_price: 0,
                 });
                 // setStartDate(row.start_date);
                 // setExpiryDate(row.end_date);
@@ -372,9 +373,7 @@ export const BillDataProvider = ({ children }) => {
         reset,
         getValues,
         buyLoading,
-        updateCurrency,
-        setUpdateCurrency,
-        handleUpdateBuy,
+        dataCurrency,
       }}
     >
       {children}

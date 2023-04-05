@@ -57,7 +57,6 @@ export const AuthProvider = (props) => {
       {props.children}
     </loginCtx.Provider>
   );
-  // return { handleLogin, handleCheckLoginPage };
 };
 
 export const useLogin = () => useContext(loginCtx);

@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Table } from "../../../Components/index";
 import {
   SellDataProvider,
@@ -7,6 +7,7 @@ import {
 } from "../../../Hooks/Application/useSellData";
 import { Navbar } from "../../Navbar/Navbar";
 import { SellDataModel } from "./SellDataModel";
+import Button from "@mui/material/Button";
 
 const SellData = () => {
   const {
@@ -18,6 +19,10 @@ const SellData = () => {
     setOpen,
     columns,
     sellLoading,
+    setExpiryDate,
+    setStartDate,
+    reset,
+    getValues,
   } = useSellData();
   // const [open, setOpen] = useState(false);
   const handleChange = (e) => {
@@ -35,14 +40,32 @@ const SellData = () => {
         <div className="content-wrapper">
           <div className="content-wrapper-button-div">
             <p className="content-wrapper-title">Sell Data</p>
-            <button
-              className="df-primary-button"
+            <Button
+              variant="contained"
               onClick={() => {
+                setStartDate(null);
+                setExpiryDate(null);
+                reset({
+                  ...getValues(),
+                  company_name: "",
+                  description: "",
+                  currency_type: "",
+                  price: "",
+                  remaining: "",
+                  due_days: "",
+                  take: "",
+                  total_payment: 0,
+                  start_date: "",
+                  end_date: "",
+                  add_take: 0,
+                  dollar_price: 0,
+                  buy_id: "",
+                });
                 setOpen(true);
               }}
             >
-              Add Sell
-            </button>
+              Add Sell Bill
+            </Button>
           </div>
           <Table
             style={{

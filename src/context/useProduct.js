@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export const useProduct = () => {
   const [open, setOpen] = useState();
