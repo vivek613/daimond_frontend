@@ -56,7 +56,12 @@ export function BuyDataModel({ open, setOpen }) {
                 </Button>
               </div>
             </div>
-            <div className={styles["model-field"]}>
+            <div
+              className={styles["model-field"]}
+              style={{
+                height: "auto",
+              }}
+            >
               <FormControl>
                 <InputLabel id="df-company-select-label">Company</InputLabel>
                 <Select
