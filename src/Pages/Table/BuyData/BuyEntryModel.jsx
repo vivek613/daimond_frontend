@@ -14,7 +14,14 @@ import {
 import { useBillData } from "../../../Hooks/Application/useBillData";
 import { useForm } from "react-hook-form";
 
-export const BuyEntryModel = ({ modelOpen, setModelOpen }) => {
+export const BuyEntryModel = ({
+  modelOpen,
+  setModelOpen,
+  handleAddBuyEntryBuyId,
+  handleUpdateBuyEntryBuyId,
+  currentData,
+}) => {
+  console.log("currentData", currentData);
   const {
     register,
     handleSubmit,
@@ -24,12 +31,17 @@ export const BuyEntryModel = ({ modelOpen, setModelOpen }) => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      currency_type: "",
-      price: 0,
+      buy_entry_id: currentData ? currentData.buy_entry_id : "",
+      date: currentData ? currentData.date : "",
+      currency_type: currentData ? currentData.currency_type : "",
+      price: currentData ? currentData.price : 0,
+      payment: currentData ? currentData.payment : 0,
+      broker: currentData ? currentData.broker : "",
     },
   });
 
   const handleClose = () => setModelOpen(false);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -41,6 +53,7 @@ export const BuyEntryModel = ({ modelOpen, setModelOpen }) => {
     boxShadow: 24,
     p: 4,
   };
+
   return (
     <Modal
       open={modelOpen}
@@ -49,43 +62,56 @@ export const BuyEntryModel = ({ modelOpen, setModelOpen }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <form onSubmit={handleClose}>
+        <form
+          onSubmit={handleSubmit(
+            currentData?.buy_entry_id
+              ? handleUpdateBuyEntryBuyId
+              : handleAddBuyEntryBuyId
+          )}
+        >
           <h2 className="df-side-modal-title">{"Add Entry"}</h2>
-          <div className={styles["model-field"]}>
-            <FormControl>
-              <InputLabel id="df-currency-select-label">Currency</InputLabel>
-              <Select
-                labelId="df-currency-select-label"
-                label="company"
-                // value={currency_type}
-                {...register("currency_type")}
-              >
-                {["₹", "$"].map((item, index) => {
-                  return (
-                    <MenuItem key={item} value={item}>
-                      {item}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-            <TextField
-              id="outlined-basic"
-              label="Description"
-              variant="outlined"
-              {...register("description")}
-              minRows={2}
-              multiline
-              margin="normal"
-            />
-          </div>
-          <div className={styles["button-div"]}>
-            <Button variant="outlined" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="contained" type="submit">
-              Submit
-            </Button>
+          <div>
+            <div className={styles["model-field"]}>
+              <FormControl>
+                <InputLabel id="df-currency-select-label">Currency</InputLabel>
+                <Select
+                  labelId="df-currency-select-label"
+                  label="company"
+                  // value={currency_type}
+                  {...register("currency_type")}
+                >
+                  {["₹", "$"].map((item, index) => {
+                    return (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <TextField
+                id="outlined-basic"
+                label="$ Rate"
+                variant="outlined"
+                {...register("price")}
+                margin="normal"
+              />
+              <TextField
+                id="outlined-basic"
+                label="Payment"
+                variant="outlined"
+                {...register("payment")}
+                margin="normal"
+              />
+            </div>
+            <div className={styles["button-div"]}>
+              <Button variant="outlined" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
+            </div>
           </div>
         </form>
       </Box>
