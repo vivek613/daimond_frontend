@@ -30,7 +30,6 @@ export function BuyDataModel({ open, setOpen }) {
     dataCurrency,
     buyLoading,
   } = useBillData();
-
   const { company_name, currency_type, buy_id } = watch();
   const handleClose = () => setOpen(false);
 

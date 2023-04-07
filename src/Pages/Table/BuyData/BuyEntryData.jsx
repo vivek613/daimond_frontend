@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import EditIcon from "@mui/icons-material/Edit";
 import styles from "./BuyData.module.css";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -18,8 +19,10 @@ import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { Button } from "@mui/material";
 import { BuyEntryModel } from "./BuyEntryModel";
+import { useBillData } from "../../../Hooks/Application/useBillData";
 
 export const BuyEntryData = (props) => {
+  const { handleEditOpenBuyModal } = useBillData();
   const tokenStr = getCookies("access_token");
   const { row } = props;
   const [openById, setOpenById] = useState(false);
@@ -91,7 +94,6 @@ export const BuyEntryData = (props) => {
   };
 
   const handleUpdateBuyEntryBuyId = async (props) => {
-    console.log("props", props);
     await axios
       .post(
         `${process.env.REACT_APP_URL}/buy/updateEntry`,
@@ -146,6 +148,9 @@ export const BuyEntryData = (props) => {
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date}</TableCell>
         <TableCell align="right">{row?.end_date}</TableCell>
+        <TableCell align="right">
+          <EditIcon onClick={() => handleEditOpenBuyModal(row)} />
+        </TableCell>
       </TableRow>
       <TableRow style={{ background: "aliceblue" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

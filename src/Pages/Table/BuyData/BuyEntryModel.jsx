@@ -21,7 +21,6 @@ export const BuyEntryModel = ({
   handleUpdateBuyEntryBuyId,
   currentData,
 }) => {
-  console.log("currentData", currentData);
   const {
     register,
     handleSubmit,

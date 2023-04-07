@@ -90,6 +90,7 @@ const BillData = () => {
                       <TableCell align="right">Due Days</TableCell>
                       <TableCell align="right">Start Date</TableCell>
                       <TableCell align="right">End Date</TableCell>
+                      <TableCell align="right">Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
