@@ -11,3 +11,22 @@
   justify-content: flex-end;
   gap: 10px;
 }
+
+.date-column{
+  white-space: nowrap; 
+  width: 50px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+.action-column{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  
+}
+.header-div{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}

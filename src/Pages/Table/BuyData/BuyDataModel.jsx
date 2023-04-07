@@ -55,12 +55,7 @@ export function BuyDataModel({ open, setOpen }) {
                 </Button>
               </div>
             </div>
-            <div
-              className={styles["model-field"]}
-              style={{
-                height: "auto",
-              }}
-            >
+            <div className={styles["model-field"]}>
               <FormControl>
                 <InputLabel id="df-company-select-label">Company</InputLabel>
                 <Select
@@ -195,6 +190,7 @@ export function BuyDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Start date"
                         value={startDate}
+                        disablePast
                         disabled={buy_id ? true : false}
                         onChange={(newValue) => {
                           setStartDate(newValue);
@@ -209,6 +205,7 @@ export function BuyDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Expiry date"
                         value={expiryDate}
+                        disablePast
                         onChange={(newValue) => {
                           setExpiryDate(newValue);
                         }}

@@ -127,8 +127,8 @@ export const SellDataProvider = ({ children }) => {
                       Number(data.add_take) * Number(data.dollar_price)
                   : Number(data.take) + Number(data.add_take),
               due_days: data.due_days,
-              end_date: expiryDate,
-              start_date: startDate,
+              end_date: expiryDate.format("DD-MM-YYYY"),
+              start_date: startDate.format("DD-MM-YYYY"),
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },
@@ -176,8 +176,8 @@ export const SellDataProvider = ({ children }) => {
               price: data.price,
               take: data.take,
               due_days: data.due_days,
-              end_date: expiryDate,
-              start_date: startDate,
+              end_date: expiryDate.$d,
+              start_date: startDate.$d,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },

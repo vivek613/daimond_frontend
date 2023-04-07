@@ -20,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { SellEntryData } from "./SellEntryData";
 
 const SellData = () => {
   const {
@@ -44,76 +45,6 @@ const SellData = () => {
   useEffect(() => {
     handleGetAllBill();
   }, []);
-  const Row = (props) => {
-    const { row } = props;
-    console.log("row", row);
-    const [open, setOpen] = useState(false);
-
-    const history = [{ date: "sss", customerId: "11", amount: "150" }];
-
-    return (
-      <>
-        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={(e) => {
-                setOpen(!open);
-              }}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {row?.company?.name}
-          </TableCell>
-          <TableCell align="right">{row?.description}</TableCell>
-          <TableCell align="right">{row?.price}</TableCell>
-          <TableCell align="right">{row?.currency_type}</TableCell>
-          <TableCell align="right">{row?.total_payment}</TableCell>
-          <TableCell align="right">{row?.due_days}</TableCell>
-          <TableCell align="right">{row?.start_date}</TableCell>
-          <TableCell align="right">{row?.end_date}</TableCell>
-        </TableRow>
-        <TableRow style={{ background: "aliceblue" }}>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  History
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {history?.map((historyRow) => (
-                      <TableRow key={historyRow.date}>
-                        <TableCell component="th" scope="row">
-                          {historyRow.date}
-                        </TableCell>
-                        <TableCell>{historyRow.customerId}</TableCell>
-                        <TableCell align="right">{historyRow.amount}</TableCell>
-                        <TableCell align="right">
-                          {Math.round(historyRow.amount)}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </>
-    );
-  };
 
   return (
     <>
@@ -169,7 +100,7 @@ const SellData = () => {
                 </TableHead>
                 <TableBody>
                   {billData?.data?.map((row) => (
-                    <Row key={row.name} row={row} />
+                    <SellEntryData key={row.name} row={row} />
                   ))}
                 </TableBody>
               </Table>

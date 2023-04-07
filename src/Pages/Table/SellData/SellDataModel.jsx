@@ -195,6 +195,7 @@ export function SellDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Start date"
                         value={startDate}
+                        disablePast
                         disabled={buy_id ? true : false}
                         onChange={(newValue) => {
                           setStartDate(newValue);
@@ -209,6 +210,7 @@ export function SellDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Expiry date"
                         value={expiryDate}
+                        disablePast
                         onChange={(newValue) => {
                           setExpiryDate(newValue);
                         }}
