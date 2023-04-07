@@ -146,8 +146,8 @@ export const BuyEntryData = (props) => {
         <TableCell align="right">{row?.currency_type}</TableCell>
         <TableCell align="right">{row?.total_payment}</TableCell>
         <TableCell align="right">{row?.due_days}</TableCell>
-        <TableCell align="right">{row?.start_date}</TableCell>
-        <TableCell align="right">{row?.end_date}</TableCell>
+        <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
+        <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">
           <EditIcon onClick={() => handleEditOpenBuyModal(row)} />
         </TableCell>
