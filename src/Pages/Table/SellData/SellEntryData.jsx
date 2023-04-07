@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import styles from "./SellData.module.css";
+import EditIcon from "@mui/icons-material/Edit";
 
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -19,8 +20,11 @@ import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { Button } from "@mui/material";
 import { SellEntryModel } from "./SellEntryModel";
+import { useSellData } from "../../../Hooks/Application/useSellData";
 
 export const SellEntryData = (props) => {
+  const { handleEditOpenBuyModal } = useSellData();
+
   const tokenStr = getCookies("access_token");
   const { row } = props;
   const [open1, setOpen1] = useState(false);
@@ -98,6 +102,7 @@ export const SellEntryData = (props) => {
         if (item.data.status) {
           setModelOpen(false);
           handleGetAllEntryById(row._id);
+          setCurrentData();
         } else {
         }
       })
@@ -111,11 +116,11 @@ export const SellEntryData = (props) => {
         `${process.env.REACT_APP_URL}/sell/updateEntry`,
         {
           id: props.sell_entry_id,
-          date: props.date,
+          // date: props.date,
           currency: props.currency_type,
           price: props.price,
           payment: props.payment,
-          broker: props.broker,
+          // broker: props.broker,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -159,6 +164,9 @@ export const SellEntryData = (props) => {
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
+        <TableCell align="right">
+          <EditIcon onClick={() => handleEditOpenBuyModal(row)} />
+        </TableCell>
       </TableRow>
       <TableRow style={{ background: "aliceblue" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -205,11 +213,16 @@ export const SellEntryData = (props) => {
                         </TableCell>
                         <TableCell align="right">
                           <div className={styles["action-column"]}>
-                            <MdEdit size={20} />
+                            <MdEdit
+                              size={20}
+                              onClick={() => {
+                                setCurrentData(historyRow);
+                                setModelOpen(true);
+                              }}
+                            />
                             <MdDelete
                               size={20}
                               onClick={() => {
-                                console.log(historyRow);
                                 handleSellEntryDelete(historyRow._id);
                               }}
                             />

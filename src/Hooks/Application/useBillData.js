@@ -296,7 +296,7 @@ export const BillDataProvider = ({ children }) => {
 
       add_give: 0,
       dollar_price: 0,
-      buy_id: "",
+      buy_id: row._id,
     });
     setOpen(true);
   };

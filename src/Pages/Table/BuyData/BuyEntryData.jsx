@@ -99,11 +99,11 @@ export const BuyEntryData = (props) => {
         `${process.env.REACT_APP_URL}/buy/updateEntry`,
         {
           id: props.buy_entry_id,
-          date: props.date,
+          // date: props.date,
           currency: props.currency_type,
           price: props.price,
           payment: props.payment,
-          broker: props.broker,
+          // broker: props.broker,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },

@@ -4,6 +4,7 @@ import { getCookies } from "../Auth/Cookies";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
+import dayjs from "dayjs";
 
 const ctx = createContext();
 
@@ -106,17 +107,17 @@ export const SellDataProvider = ({ children }) => {
               description: data.description,
               currency_type: dataCurrency,
               total_payment: data.total_payment,
-              remaining:
-                Number(data.dollar_price) > 0
-                  ? data.currency_type === "₹"
-                    ? Number(data.total_payment) -
-                      (Number(data.take) +
-                        Number(data.add_take) / Number(data.dollar_price))
-                    : Number(data.total_payment) -
-                      (Number(data.take) +
-                        Number(data.add_take) * Number(data.dollar_price))
-                  : Number(data.total_payment) -
-                    (Number(data.take) + Number(data.add_take)),
+              remaining: data.remaining,
+              // Number(data.dollar_price) > 0
+              //   ? data.currency_type === "₹"
+              //     ? Number(data.total_payment) -
+              //       (Number(data.take) +
+              //         Number(data.add_take) / Number(data.dollar_price))
+              //     : Number(data.total_payment) -
+              //       (Number(data.take) +
+              //         Number(data.add_take) * Number(data.dollar_price))
+              //   : Number(data.total_payment) -
+              //     (Number(data.take) + Number(data.add_take)),
               price: data.price,
               take:
                 Number(data.dollar_price) > 0
@@ -127,8 +128,8 @@ export const SellDataProvider = ({ children }) => {
                       Number(data.add_take) * Number(data.dollar_price)
                   : Number(data.take) + Number(data.add_take),
               due_days: data.due_days,
-              end_date: expiryDate.format("DD-MM-YYYY"),
-              start_date: startDate.format("DD-MM-YYYY"),
+              end_date: expiryDate,
+              start_date: startDate,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },
@@ -279,6 +280,27 @@ export const SellDataProvider = ({ children }) => {
     );
   };
 
+  const handleEditOpenBuyModal = (row) => {
+    console.log(row);
+    setExpiryDate(dayjs(row.end_date));
+    setStartDate(dayjs(row.start_date));
+    reset({
+      ...getValues(),
+      company_name: row.company._id,
+      description: row.description,
+      currency_type: row.currency_type,
+      price: row.price,
+      remaining: row.remaining,
+      due_days: row.due_days,
+      take: row.take,
+      total_payment: row.total_payment,
+
+      add_give: 0,
+      dollar_price: 0,
+      buy_id: row._id,
+    });
+    setOpen(true);
+  };
   const columns = [
     {
       field: "company_name",
@@ -374,6 +396,7 @@ export const SellDataProvider = ({ children }) => {
         getValues,
         sellLoading,
         dataCurrency,
+        handleEditOpenBuyModal,
       }}
     >
       {children}

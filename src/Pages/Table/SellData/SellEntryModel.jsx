@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -30,11 +30,28 @@ export const SellEntryModel = ({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      currency_type: "",
+      currency: "",
       price: 0,
+      sell_entry_id: "",
+      date: "",
+      payment: 0,
+      broker: "",
     },
   });
+  const { currency, sell_entry_id } = watch();
+  console.log(currentData, currency);
+  useEffect(() => {
+    reset({
+      ...getValues(),
 
+      sell_entry_id: currentData ? currentData._id : "",
+      date: currentData ? currentData.date : "",
+      currency: currentData ? currentData.currency : "",
+      price: currentData ? currentData.price : 0,
+      payment: currentData ? currentData.payment : 0,
+      broker: currentData ? currentData.broker : "",
+    });
+  }, [reset, getValues, currentData]);
   const handleClose = () => setModelOpen(false);
   const style = {
     position: "absolute",
@@ -57,9 +74,7 @@ export const SellEntryModel = ({
       <Box sx={style}>
         <form
           onSubmit={handleSubmit(
-            currentData?.buy_entry_id
-              ? handleUpdateBuyEntryBuyId
-              : handleAddBuyEntryBuyId
+            sell_entry_id ? handleUpdateBuyEntryBuyId : handleAddBuyEntryBuyId
           )}
           style={{
             height: "100%",
@@ -79,7 +94,7 @@ export const SellEntryModel = ({
               <Select
                 labelId="df-currency-select-label"
                 label="company"
-                // value={currency_type}
+                value={currency}
                 {...register("currency_type")}
               >
                 {["₹", "$"].map((item, index) => {
@@ -103,6 +118,13 @@ export const SellEntryModel = ({
               label="Payment"
               variant="outlined"
               {...register("payment")}
+              margin="normal"
+            />
+            <TextField
+              id="outlined-basic"
+              label="broker"
+              variant="outlined"
+              {...register("broker")}
               margin="normal"
             />
           </div>

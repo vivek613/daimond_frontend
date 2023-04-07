@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -30,14 +30,28 @@ export const BuyEntryModel = ({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      buy_entry_id: currentData ? currentData.buy_entry_id : "",
+      buy_entry_id: "",
+      date: "",
+      currency: "",
+      price: 0,
+      payment: 0,
+      broker: "",
+    },
+  });
+  const { currency, buy_entry_id } = watch();
+  console.log(currentData, currency);
+  useEffect(() => {
+    reset({
+      ...getValues(),
+
+      buy_entry_id: currentData ? currentData._id : "",
       date: currentData ? currentData.date : "",
-      currency_type: currentData ? currentData.currency_type : "",
+      currency: currentData ? currentData.currency : "",
       price: currentData ? currentData.price : 0,
       payment: currentData ? currentData.payment : 0,
       broker: currentData ? currentData.broker : "",
-    },
-  });
+    });
+  }, [reset, getValues, currentData]);
 
   const handleClose = () => setModelOpen(false);
 
@@ -63,21 +77,24 @@ export const BuyEntryModel = ({
       <Box sx={style}>
         <form
           onSubmit={handleSubmit(
-            currentData?.buy_entry_id
-              ? handleUpdateBuyEntryBuyId
-              : handleAddBuyEntryBuyId
+            buy_entry_id ? handleUpdateBuyEntryBuyId : handleAddBuyEntryBuyId
           )}
         >
           <h2 className="df-side-modal-title">{"Add Entry"}</h2>
           <div>
-            <div className={styles["model-field"]}>
+            <div
+              className={styles["model-field"]}
+              style={{
+                height: "auto",
+              }}
+            >
               <FormControl>
                 <InputLabel id="df-currency-select-label">Currency</InputLabel>
                 <Select
                   labelId="df-currency-select-label"
                   label="company"
-                  // value={currency_type}
-                  {...register("currency_type")}
+                  value={currency}
+                  {...register("currency")}
                 >
                   {["₹", "$"].map((item, index) => {
                     return (
@@ -100,6 +117,13 @@ export const BuyEntryModel = ({
                 label="Payment"
                 variant="outlined"
                 {...register("payment")}
+                margin="normal"
+              />
+              <TextField
+                id="outlined-basic"
+                label="Broker"
+                variant="outlined"
+                {...register("broker")}
                 margin="normal"
               />
             </div>
