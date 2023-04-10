@@ -18,7 +18,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getCookies } from "../../../Hooks/Auth/Cookies";
 import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
-import { Button, LinearProgress } from "@mui/material";
+import { Button, LinearProgress, TablePagination } from "@mui/material";
 import { SellEntryModel } from "./SellEntryModel";
 import { useSellData } from "../../../Hooks/Application/useSellData";
 import { toast } from "react-hot-toast";
@@ -45,7 +45,6 @@ export const SellEntryData = (props) => {
         }
       )
       .then((item) => {
-        console.log(item);
         if (item.data.status) {
           setIsloading(false);
 
@@ -154,6 +153,11 @@ export const SellEntryData = (props) => {
         setIsloading(false);
       });
   };
+  const handleTotal = () => {
+    return buyEntry
+      .map(({ payment, price }) => payment * price)
+      .reduce((sum, i) => sum + i, 0);
+  };
 
   useEffect(() => {
     open1 && handleGetAllEntryById(row._id);
@@ -248,6 +252,11 @@ export const SellEntryData = (props) => {
                         </TableCell>
                       </TableRow>
                     ))}
+                    <TableRow>
+                      <TableCell rowSpan={3} />
+                      <TableCell colSpan={2}>Total Payment : </TableCell>
+                      <TableCell align="right">{handleTotal()}</TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </Box>
@@ -255,6 +264,7 @@ export const SellEntryData = (props) => {
           </Collapse>
         </TableCell>
       </TableRow>
+
       <SellEntryModel
         setModelOpen={setModelOpen}
         modelOpen={modelOpen}

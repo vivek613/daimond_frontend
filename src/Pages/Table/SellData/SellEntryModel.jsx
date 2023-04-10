@@ -39,7 +39,6 @@ export const SellEntryModel = ({
     },
   });
   const { currency, sell_entry_id } = watch();
-  console.log(currentData, currency);
   useEffect(() => {
     reset({
       ...getValues(),

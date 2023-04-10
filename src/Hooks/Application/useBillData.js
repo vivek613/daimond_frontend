@@ -68,14 +68,14 @@ export const BillDataProvider = ({ children }) => {
   };
 
   //------------------------ FOR GET ALL BILL ------------------------//
-  const handleGetAllBill = async (props) => {
+  const handleGetAllBill = async (search, page, rowsPerPage) => {
     setBuyLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}buy/all`,
         {
-          skip: paginationModel.page,
-          take: paginationModel.pageSize,
+          skip: page * rowsPerPage,
+          take: rowsPerPage,
           sort_model: {
             sort: "asc",
             field: "name",
@@ -139,7 +139,6 @@ export const BillDataProvider = ({ children }) => {
           )
           .then((item) => {
             setBuyLoading(false);
-            console.log(item);
             if (item.data.status) {
               setOpen(false);
               setStartDate(null);
@@ -191,8 +190,6 @@ export const BillDataProvider = ({ children }) => {
             }
           )
           .then((item) => {
-            console.log(item);
-
             setBuyLoading(false);
             if (item.data.status) {
               setOpen(false);

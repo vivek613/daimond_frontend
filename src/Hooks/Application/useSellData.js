@@ -67,14 +67,14 @@ export const SellDataProvider = ({ children }) => {
       });
   };
   //------------------------ FOR LOGIN USER ------------------------//
-  const handleGetAllBill = async (props) => {
+  const handleGetAllBill = async (search, page, rowsPerPage) => {
     setSelloading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}sell/all`,
         {
-          skip: paginationModel.page,
-          take: paginationModel.pageSize,
+          skip: page * rowsPerPage,
+          take: rowsPerPage,
           sort_model: {
             sort: "asc",
             field: "name",
@@ -290,7 +290,6 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const handleEditOpenBuyModal = (row) => {
-    console.log(row);
     setExpiryDate(dayjs(row.end_date));
     setStartDate(dayjs(row.start_date));
     reset({

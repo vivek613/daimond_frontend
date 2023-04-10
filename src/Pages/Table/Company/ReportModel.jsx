@@ -237,7 +237,6 @@ const ReportModel = () => {
             sx={{ height: "500px" }}
           />
 
-          {console.log(companyReport?.tableData?.buyData)}
           <h2 id="parent-modal-title" style={{ marginTop: "30px" }}>
             Buy Data
           </h2>

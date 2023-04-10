@@ -21,7 +21,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { SellEntryData } from "./SellEntryData";
-import { LinearProgress } from "@mui/material";
+import { LinearProgress, TablePagination } from "@mui/material";
 import { productContext } from "../../../App";
 import { useContext } from "react";
 
@@ -42,10 +42,22 @@ const SellData = () => {
     getValues,
   } = useSellData();
   // const [open, setOpen] = useState(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  console.log(rowsPerPage, page);
 
   useEffect(() => {
-    handleGetAllBill(search);
-  }, []);
+    handleGetAllBill(search, page, rowsPerPage);
+  }, [search, page, rowsPerPage]);
 
   return (
     <>
@@ -106,6 +118,15 @@ const SellData = () => {
                   ))}
                 </TableBody>
               </Table>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
+                component="div"
+                count={billData?.data?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </TableContainer>
           )}
           <SellDataModel open={open} setOpen={setOpen} />

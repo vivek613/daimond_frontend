@@ -19,7 +19,6 @@ export const Navbar = () => {
   const { setSearch, search } = useContext(productContext);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(search);
   return (
     <>
       <div className="df-navbar-top-div">

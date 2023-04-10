@@ -76,7 +76,6 @@ const AllData = () => {
   useEffect(() => {
     handleGetAllBill();
   }, []);
-  console.log(allData);
   var max = Math.max.apply(
     null,
     allData?.dateWiseData?.reverse().map((item) => item.buy)
