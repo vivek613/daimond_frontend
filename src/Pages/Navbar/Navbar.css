@@ -1,0 +1,13 @@
+.df-navbar-top-div{
+    display: flex;
+    justify-content: space-between;
+    /* align-content: center; */
+    flex-direction: row;
+    align-items: center;
+}
+.df-navbar-search{
+    height: 32px;
+    width: 233px;
+    margin-right: 49px;
+    border-radius: 5px;
+}

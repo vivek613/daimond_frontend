@@ -78,9 +78,8 @@ p {
   font-size: larger;
   letter-spacing: 0.5px;
   font-family: system-ui;
-  margin-left: 15px;
-  height: 55px;
-  padding: 12px 0;
+ 
+  
   color: gray;
 }
 .df-custom-action-cell {
