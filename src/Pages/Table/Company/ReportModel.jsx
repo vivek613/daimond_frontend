@@ -1,10 +1,100 @@
-import React, { useEffect, useMemo, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useMemo } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import { useCompanyDetails } from "../../../Hooks";
 import Button from "@mui/material/Button";
 
 import ReactApexChart from "react-apexcharts";
+import { Table } from "../../../Components";
+
+const Sellcolumns = [
+  {
+    field: "start_date",
+    headerName: "Start Date",
+    width: 150,
+    renderCell: (data) => {
+      return (
+        <div
+        // onClick={() => {
+        //   handleGetCompanyReport(data.row._id);
+        // }}
+        >
+          {new Date(data.row.start_date).toLocaleDateString().split("GMT")[0]}
+        </div>
+      );
+    },
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    width: 150,
+  },
+  {
+    field: "remaining",
+    headerName: "Remaining",
+    width: 150,
+  },
+  {
+    field: "take",
+    headerName: "Take",
+    width: 150,
+  },
+  {
+    field: "total_payment",
+    headerName: "Total Payment",
+    width: 170,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 230,
+  },
+];
+const Buycolumns = [
+  {
+    field: "start_date",
+    headerName: "Start Date",
+    width: 150,
+    renderCell: (data) => {
+      return (
+        <div
+        // onClick={() => {
+        //   handleGetCompanyReport(data.row._id);
+        // }}
+        >
+          {new Date(data.row.start_date).toLocaleDateString().split("GMT")[0]}
+        </div>
+      );
+    },
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    width: 150,
+  },
+  {
+    field: "remaining",
+    headerName: "Remaining",
+    width: 150,
+  },
+  {
+    field: "take",
+    headerName: "Take",
+    width: 150,
+  },
+  {
+    field: "total_payment",
+    headerName: "Total Payment",
+    width: 170,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 230,
+  },
+];
+
 const Body = ({
   chartData = [],
   xaxis: { categories, formatter: xAxisFormatter, labels, ...xaxisRest } = {
@@ -61,75 +151,12 @@ const Body = ({
     </>
   );
 };
-const ReportModel = ({}) => {
+const ReportModel = () => {
   const { companyReport, openReport, setOpenReport } = useCompanyDetails();
-  const data = [
-    {
-      month: "Jan",
-      sell: 4000,
-      buy: 3501,
-    },
-    {
-      month: "Feb",
-      sell: 3000,
-      buy: 3554,
-    },
-    {
-      month: "Mar",
-      sell: 2500,
-      buy: 2000,
-    },
-    {
-      month: "Apr",
-      sell: 2780,
-      buy: 2180,
-    },
-    {
-      month: "May",
-      buy: 1890,
-      sell: 1790,
-    },
-    {
-      month: "Jun",
-      sell: 2390,
-      buy: 2090,
-    },
-    {
-      month: "Jul",
-      sell: 3490,
-      buy: 3790,
-    },
-    {
-      month: "Aug",
-      sell: 3490,
-      buy: 3190,
-    },
-    {
-      month: "Sep",
-      buy: 3490,
-      sell: 3990,
-    },
-    {
-      month: "Oct",
-      buy: 3400,
-      sell: 3490,
-    },
-    {
-      month: "Nov",
-
-      sell: 3400,
-      buy: 3290,
-    },
-    {
-      month: "Dec",
-      sell: 3490,
-      buy: 3110,
-    },
-  ];
 
   var max = Math.max.apply(
     null,
-    companyReport.map((item) => item.buy)
+    companyReport?.graphData?.reverse().map((item) => item.buy)
   ); // Calculate the maximum value from your data
   var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
   const chartData = useMemo(() => {
@@ -137,15 +164,15 @@ const ReportModel = ({}) => {
       chartData: [
         {
           name: "Total Buy",
-          data: companyReport.map((i) => i.total_buy),
+          data: companyReport?.graphData?.reverse().map((i) => i.total_buy),
         },
         {
           name: "Total Sell",
-          data: companyReport.map((i) => i.total_sell),
+          data: companyReport?.graphData?.reverse().map((i) => i.total_sell),
         },
       ],
       xaxis: {
-        categories: companyReport.map((i) => i.month),
+        categories: companyReport?.graphData?.reverse().map((i) => i.month),
       },
       yaxis: {
         opposite: false,
@@ -167,7 +194,7 @@ const ReportModel = ({}) => {
         },
       },
     };
-  }, [data]);
+  }, [companyReport]);
 
   return (
     <div>
@@ -178,26 +205,51 @@ const ReportModel = ({}) => {
           setOpenReport(false);
         }}
       >
-        <Box sx={{ width: "1000px", padding: "15px", marginTop: "30px" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <h2 id="parent-modal-title">Report</h2>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setOpenReport(false);
+        <div style={{ height: "100%", padding: "10px" }}>
+          <Box sx={{ width: "1000px", padding: "15px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              Close
-            </Button>
-          </div>
-          <Body {...chartData} />
-        </Box>
+              <h2 id="parent-modal-title">Report</h2>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setOpenReport(false);
+                }}
+              >
+                Close
+              </Button>
+            </div>
+            <Body {...chartData} />
+          </Box>
+
+          <h2 id="parent-modal-title">Sell Data</h2>
+          <Table
+            data={companyReport?.tableData?.sellData}
+            columns={Sellcolumns}
+            pageSize={10}
+            getRowId={(row) => row._id}
+            // loading={companyLoading}
+            sx={{ height: "500px" }}
+          />
+
+          {console.log(companyReport?.tableData?.buyData)}
+          <h2 id="parent-modal-title" style={{ marginTop: "30px" }}>
+            Buy Data
+          </h2>
+          <Table
+            data={companyReport?.tableData?.buyData}
+            columns={Buycolumns}
+            pageSize={10}
+            sx={{ height: "500px" }}
+            getRowId={(row) => row._id}
+            // loading={companyLoading}
+          />
+        </div>
       </Drawer>
     </div>
   );
