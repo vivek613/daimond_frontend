@@ -18,5 +18,10 @@ const sellData = lazy(
   async () =>
     await import(/* webpackChunkName: "sellData" */ "./Table/SellData/SellData")
 );
+const AllData = lazy(
+  async () =>
+    await import(/* webpackChunkName: "sellData" */ "./Table/AllData/AllData")
+);
 
-export { Login, Navbar, BuyData, CompanyTable, sellData };
+
+export { Login, Navbar, BuyData, CompanyTable, sellData, AllData };

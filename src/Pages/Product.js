@@ -7,6 +7,7 @@ import { getCookies } from "../Hooks/Auth/Cookies";
 import { useLogin } from "../Hooks/Auth/useLogin";
 import Home from "./Home/Home";
 import { Login, CompanyTable, BuyData, sellData } from "./index";
+import AllData from "./Table/AllData/AllData";
 
 const publicRouts = [
     {
@@ -30,6 +31,10 @@ const privateRouts = [
     {
         path: "sell",
         component: sellData,
+    },
+    {
+        path: "alldata",
+        component: AllData,
     },
 ];
 

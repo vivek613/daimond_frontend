@@ -25,7 +25,6 @@ export const Navbar = () => {
       <SideNav
         style={{
           background: "#ededed",
-          top: "55px",
           borderRight: "1px solid #cbcbcb",
           zIndex: "99",
         }}
@@ -102,7 +101,7 @@ export const Navbar = () => {
             selected
             eventKey="charts"
             onClick={() => {
-              navigate("/company");
+              navigate("/alldata");
             }}
             className={
               location.pathname.includes("reports")
