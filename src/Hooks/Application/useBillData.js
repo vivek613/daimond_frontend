@@ -237,6 +237,8 @@ export const BillDataProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
+        setBuyLoading(false);
+
         if (item.data.status) {
           handleGetAllBill();
           toast.success(item?.data?.message);
