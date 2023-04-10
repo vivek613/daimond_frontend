@@ -36,7 +36,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   });
 
   //------------------------ FOR GET ALL COMPANY ------------------------//
-  const handleGetAllCompany = async () => {
+  const handleGetAllCompany = async (search) => {
     setCompanyLoading(true);
     await axios
       .post(
@@ -44,7 +44,7 @@ export const CompanyDetailsProvider = ({ children }) => {
         {
           skip: 0,
           take: 100,
-          search_text: "",
+          search_text: search,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },

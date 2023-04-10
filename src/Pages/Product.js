@@ -8,89 +8,90 @@ import { useLogin } from "../Hooks/Auth/useLogin";
 import Home from "./Home/Home";
 import { Login, CompanyTable, BuyData, sellData } from "./index";
 import AllData from "./Table/AllData/AllData";
+import { LinearProgress } from "@mui/material";
 
 const publicRouts = [
-    {
-        path: "/",
-        component: Home,
-    },
-    {
-        path: "login",
-        component: Login,
-    },
+  {
+    path: "/",
+    component: Home,
+  },
+  {
+    path: "login",
+    component: Login,
+  },
 ];
 const privateRouts = [
-    {
-        path: "company",
-        component: CompanyTable,
-    },
-    {
-        path: "buy",
-        component: BuyData,
-    },
-    {
-        path: "sell",
-        component: sellData,
-    },
-    {
-        path: "alldata",
-        component: AllData,
-    },
+  {
+    path: "company",
+    component: CompanyTable,
+  },
+  {
+    path: "buy",
+    component: BuyData,
+  },
+  {
+    path: "sell",
+    component: sellData,
+  },
+  {
+    path: "alldata",
+    component: AllData,
+  },
 ];
 
 const Common = (route) => (
-    <Suspense fallback={<div>Loading..</div>}>
-        <route.component />
-    </Suspense>
+  <Suspense fallback={<LinearProgress />}>
+    <route.component />
+  </Suspense>
 );
 
 const Private = (route) => {
-    const { auth } = useLogin();
+  const { auth } = useLogin();
 
-    if (!auth) return <Navigate to="/login" replace />;
+  if (!auth) return <Navigate to="/login" replace />;
 
-    // Logic for Private routes
+  // Logic for Private routes
 
-    const { component: Component } = route;
+  const { component: Component } = route;
 
-    //   const currentUserRole = user.role;
+  //   const currentUserRole = user.role;
 
-    //   if (!!permissions?.length && !permissions.includes(currentUserRole))
-    //     return <Navigate to={"/unauthorized"} replace />;
+  //   if (!!permissions?.length && !permissions.includes(currentUserRole))
+  //     return <Navigate to={"/unauthorized"} replace />;
 
-    return (
-        <Suspense fallback={<>Loading</>}>
-            <Component />
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={<LinearProgress />}>
+      <Component />
+    </Suspense>
+  );
 };
 
 const createNestedRoutes = (routes, RouteType) => {
-    return routes.map((route, i) => {
-        return (
-            <Route
-                key={i}
-                index={route.index}
-                path={route.path}
-                element={<RouteType component={route.component} />}
-            />
-        );
-    });
+  return routes.map((route, i) => {
+    return (
+      <Route
+        key={i}
+        index={route.index}
+        path={route.path}
+        element={<RouteType component={route.component} />}
+      />
+    );
+  });
 };
 const Product = () => {
-    const { setAuth } = useLogin();
+  const { setAuth } = useLogin();
 
-    useEffect(() => {
-        if (getCookies("access_token")) {
-            setAuth(true);
-        }
-    }, []);
-    return (
-        <Routes>
-            {createNestedRoutes(privateRouts, Private)}
-            {createNestedRoutes(publicRouts, Common)}
-        </Routes>
-    );
+  useEffect(() => {
+    if (getCookies("access_token")) {
+      setAuth(true);
+    }
+  }, []);
+  return (
+    <Routes>
+      {createNestedRoutes(privateRouts, Private)}
+      {createNestedRoutes(publicRouts, Common)}
+    </Routes>
+  );
 };
 
 export default Product;

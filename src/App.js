@@ -7,15 +7,15 @@ import { AuthProvider, useLogin } from "./Hooks/Auth/useLogin";
 import Home from "./Pages/Home/Home";
 import { Login, CompanyTable, BuyData, sellData } from "./Pages/index";
 import Product from "./Pages/Product";
+import { LinearProgress } from "@mui/material";
 export const productContext = createContext();
-
 
 function App() {
   const { value } = useProduct();
 
   return (
     <>
-      <Suspense fallback={<div>Loading..</div>}>
+      <Suspense fallback={<LinearProgress />}>
         <BrowserRouter>
           <productContext.Provider value={value}>
             <AuthProvider>

@@ -17,7 +17,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getCookies } from "../../../Hooks/Auth/Cookies";
 import axios from "axios";
 import { MdEdit, MdDelete } from "react-icons/md";
-import { Button } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 import { BuyEntryModel } from "./BuyEntryModel";
 import { useBillData } from "../../../Hooks/Application/useBillData";
 
@@ -156,7 +156,7 @@ export const BuyEntryData = (props) => {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={openById} timeout="auto" unmountOnExit>
             {isLoading ? (
-              <p>loading</p>
+              <LinearProgress />
             ) : (
               <Box sx={{ margin: 1 }}>
                 <div className={styles["header-div"]}>

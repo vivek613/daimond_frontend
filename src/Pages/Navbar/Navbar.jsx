@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation } from "react-router";
+import "./Navbar.css";
 import SideNav, {
   Toggle,
   Nav,
@@ -12,15 +13,32 @@ import { FaUserAlt, FaUsers } from "react-icons/fa";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router";
+import { productContext } from "../../App";
 
 export const Navbar = () => {
+  const { setSearch, search } = useContext(productContext);
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(search);
   return (
     <>
       <div className="df-navbar-top-div">
         <div className="df-navbar-header-title">Diamond Management System</div>
+        <div>
+          <input
+            className="df-navbar-search"
+            id="search"
+            type="search"
+            placeholder="Search..."
+            autofocus
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              // setSearch(e.target.value);
+            }}
+          />
+          {/* <input className="df-navbar-search" placeholder="Search" /> */}
+        </div>
       </div>
       <SideNav
         style={{

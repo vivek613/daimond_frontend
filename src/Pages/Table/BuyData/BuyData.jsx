@@ -16,8 +16,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { BuyEntryData } from "./BuyEntryData";
+import { LinearProgress } from "@mui/material";
+import { useContext } from "react";
+import { productContext } from "../../../App";
 
 const BillData = () => {
+  const { search } = useContext(productContext);
   const {
     handleGetAllBill,
     billData,
@@ -36,8 +40,8 @@ const BillData = () => {
   const tokenStr = getCookies("access_token");
 
   useEffect(() => {
-    handleGetAllBill();
-  }, []);
+    handleGetAllBill(search);
+  }, [search]);
 
   return (
     <>
@@ -74,7 +78,7 @@ const BillData = () => {
             </Button>
           </div>
           {buyLoading ? (
-            <p>loading</p>
+            <LinearProgress />
           ) : (
             <>
               <TableContainer component={Paper}>

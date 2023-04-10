@@ -7,8 +7,11 @@ import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
 import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";
 import ReportModel from "./ReportModel";
+import { useContext } from "react";
+import { productContext } from "../../../App";
 
 const CompanyTable = () => {
+  const { search } = useContext(productContext);
   const {
     handleGetAllCompany,
     allCompanyData,
@@ -20,8 +23,8 @@ const CompanyTable = () => {
   } = useCompanyDetails();
 
   useEffect(() => {
-    handleGetAllCompany();
-  }, []);
+    handleGetAllCompany(search);
+  }, [search]);
 
   return (
     <Box sx={{ height: "calc(100vh - 64px)", width: "100%" }}>

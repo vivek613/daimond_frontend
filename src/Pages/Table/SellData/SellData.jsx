@@ -21,8 +21,12 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { SellEntryData } from "./SellEntryData";
+import { LinearProgress } from "@mui/material";
+import { productContext } from "../../../App";
+import { useContext } from "react";
 
 const SellData = () => {
+  const { search } = useContext(productContext);
   const {
     handleGetAllBill,
     billData,
@@ -38,12 +42,9 @@ const SellData = () => {
     getValues,
   } = useSellData();
   // const [open, setOpen] = useState(false);
-  const handleChange = (e) => {
-    console.log(e);
-  };
 
   useEffect(() => {
-    handleGetAllBill();
+    handleGetAllBill(search);
   }, []);
 
   return (
@@ -81,7 +82,7 @@ const SellData = () => {
             </Button>
           </div>
           {sellLoading ? (
-            <p>loading</p>
+            <LinearProgress />
           ) : (
             <TableContainer component={Paper}>
               <Table aria-label="collapsible table">
