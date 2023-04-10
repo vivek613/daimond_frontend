@@ -408,6 +408,7 @@ export const BillDataProvider = ({ children }) => {
         getValues,
         buyLoading,
         dataCurrency,
+        handleDeleteBuy,
       }}
     >
       {children}

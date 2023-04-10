@@ -159,7 +159,6 @@ export const CompanyDetailsProvider = ({ children }) => {
   //------------------------ FOR DELETE COMPANY ------------------------//
   const handleDeleteCompany = async (props) => {
     setCompanyLoading(true);
-
     await axios
       .delete(`${process.env.REACT_APP_URL}company/${props.row._id}`, {
         headers: { Authorization: `Bearer ${tokenStr}` },
