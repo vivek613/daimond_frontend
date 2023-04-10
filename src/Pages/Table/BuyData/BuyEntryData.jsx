@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "./BuyData.module.css";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -22,7 +23,7 @@ import { BuyEntryModel } from "./BuyEntryModel";
 import { useBillData } from "../../../Hooks/Application/useBillData";
 
 export const BuyEntryData = (props) => {
-  const { handleEditOpenBuyModal } = useBillData();
+  const { handleEditOpenBuyModal, handleDeleteBuy } = useBillData();
   const tokenStr = getCookies("access_token");
   const { row } = props;
   const [openById, setOpenById] = useState(false);
@@ -38,15 +39,12 @@ export const BuyEntryData = (props) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
-        if (item.data.status) {
-          setIsloading(false);
-          setBuyEntryById(item?.data?.data);
-        } else {
-          setIsloading(false);
-        }
+        setIsloading(false);
+        setBuyEntryById(item?.data?.data);
       })
       .catch((err) => {
         setIsloading(false);
+        setBuyEntryById([]);
       });
   };
 
@@ -57,12 +55,8 @@ export const BuyEntryData = (props) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
-        if (item.data.status) {
-          setIsloading(false);
-          handleGetAllEntryById(row._id);
-        } else {
-          setIsloading(false);
-        }
+        setIsloading(false);
+        handleGetAllEntryById(row._id);
       })
       .catch((err) => {
         setIsloading(false);
@@ -70,14 +64,16 @@ export const BuyEntryData = (props) => {
   };
 
   const handleAddBuyEntryBuyId = async (props) => {
+    console.log("props", props);
     await axios
       .post(
         `${process.env.REACT_APP_URL}/buy/addEntry`,
         {
           buy_data_id: row._id,
-          currency: props.currency_type,
+          currency: props.currency,
           price: props.price,
           payment: props.payment,
+          brokerName: props.broker,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -100,10 +96,10 @@ export const BuyEntryData = (props) => {
         {
           id: props.buy_entry_id,
           // date: props.date,
-          currency: props.currency_type,
+          currency: props.currency,
           price: props.price,
           payment: props.payment,
-          // broker: props.broker,
+          brokerName: props.broker,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -124,6 +120,12 @@ export const BuyEntryData = (props) => {
     openById && handleGetAllEntryById(row._id);
   }, [row, openById]);
 
+  const handleTotal = () => {
+    return buyEntryById
+      .map(({ payment, price }) => payment * price)
+      .reduce((sum, i) => sum + i, 0);
+  };
+
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -143,13 +145,19 @@ export const BuyEntryData = (props) => {
         </TableCell>
         <TableCell align="right">{row?.description}</TableCell>
         <TableCell align="right">{row?.price}</TableCell>
-        <TableCell align="right">{row?.currency_type}</TableCell>
+        {/* <TableCell align="right">{row?.currency_type}</TableCell> */}
         <TableCell align="right">{row?.total_payment}</TableCell>
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">
           <EditIcon onClick={() => handleEditOpenBuyModal(row)} />
+          <DeleteIcon
+            // className="df-action-delete-icon"
+            onClick={() => {
+              handleDeleteBuy(row._id);
+            }}
+          />
         </TableCell>
       </TableRow>
       <TableRow style={{ background: "aliceblue" }}>
@@ -198,7 +206,7 @@ export const BuyEntryData = (props) => {
                           {historyRow?.payment}
                         </TableCell>
                         <TableCell align="right">
-                          {historyRow?.broker}
+                          {historyRow?.brokerName}
                         </TableCell>
                         <TableCell align="right">
                           <div className={styles["action-column"]}>
@@ -219,6 +227,11 @@ export const BuyEntryData = (props) => {
                         </TableCell>
                       </TableRow>
                     ))}
+                    <TableRow>
+                      <TableCell rowSpan={3} />
+                      <TableCell colSpan={2}>Total Payment : </TableCell>
+                      <TableCell align="right">{handleTotal()}</TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </Box>

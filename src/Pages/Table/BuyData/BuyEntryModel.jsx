@@ -39,17 +39,16 @@ export const BuyEntryModel = ({
     },
   });
   const { currency, buy_entry_id } = watch();
-  console.log(currentData, currency);
+  console.log("currentData", currentData);
   useEffect(() => {
     reset({
       ...getValues(),
-
       buy_entry_id: currentData ? currentData._id : "",
       date: currentData ? currentData.date : "",
       currency: currentData ? currentData.currency : "",
       price: currentData ? currentData.price : 0,
       payment: currentData ? currentData.payment : 0,
-      broker: currentData ? currentData.broker : "",
+      broker: currentData ? currentData.brokerName : "",
     });
   }, [reset, getValues, currentData]);
 
@@ -61,7 +60,7 @@ export const BuyEntryModel = ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    height: 300,
+    // height: 300,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,

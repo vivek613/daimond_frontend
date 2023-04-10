@@ -227,10 +227,7 @@ export const BillDataProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
-        if (item.data.status) {
-          handleGetAllBill();
-        } else {
-        }
+        handleGetAllBill();
       })
       .catch((err) => {
         setBuyLoading(false);
@@ -397,6 +394,7 @@ export const BillDataProvider = ({ children }) => {
         getValues,
         buyLoading,
         dataCurrency,
+        handleDeleteBuy,
       }}
     >
       {children}

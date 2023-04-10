@@ -226,10 +226,8 @@ export const SellDataProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
-        if (item.data.status) {
-          handleGetAllBill();
-        } else {
-        }
+        setSelloading(false);
+        handleGetAllBill();
       })
       .catch((err) => {
         setSelloading(false);
