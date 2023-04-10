@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Navbar } from "../../Navbar/Navbar";
 import { Table } from "../../../Components";
 import { useCompanyDetails } from "../../../Hooks";
 import { CompanyModel } from "./CompanyModel";
 import { CompanyDetailsProvider } from "../../../Hooks/Application/useCompanyDetails";
-import { ReportOff } from "@mui/icons-material";
 import ReportModel from "./ReportModel";
 import { useContext } from "react";
 import { productContext } from "../../../App";
@@ -16,12 +16,9 @@ const CompanyTable = () => {
     handleGetAllCompany,
     allCompanyData,
     columns,
-    open,
     setOpen,
     reset,
     getValues,
-    openReport,
-    setOpenReport,
     companyLoading,
   } = useCompanyDetails();
 

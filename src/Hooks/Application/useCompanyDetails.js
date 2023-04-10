@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
 import { getCookies } from "../Auth/Cookies";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { ReactComponent as Graph } from "../../assets/graph.svg";
-import { changeSectionValueFormat } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 import { useForm } from "react-hook-form";
 
 const ctx = createContext();
@@ -65,15 +65,17 @@ export const CompanyDetailsProvider = ({ children }) => {
   //------------------------ FOR GET  COMPANY REPORT ------------------------//
   const handleGetCompanyReport = async (data) => {
     setCompanyLoading(true);
+
     await axios
       .get(`${process.env.REACT_APP_URL}company/${data}`, {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
         setCompanyLoading(false);
+
+        setOpenReport(true);
         if (item.data.status) {
-          setCompanyReport(item.data.data.reverse());
-          setOpenReport(true);
+          setCompanyReport(item.data.data);
         } else {
         }
       })
