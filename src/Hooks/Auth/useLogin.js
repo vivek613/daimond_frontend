@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setCookies } from "./Cookies";
+import { toast } from "react-hot-toast";
 
 const loginCtx = createContext();
 export const AuthProvider = (props) => {
@@ -43,6 +44,8 @@ export const AuthProvider = (props) => {
       .then((item) => {
         if (item.status) {
           setAuth(true);
+          toast.success(" Login Successfully !");
+
           setCookies("access_token", item.data.data.accessToken);
           navigate("/company");
         } else {

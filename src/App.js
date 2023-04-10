@@ -8,6 +8,7 @@ import Home from "./Pages/Home/Home";
 import { Login, CompanyTable, BuyData, sellData } from "./Pages/index";
 import Product from "./Pages/Product";
 import { LinearProgress } from "@mui/material";
+import { Toaster } from "react-hot-toast";
 export const productContext = createContext();
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <BrowserRouter>
           <productContext.Provider value={value}>
             <AuthProvider>
+              <Toaster position="top-center" reverseOrder={false} />
               <Product />
             </AuthProvider>
           </productContext.Provider>

@@ -5,6 +5,7 @@ import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
+import { toast } from "react-hot-toast";
 
 const ctx = createContext();
 
@@ -138,6 +139,8 @@ export const SellDataProvider = ({ children }) => {
           .then((item) => {
             setSelloading(false);
             if (item.data.status) {
+              toast.success(item?.data?.message);
+
               setOpen(false);
               setStartDate(null);
               setExpiryDate(null);
@@ -159,6 +162,7 @@ export const SellDataProvider = ({ children }) => {
               });
               handleGetAllBill();
             } else {
+              toast.error(item?.data?.message);
             }
           })
           .catch((err) => {
@@ -187,6 +191,8 @@ export const SellDataProvider = ({ children }) => {
           .then((item) => {
             setSelloading(false);
             if (item.data.status) {
+              toast.success(item?.data?.message);
+
               setOpen(false);
               setStartDate(null);
               setExpiryDate(null);
@@ -208,6 +214,7 @@ export const SellDataProvider = ({ children }) => {
               });
               handleGetAllBill();
             } else {
+              toast.error(item?.data?.message);
             }
           })
           .catch((err) => {
@@ -228,7 +235,9 @@ export const SellDataProvider = ({ children }) => {
       .then((item) => {
         if (item.data.status) {
           handleGetAllBill();
+          toast.success(item?.data?.message);
         } else {
+          toast.error(item?.data?.message);
         }
       })
       .catch((err) => {

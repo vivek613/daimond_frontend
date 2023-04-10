@@ -6,6 +6,7 @@ import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { ReactComponent as Graph } from "../../assets/graph.svg";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const ctx = createContext();
 
@@ -102,8 +103,11 @@ export const CompanyDetailsProvider = ({ children }) => {
         setCompanyLoading(false);
         if (item.data.status) {
           setOpen(false);
+          toast.success(item?.data?.message);
+
           handleGetAllCompany();
         } else {
+          toast.error(item?.data?.message);
         }
       })
       .catch((err) => {
@@ -131,6 +135,8 @@ export const CompanyDetailsProvider = ({ children }) => {
           setCompanyLoading(false);
           if (item.data.status) {
             setOpen(false);
+            toast.success(item?.data?.message);
+
             handleGetAllCompany();
             reset({
               ...getValues(),
@@ -139,6 +145,7 @@ export const CompanyDetailsProvider = ({ children }) => {
               company_description: "",
             });
           } else {
+            toast.error(item?.data?.message);
           }
         })
         .catch((err) => {
@@ -162,6 +169,7 @@ export const CompanyDetailsProvider = ({ children }) => {
 
         if (item.data.status) {
           handleGetAllCompany();
+          toast.success(item?.data?.message);
         } else {
         }
       })

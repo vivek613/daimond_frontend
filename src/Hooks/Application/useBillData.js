@@ -5,6 +5,7 @@ import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
+import { toast } from "react-hot-toast";
 
 const ctx = createContext();
 
@@ -138,6 +139,7 @@ export const BillDataProvider = ({ children }) => {
           )
           .then((item) => {
             setBuyLoading(false);
+            console.log(item);
             if (item.data.status) {
               setOpen(false);
               setStartDate(null);
@@ -158,8 +160,11 @@ export const BillDataProvider = ({ children }) => {
                 dollar_price: 0,
                 buy_id: "",
               });
+              toast.success(item?.data?.message);
+
               handleGetAllBill();
             } else {
+              toast.error(item?.data?.message);
             }
           })
           .catch((err) => {
@@ -186,6 +191,8 @@ export const BillDataProvider = ({ children }) => {
             }
           )
           .then((item) => {
+            console.log(item);
+
             setBuyLoading(false);
             if (item.data.status) {
               setOpen(false);
@@ -207,8 +214,11 @@ export const BillDataProvider = ({ children }) => {
                 dollar_price: 0,
                 buy_id: "",
               });
+              toast.success(item?.data?.message);
+
               handleGetAllBill();
             } else {
+              toast.error(item?.data?.message);
             }
           })
           .catch((err) => {
@@ -229,6 +239,7 @@ export const BillDataProvider = ({ children }) => {
       .then((item) => {
         if (item.data.status) {
           handleGetAllBill();
+          toast.success(item?.data?.message);
         } else {
         }
       })

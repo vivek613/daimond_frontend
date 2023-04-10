@@ -20,6 +20,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { Button, LinearProgress } from "@mui/material";
 import { BuyEntryModel } from "./BuyEntryModel";
 import { useBillData } from "../../../Hooks/Application/useBillData";
+import { toast } from "react-hot-toast";
 
 export const BuyEntryData = (props) => {
   const { handleEditOpenBuyModal } = useBillData();
@@ -59,9 +60,12 @@ export const BuyEntryData = (props) => {
       .then((item) => {
         if (item.data.status) {
           setIsloading(false);
+          toast.success(item?.data?.message);
+
           handleGetAllEntryById(row._id);
         } else {
           setIsloading(false);
+          toast.error(item?.data?.message);
         }
       })
       .catch((err) => {
@@ -70,6 +74,8 @@ export const BuyEntryData = (props) => {
   };
 
   const handleAddBuyEntryBuyId = async (props) => {
+    setIsloading(true);
+
     await axios
       .post(
         `${process.env.REACT_APP_URL}/buy/addEntry`,
@@ -86,14 +92,23 @@ export const BuyEntryData = (props) => {
       .then((item) => {
         if (item.data.status) {
           setModelOpen(false);
+          toast.success(item?.data?.message);
+          setIsloading(false);
+
           handleGetAllEntryById(row._id);
         } else {
+          toast.error(item?.data?.message);
+          setIsloading(false);
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setIsloading(false);
+      });
   };
 
   const handleUpdateBuyEntryBuyId = async (props) => {
+    setIsloading(true);
+
     await axios
       .post(
         `${process.env.REACT_APP_URL}/buy/updateEntry`,
@@ -114,10 +129,18 @@ export const BuyEntryData = (props) => {
           setModelOpen(false);
           handleGetAllEntryById(row._id);
           setCurrentData();
+          setIsloading(false);
+
+          toast.success(item?.data?.message);
         } else {
+          setIsloading(false);
+
+          toast.error(item?.data?.message);
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setIsloading(false);
+      });
   };
 
   useEffect(() => {

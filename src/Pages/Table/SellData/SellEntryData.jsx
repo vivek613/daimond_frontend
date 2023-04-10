@@ -21,6 +21,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { Button, LinearProgress } from "@mui/material";
 import { SellEntryModel } from "./SellEntryModel";
 import { useSellData } from "../../../Hooks/Application/useSellData";
+import { toast } from "react-hot-toast";
 
 export const SellEntryData = (props) => {
   const { handleEditOpenBuyModal } = useSellData();
@@ -74,10 +75,13 @@ export const SellEntryData = (props) => {
         if (item.data.status) {
           setIsloading(false);
           handleGetAllEntryById(row._id);
+          toast.success(item?.data?.message);
+
           // setBuyEntry(item?.data?.data);
           // setAllCompanyData(item.data.data);
         } else {
           setIsloading(false);
+          toast.error(item?.data?.message);
         }
       })
       .catch((err) => {
@@ -85,6 +89,7 @@ export const SellEntryData = (props) => {
       });
   };
   const handleAddBuyEntryBuyId = async (props) => {
+    setIsloading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}/sell/addEntry`,
@@ -101,16 +106,22 @@ export const SellEntryData = (props) => {
       .then((item) => {
         if (item.data.status) {
           setModelOpen(false);
+          setIsloading(false);
           handleGetAllEntryById(row._id);
           setCurrentData();
+          toast.success(item?.data?.message);
         } else {
+          toast.error(item?.data?.message);
+          setIsloading(false);
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setIsloading(false);
+      });
   };
 
   const handleUpdateBuyEntryBuyId = async (props) => {
-    console.log("props", props);
+    setIsloading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}/sell/updateEntry`,
@@ -131,10 +142,17 @@ export const SellEntryData = (props) => {
           setModelOpen(false);
           handleGetAllEntryById(row._id);
           setCurrentData();
+          setIsloading(false);
+
+          toast.success(item?.data?.message);
         } else {
+          toast.error(item?.data?.message);
+          setIsloading(false);
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        setIsloading(false);
+      });
   };
 
   useEffect(() => {
