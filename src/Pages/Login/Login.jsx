@@ -20,7 +20,12 @@ import { useNavigate } from "react-router";
 export const Login = () => {
   const { handleLogin } = useLogin();
   const navigate = useNavigate();
-  const { register, handleSubmit, control, errors } = useForm();
+  const { register, handleSubmit, control, errors } = useForm({
+    defaultValues: {
+      email: "admin@gmail.com",
+      password: "admin@123",
+    },
+  });
   const onSubmit = (data) => handleLogin(data);
   const token = getCookies("access_token");
   React.useEffect(() => {

@@ -20,6 +20,7 @@ const Body = ({
   xaxis: { categories, formatter: xAxisFormatter, labels, ...xaxisRest } = {
     categories: [],
   },
+  yaxis: yaxis,
 }) => {
   const chartOptions = {
     chart: {
@@ -55,16 +56,14 @@ const Body = ({
     legend: {
       show: false,
     },
-    yaxis: {
-      tickAmount: 3,
-    },
+    yaxis: yaxis,
   };
 
   return (
     <>
       <ReactApexChart
         options={chartOptions}
-        series={chartData}
+        series={chartData && chartData}
         type="line"
         height={280}
       />
@@ -82,6 +81,7 @@ const AllData = () => {
   ); // Calculate the maximum value from your data
   var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
   const chartData = useMemo(() => {
+    console.log("maxY", maxY);
     return {
       chartData: [
         {

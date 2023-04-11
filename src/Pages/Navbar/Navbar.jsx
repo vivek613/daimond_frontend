@@ -121,7 +121,7 @@ export const Navbar = () => {
               navigate("/alldata");
             }}
             className={
-              location.pathname.includes("reports")
+              location.pathname.includes("alldata")
                 ? "df-normal-icon-selected"
                 : "df-normal-icon"
             }
