@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "../../Navbar/Navbar";
 
-import { Box } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import {
   AllDataProvider,
   useAllData,
@@ -71,7 +71,7 @@ const Body = ({
   );
 };
 const AllData = () => {
-  const { handleGetAllBill, allData } = useAllData();
+  const { handleGetAllBill, allData, allDataLoading } = useAllData();
   useEffect(() => {
     handleGetAllBill();
   }, []);
@@ -125,16 +125,22 @@ const AllData = () => {
         <div className="content-wrapper-button-div">
           <p className="content-wrapper-title">All Data</p>
         </div>
-        <Body {...chartData} />
+        {allDataLoading ? (
+          <LinearProgress />
+        ) : (
+          <>
+            <Body {...chartData} />
 
-        <Table
-          data={allData?.allCompaniesData || []}
-          columns={columns}
-          pageSize={10}
-          sx={{ height: "500px" }}
-          getRowId={(row) => row.company_id}
-          // loading={companyLoading}
-        />
+            <Table
+              data={allData?.allCompaniesData || []}
+              columns={columns}
+              pageSize={10}
+              sx={{ height: "500px" }}
+              getRowId={(row) => row.company_id}
+              // loading={companyLoading}
+            />
+          </>
+        )}
       </div>
     </Box>
   );
