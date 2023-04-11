@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import styles from "./SellData.module.css";
-import EditIcon from "@mui/icons-material/Edit";
 
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -22,6 +21,8 @@ import { Button, LinearProgress, TablePagination } from "@mui/material";
 import { SellEntryModel } from "./SellEntryModel";
 import { useSellData } from "../../../Hooks/Application/useSellData";
 import { toast } from "react-hot-toast";
+import { ReactComponent as EditIcon } from "../../../assets/editIcon.svg";
+import { ReactComponent as DeleteIcon } from "../../../assets/deleteIcon.svg";
 
 export const SellEntryData = (props) => {
   const { handleEditOpenBuyModal } = useSellData();
@@ -233,16 +234,25 @@ export const SellEntryData = (props) => {
                         <TableCell align="right">
                           {Math.round(historyRow.payment)}
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell
+                          align="right"
+                          style={{
+                            display: "flex",
+                            gap: "10px",
+                            alignItems: "center",
+                            justifyContent: "flex-start",
+                            height: "40px",
+                          }}
+                        >
                           <div className={styles["action-column"]}>
-                            <MdEdit
+                            <EditIcon
                               size={20}
                               onClick={() => {
                                 setCurrentData(historyRow);
                                 setModelOpen(true);
                               }}
                             />
-                            <MdDelete
+                            <DeleteIcon
                               size={20}
                               onClick={() => {
                                 handleSellEntryDelete(historyRow._id);

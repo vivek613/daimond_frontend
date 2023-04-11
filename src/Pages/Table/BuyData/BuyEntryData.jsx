@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "./BuyData.module.css";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -22,6 +20,9 @@ import { Button, LinearProgress } from "@mui/material";
 import { BuyEntryModel } from "./BuyEntryModel";
 import { useBillData } from "../../../Hooks/Application/useBillData";
 import { toast } from "react-hot-toast";
+
+import { ReactComponent as EditIcon } from "../../../assets/editIcon.svg";
+import { ReactComponent as DeleteIcon } from "../../../assets/deleteIcon.svg";
 
 export const BuyEntryData = (props) => {
   const { handleEditOpenBuyModal, handleDeleteBuy } = useBillData();
@@ -176,8 +177,20 @@ export const BuyEntryData = (props) => {
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
-        <TableCell align="right">
-          <EditIcon onClick={() => handleEditOpenBuyModal(row)} />
+        <TableCell
+          align="right"
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            height: "40px",
+          }}
+        >
+          <EditIcon
+            className="df-action-edit-icon"
+            onClick={() => handleEditOpenBuyModal(row)}
+          />
           <DeleteIcon
             // className="df-action-delete-icon"
             onClick={() => {

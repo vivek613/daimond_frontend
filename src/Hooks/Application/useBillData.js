@@ -109,21 +109,21 @@ export const BillDataProvider = ({ children }) => {
                 Number(data.dollar_price) > 0
                   ? data.currency_type === "₹"
                     ? Number(data.total_payment) -
-                      (Number(data.give) +
-                        Number(data.add_give) / Number(data.dollar_price))
+                    (Number(data.give) +
+                      Number(data.add_give) / Number(data.dollar_price))
                     : Number(data.total_payment) -
-                      (Number(data.give) +
-                        Number(data.add_give) * Number(data.dollar_price))
+                    (Number(data.give) +
+                      Number(data.add_give) * Number(data.dollar_price))
                   : Number(data.total_payment) -
-                    (Number(data.give) + Number(data.add_give)),
+                  (Number(data.give) + Number(data.add_give)),
               price: data.price,
               give:
                 Number(data.dollar_price) > 0
                   ? data.currency_type === "₹"
                     ? Number(data.give) +
-                      Number(data.add_give) / Number(data.dollar_price)
+                    Number(data.add_give) / Number(data.dollar_price)
                     : Number(data.give) +
-                      Number(data.add_give) * Number(data.dollar_price)
+                    Number(data.add_give) * Number(data.dollar_price)
                   : Number(data.give) + Number(data.add_give),
               due_days: data.due_days,
               end_date: expiryDate,
