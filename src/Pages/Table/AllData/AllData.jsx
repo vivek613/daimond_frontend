@@ -137,7 +137,6 @@ const AllData = () => {
               pageSize={10}
               sx={{ height: "500px" }}
               getRowId={(row) => row.company_id}
-              // loading={companyLoading}
             />
           </>
         )}
