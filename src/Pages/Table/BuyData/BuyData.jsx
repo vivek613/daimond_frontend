@@ -117,7 +117,7 @@ const BillData = () => {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
                   component="div"
-                  count={billData?.data?.length}
+                  count={billData?.rowsCount || 0}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}

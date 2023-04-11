@@ -76,10 +76,6 @@ export const BillDataProvider = ({ children }) => {
         {
           skip: page * rowsPerPage,
           take: rowsPerPage,
-          sort_model: {
-            sort: "asc",
-            field: "name",
-          },
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
