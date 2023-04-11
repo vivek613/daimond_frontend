@@ -105,7 +105,7 @@ export const SellDataProvider = ({ children }) => {
             {
               company_id: data.company_name,
               description: data.description,
-              currency_type: dataCurrency,
+              currency_type: data.currency_type,
               total_payment: data.total_payment,
               remaining: data.remaining,
               // Number(data.dollar_price) > 0
@@ -123,9 +123,9 @@ export const SellDataProvider = ({ children }) => {
                 Number(data.dollar_price) > 0
                   ? data.currency_type === "₹"
                     ? Number(data.take) +
-                      Number(data.add_take) / Number(data.dollar_price)
+                    Number(data.add_take) / Number(data.dollar_price)
                     : Number(data.take) +
-                      Number(data.add_take) * Number(data.dollar_price)
+                    Number(data.add_take) * Number(data.dollar_price)
                   : Number(data.take) + Number(data.add_take),
               due_days: data.due_days,
               end_date: expiryDate,
