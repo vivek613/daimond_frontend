@@ -40,10 +40,12 @@ const SellData = () => {
     setStartDate,
     reset,
     getValues,
+    page,
+    setPage,
+    rowsPerPage,
+    setRowsPerPage,
   } = useSellData();
   // const [open, setOpen] = useState(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -121,7 +123,7 @@ const SellData = () => {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
                 component="div"
-                count={billData?.data?.length}
+                count={billData?.rowsCount || 0}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

@@ -6,22 +6,23 @@ import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { toast } from "react-hot-toast";
+import { productContext } from "../../App";
 
 const ctx = createContext();
 
 export const useSellData = () => useContext(ctx);
 
 export const SellDataProvider = ({ children }) => {
+  const { search } = useContext(productContext);
   const [allCompanyData, setAllCompanyData] = useState([]);
   const [open, setOpen] = useState();
   const [dataCurrency, setDataCurrency] = useState();
   const [billData, setBillData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
-  const [paginationModel, setPaginationModel] = React.useState({
-    page: 0,
-    pageSize: 5,
-  });
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sellLoading, setSelloading] = useState(false);
   const tokenStr = getCookies("access_token");
   const {
@@ -67,7 +68,7 @@ export const SellDataProvider = ({ children }) => {
       });
   };
   //------------------------ FOR LOGIN USER ------------------------//
-  const handleGetAllBill = async (search, page, rowsPerPage) => {
+  const handleGetAllBill = async () => {
     setSelloading(true);
     await axios
       .post(
@@ -75,10 +76,8 @@ export const SellDataProvider = ({ children }) => {
         {
           skip: page * rowsPerPage,
           take: rowsPerPage,
-          sort_model: {
-            sort: "asc",
-            field: "name",
-          },
+
+          search_text: search,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -392,8 +391,10 @@ export const SellDataProvider = ({ children }) => {
         allCompanyData,
         setAllCompanyData,
         billData,
-        setPaginationModel,
-        paginationModel,
+        rowsPerPage,
+        setRowsPerPage,
+        page,
+        setPage,
         columns,
         open,
         setOpen,
