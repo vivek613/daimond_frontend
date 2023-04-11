@@ -18,6 +18,8 @@ export const BillDataProvider = ({ children }) => {
   const [billData, setBillData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
@@ -68,7 +70,7 @@ export const BillDataProvider = ({ children }) => {
   };
 
   //------------------------ FOR GET ALL BILL ------------------------//
-  const handleGetAllBill = async (search, page, rowsPerPage) => {
+  const handleGetAllBill = async () => {
     setBuyLoading(true);
     await axios
       .post(
@@ -109,21 +111,21 @@ export const BillDataProvider = ({ children }) => {
                 Number(data.dollar_price) > 0
                   ? data.currency_type === "₹"
                     ? Number(data.total_payment) -
-                    (Number(data.give) +
-                      Number(data.add_give) / Number(data.dollar_price))
+                      (Number(data.give) +
+                        Number(data.add_give) / Number(data.dollar_price))
                     : Number(data.total_payment) -
-                    (Number(data.give) +
-                      Number(data.add_give) * Number(data.dollar_price))
+                      (Number(data.give) +
+                        Number(data.add_give) * Number(data.dollar_price))
                   : Number(data.total_payment) -
-                  (Number(data.give) + Number(data.add_give)),
+                    (Number(data.give) + Number(data.add_give)),
               price: data.price,
               give:
                 Number(data.dollar_price) > 0
                   ? data.currency_type === "₹"
                     ? Number(data.give) +
-                    Number(data.add_give) / Number(data.dollar_price)
+                      Number(data.add_give) / Number(data.dollar_price)
                     : Number(data.give) +
-                    Number(data.add_give) * Number(data.dollar_price)
+                      Number(data.add_give) * Number(data.dollar_price)
                   : Number(data.give) + Number(data.add_give),
               due_days: data.due_days,
               end_date: expiryDate,
@@ -404,6 +406,10 @@ export const BillDataProvider = ({ children }) => {
         buyLoading,
         dataCurrency,
         handleDeleteBuy,
+        page,
+        setPage,
+        rowsPerPage,
+        setRowsPerPage,
       }}
     >
       {children}

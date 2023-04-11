@@ -27,6 +27,7 @@ export const SellEntryModel = ({
     watch,
     getValues,
     reset,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -51,6 +52,7 @@ export const SellEntryModel = ({
       broker: currentData ? currentData.broker : "",
     });
   }, [reset, getValues, currentData]);
+
   const handleClose = () => setModelOpen(false);
   const style = {
     position: "absolute",
@@ -58,7 +60,6 @@ export const SellEntryModel = ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    height: 300,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -84,7 +85,7 @@ export const SellEntryModel = ({
             className={styles["model-field"]}
             style={{
               height: "auto",
-              padding: 0,
+              padding: "7px",
               margin: "10px",
             }}
           >
@@ -94,7 +95,7 @@ export const SellEntryModel = ({
                 labelId="df-currency-select-label"
                 label="company"
                 value={currency}
-                {...register("currency_type")}
+                {...register("currency")}
               >
                 {["₹", "$"].map((item, index) => {
                   return (
@@ -107,6 +108,7 @@ export const SellEntryModel = ({
             </FormControl>
             <TextField
               id="outlined-basic"
+              disabled={currency === "₹" ? true : false}
               label="$ Rate"
               variant="outlined"
               {...register("price")}

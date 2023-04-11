@@ -95,7 +95,7 @@ export const SellEntryData = (props) => {
         `${process.env.REACT_APP_URL}/sell/addEntry`,
         {
           sell_data_id: row._id,
-          currency: props.currency_type,
+          currency: props.currency,
           price: props.price,
           payment: props.payment,
         },
@@ -128,7 +128,7 @@ export const SellEntryData = (props) => {
         {
           id: props.sell_entry_id,
           // date: props.date,
-          currency: props.currency_type,
+          currency: props.currency,
           price: props.price,
           payment: props.payment,
           // broker: props.broker,
@@ -193,7 +193,12 @@ export const SellEntryData = (props) => {
       </TableRow>
       <TableRow style={{ background: "aliceblue" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open1} timeout="auto" unmountOnExit>
+          <Collapse
+            in={open1}
+            timeout="auto"
+            unmountOnExit
+            style={{ width: "100%" }}
+          >
             {isLoading ? (
               <LinearProgress />
             ) : (

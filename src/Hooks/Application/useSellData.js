@@ -96,6 +96,7 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
+    alert("Fds");
     try {
       setSelloading(true);
       if (buy_id) {
@@ -107,25 +108,25 @@ export const SellDataProvider = ({ children }) => {
               description: data.description,
               currency_type: data.currency_type,
               total_payment: data.total_payment,
-              remaining: data.remaining,
-              // Number(data.dollar_price) > 0
-              //   ? data.currency_type === "₹"
-              //     ? Number(data.total_payment) -
-              //       (Number(data.take) +
-              //         Number(data.add_take) / Number(data.dollar_price))
-              //     : Number(data.total_payment) -
-              //       (Number(data.take) +
-              //         Number(data.add_take) * Number(data.dollar_price))
-              //   : Number(data.total_payment) -
-              //     (Number(data.take) + Number(data.add_take)),
+              remaining:
+                Number(data.dollar_price) > 0
+                  ? data.currency_type === "₹"
+                    ? Number(data.total_payment) -
+                      (Number(data.take) +
+                        Number(data.add_take) / Number(data.dollar_price))
+                    : Number(data.total_payment) -
+                      (Number(data.take) +
+                        Number(data.add_take) * Number(data.dollar_price))
+                  : Number(data.total_payment) -
+                    (Number(data.take) + Number(data.add_take)),
               price: data.price,
               take:
                 Number(data.dollar_price) > 0
                   ? data.currency_type === "₹"
                     ? Number(data.take) +
-                    Number(data.add_take) / Number(data.dollar_price)
+                      Number(data.add_take) / Number(data.dollar_price)
                     : Number(data.take) +
-                    Number(data.add_take) * Number(data.dollar_price)
+                      Number(data.add_take) * Number(data.dollar_price)
                   : Number(data.take) + Number(data.add_take),
               due_days: data.due_days,
               end_date: expiryDate,
@@ -180,8 +181,8 @@ export const SellDataProvider = ({ children }) => {
               price: data.price,
               take: data.take,
               due_days: data.due_days,
-              end_date: expiryDate.$d,
-              start_date: startDate.$d,
+              end_date: expiryDate,
+              start_date: startDate,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },
@@ -222,6 +223,7 @@ export const SellDataProvider = ({ children }) => {
       }
     } catch (error) {
       setSelloading(false);
+      console.log(error);
     }
   };
 
