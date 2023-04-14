@@ -78,6 +78,7 @@ export const BillDataProvider = ({ children }) => {
         {
           skip: page * rowsPerPage,
           take: rowsPerPage,
+          search_text: "",
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -88,6 +89,7 @@ export const BillDataProvider = ({ children }) => {
         if (item.data.status) {
           setBillData(item.data);
         } else {
+          setBillData([]);
         }
       })
       .catch((err) => {
@@ -107,26 +109,9 @@ export const BillDataProvider = ({ children }) => {
               description: data.description,
               currency_type: dataCurrency,
               total_payment: data.total_payment,
-              remaining:
-                Number(data.dollar_price) > 0
-                  ? data.currency_type === "₹"
-                    ? Number(data.total_payment) -
-                      (Number(data.give) +
-                        Number(data.add_give) / Number(data.dollar_price))
-                    : Number(data.total_payment) -
-                      (Number(data.give) +
-                        Number(data.add_give) * Number(data.dollar_price))
-                  : Number(data.total_payment) -
-                    (Number(data.give) + Number(data.add_give)),
+              remaining: data.total_payment,
               price: data.price,
-              give:
-                Number(data.dollar_price) > 0
-                  ? data.currency_type === "₹"
-                    ? Number(data.give) +
-                      Number(data.add_give) / Number(data.dollar_price)
-                    : Number(data.give) +
-                      Number(data.add_give) * Number(data.dollar_price)
-                  : Number(data.give) + Number(data.add_give),
+              give: 0,
               due_days: data.due_days,
               end_date: expiryDate,
               start_date: startDate,
@@ -176,9 +161,9 @@ export const BillDataProvider = ({ children }) => {
               description: data.description,
               currency_type: data.currency_type,
               total_payment: data.total_payment,
-              remaining: data.remaining,
+              remaining: data.total_payment,
               price: data.price,
-              give: data.give,
+              give: 0,
               due_days: data.due_days,
               end_date: expiryDate,
               start_date: startDate,
@@ -233,7 +218,6 @@ export const BillDataProvider = ({ children }) => {
       })
       .then((item) => {
         setBuyLoading(false);
-
         if (item.data.status) {
           handleGetAllBill();
           toast.success(item?.data?.message);

@@ -92,9 +92,9 @@ export const BuyEntryData = (props) => {
       .then((item) => {
         if (item.data.status) {
           setModelOpen(false);
+          setCurrentData();
           toast.success(item?.data?.message);
           setIsloading(false);
-
           handleGetAllEntryById(row._id);
         } else {
           toast.error(item?.data?.message);
@@ -130,7 +130,6 @@ export const BuyEntryData = (props) => {
           handleGetAllEntryById(row._id);
           setCurrentData();
           setIsloading(false);
-
           toast.success(item?.data?.message);
         } else {
           setIsloading(false);
@@ -192,7 +191,6 @@ export const BuyEntryData = (props) => {
             onClick={() => handleEditOpenBuyModal(row)}
           />
           <DeleteIcon
-            // className="df-action-delete-icon"
             onClick={() => {
               handleDeleteBuy(row._id);
             }}
@@ -201,7 +199,12 @@ export const BuyEntryData = (props) => {
       </TableRow>
       <TableRow style={{ background: "aliceblue" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={openById} timeout="auto" unmountOnExit>
+          <Collapse
+            in={openById}
+            timeout="auto"
+            unmountOnExit
+            style={{ width: "calc(100vw - 500px)" }}
+          >
             {isLoading ? (
               <LinearProgress />
             ) : (
@@ -247,8 +250,20 @@ export const BuyEntryData = (props) => {
                         <TableCell align="right">
                           {historyRow?.brokerName}
                         </TableCell>
-                        <TableCell align="right">
-                          <div className={styles["action-column"]}>
+                        <TableCell
+                          align="right"
+                          style={{
+                            display: "flex",
+                            gap: "10px",
+                            alignItems: "center",
+                            justifyContent: "flex-start",
+                            height: "40px",
+                          }}
+                        >
+                          <div
+                            className={styles["action-column"]}
+                            style={{ display: "flex" }}
+                          >
                             <MdEdit
                               size={20}
                               onClick={() => {

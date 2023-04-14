@@ -27,17 +27,7 @@ const Sellcolumns = [
   },
   {
     field: "price",
-    headerName: "Price",
-    width: 150,
-  },
-  {
-    field: "remaining",
-    headerName: "Remaining",
-    width: 150,
-  },
-  {
-    field: "take",
-    headerName: "Take",
+    headerName: "Bill no",
     width: 150,
   },
   {
@@ -70,17 +60,7 @@ const Buycolumns = [
   },
   {
     field: "price",
-    headerName: "Price",
-    width: 150,
-  },
-  {
-    field: "remaining",
-    headerName: "Remaining",
-    width: 150,
-  },
-  {
-    field: "take",
-    headerName: "Take",
+    headerName: "Bill no",
     width: 150,
   },
   {

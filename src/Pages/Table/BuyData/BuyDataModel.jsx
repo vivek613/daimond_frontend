@@ -92,58 +92,9 @@ export function BuyDataModel({ open, setOpen }) {
                 margin="normal"
               />
               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1 }}>
-                <Grid item xs={12}>
-                  <FormControl style={{ width: "100%" }}>
-                    <InputLabel id="df-currency-select-label">
-                      Currency
-                    </InputLabel>
-                    <Select
-                      labelId="df-currency-select-label"
-                      label="company"
-                      value={currency_type}
-                      {...register("currency_type")}
-                    >
-                      {["₹", "$"].map((item, index) => {
-                        return (
-                          <MenuItem key={item} value={item}>
-                            {item}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                {buy_id && (
-                  <Grid
-                    item
-                    xs={buy_id && dataCurrency !== currency_type ? 6 : 12}
-                  >
-                    <TextField
-                      id="outlined-basic"
-                      label="Add Give"
-                      variant="outlined"
-                      {...register("add_give")}
-                      className="df-text-field"
-                      margin="normal"
-                    />
-                  </Grid>
-                )}
-                {buy_id && dataCurrency !== currency_type && (
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="$ Price"
-                      variant="outlined"
-                      {...register("dollar_price")}
-                      className="df-text-field"
-                      margin="normal"
-                    />
-                  </Grid>
-                )}
                 <Grid item xs={6}>
                   <TextField
                     id="outlined-basic"
-                    disabled={buy_id ? true : false}
                     label="Total payment"
                     variant="outlined"
                     {...register("total_payment")}
@@ -151,29 +102,7 @@ export function BuyDataModel({ open, setOpen }) {
                     margin="normal"
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Give"
-                    variant="outlined"
-                    {...register("give")}
-                    className="df-text-field"
-                    margin="normal"
-                    disabled={buy_id ? true : false}
-                  />
-                </Grid>
-                {!buy_id && (
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Remaining"
-                      variant="outlined"
-                      {...register("remaining")}
-                      className="df-text-field"
-                      margin="normal"
-                    />
-                  </Grid>
-                )}
+
                 <Grid item xs={6}>
                   <TextField
                     id="outlined-basic"
@@ -190,8 +119,6 @@ export function BuyDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Start date"
                         value={startDate}
-                        disablePast
-                        disabled={buy_id ? true : false}
                         onChange={(newValue) => {
                           setStartDate(newValue);
                         }}
@@ -205,7 +132,6 @@ export function BuyDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Expiry date"
                         value={expiryDate}
-                        disablePast
                         onChange={(newValue) => {
                           setExpiryDate(newValue);
                         }}

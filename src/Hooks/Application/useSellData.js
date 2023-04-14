@@ -76,7 +76,6 @@ export const SellDataProvider = ({ children }) => {
         {
           skip: page * rowsPerPage,
           take: rowsPerPage,
-
           search_text: search,
         },
         {
@@ -88,6 +87,7 @@ export const SellDataProvider = ({ children }) => {
         if (item.data.status) {
           setBillData(item.data);
         } else {
+          setBillData([]);
         }
       })
       .catch((err) => {
@@ -96,7 +96,6 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
-    alert("Fds");
     try {
       setSelloading(true);
       if (buy_id) {
@@ -108,26 +107,9 @@ export const SellDataProvider = ({ children }) => {
               description: data.description,
               currency_type: data.currency_type,
               total_payment: data.total_payment,
-              remaining:
-                Number(data.dollar_price) > 0
-                  ? data.currency_type === "₹"
-                    ? Number(data.total_payment) -
-                      (Number(data.take) +
-                        Number(data.add_take) / Number(data.dollar_price))
-                    : Number(data.total_payment) -
-                      (Number(data.take) +
-                        Number(data.add_take) * Number(data.dollar_price))
-                  : Number(data.total_payment) -
-                    (Number(data.take) + Number(data.add_take)),
+              remaining: data.total_payment,
               price: data.price,
-              take:
-                Number(data.dollar_price) > 0
-                  ? data.currency_type === "₹"
-                    ? Number(data.take) +
-                      Number(data.add_take) / Number(data.dollar_price)
-                    : Number(data.take) +
-                      Number(data.add_take) * Number(data.dollar_price)
-                  : Number(data.take) + Number(data.add_take),
+              take: 0,
               due_days: data.due_days,
               end_date: expiryDate,
               start_date: startDate,
@@ -177,9 +159,9 @@ export const SellDataProvider = ({ children }) => {
               description: data.description,
               currency_type: data.currency_type,
               total_payment: data.total_payment,
-              remaining: data.remaining,
+              remaining: data.total_payment,
               price: data.price,
-              take: data.take,
+              take: 0,
               due_days: data.due_days,
               end_date: expiryDate,
               start_date: startDate,
@@ -234,6 +216,7 @@ export const SellDataProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
+        setSelloading(false);
         if (item.data.status) {
           handleGetAllBill();
           toast.success(item?.data?.message);
@@ -408,6 +391,7 @@ export const SellDataProvider = ({ children }) => {
         sellLoading,
         dataCurrency,
         handleEditOpenBuyModal,
+        handleDeleteBuy,
       }}
     >
       {children}

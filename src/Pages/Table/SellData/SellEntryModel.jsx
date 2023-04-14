@@ -43,7 +43,6 @@ export const SellEntryModel = ({
   useEffect(() => {
     reset({
       ...getValues(),
-
       sell_entry_id: currentData ? currentData._id : "",
       date: currentData ? currentData.date : "",
       currency: currentData ? currentData.currency : "",
@@ -108,7 +107,6 @@ export const SellEntryModel = ({
             </FormControl>
             <TextField
               id="outlined-basic"
-              disabled={currency === "₹" ? true : false}
               label="$ Rate"
               variant="outlined"
               {...register("price")}

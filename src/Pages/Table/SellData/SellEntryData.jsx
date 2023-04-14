@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import styles from "./SellData.module.css";
-
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
@@ -25,7 +24,7 @@ import { ReactComponent as EditIcon } from "../../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../../assets/deleteIcon.svg";
 
 export const SellEntryData = (props) => {
-  const { handleEditOpenBuyModal } = useSellData();
+  const { handleEditOpenBuyModal, handleDeleteBuy } = useSellData();
 
   const tokenStr = getCookies("access_token");
   const { row } = props;
@@ -71,14 +70,12 @@ export const SellEntryData = (props) => {
         }
       )
       .then((item) => {
-        console.log(item);
         if (item.data.status) {
+          setModelOpen(false);
           setIsloading(false);
           handleGetAllEntryById(row._id);
           toast.success(item?.data?.message);
-
-          // setBuyEntry(item?.data?.data);
-          // setAllCompanyData(item.data.data);
+          setCurrentData();
         } else {
           setIsloading(false);
           toast.error(item?.data?.message);
@@ -187,8 +184,25 @@ export const SellEntryData = (props) => {
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
-        <TableCell align="right">
-          <EditIcon onClick={() => handleEditOpenBuyModal(row)} />
+        <TableCell
+          align="right"
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            height: "40px",
+          }}
+        >
+          <EditIcon
+            className="df-action-edit-icon"
+            onClick={() => handleEditOpenBuyModal(row)}
+          />
+          <DeleteIcon
+            onClick={() => {
+              handleDeleteBuy(row._id);
+            }}
+          />
         </TableCell>
       </TableRow>
       <TableRow style={{ background: "aliceblue" }}>
@@ -197,7 +211,7 @@ export const SellEntryData = (props) => {
             in={open1}
             timeout="auto"
             unmountOnExit
-            style={{ width: "100%" }}
+            style={{ width: "calc(100vw - 500px)" }}
           >
             {isLoading ? (
               <LinearProgress />
