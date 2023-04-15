@@ -8,18 +8,19 @@ import {
 import { Navbar } from "../../Navbar/Navbar";
 import { SellDataModel } from "./SellDataModel";
 import Button from "@mui/material/Button";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
+import style from "./SellData.module.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Paper from "@mui/material/Paper";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
 import { SellEntryData } from "./SellEntryData";
 import { LinearProgress, TablePagination } from "@mui/material";
 import { productContext } from "../../../App";
@@ -44,8 +45,11 @@ const SellData = () => {
     setPage,
     rowsPerPage,
     setRowsPerPage,
+    filterData,
+    setFilterData,
   } = useSellData();
   // const [open, setOpen] = useState(false);
+  const [filterDate, setFilterDate] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -67,6 +71,38 @@ const SellData = () => {
         <div className="content-wrapper">
           <div className="content-wrapper-button-div">
             <p className="content-wrapper-title">Sell Data</p>
+            <div className={style["filter-date-picker"]}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="filter date"
+                    // value={startDate}
+                    format="DD-MM-YYYY"
+                    value={filterDate}
+                    onChange={(newValue) => {
+                      setFilterDate(newValue);
+                      setFilterData(
+                        billData?.data?.filter((row) => {
+                          return (
+                            row?.end_date?.substring(0, 10) ===
+                            newValue.format("YYYY-MM-DD")
+                          );
+                        })
+                      );
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setFilterData(billData?.data);
+                  setFilterDate(null);
+                }}
+              >
+                No filter
+              </Button>
+            </div>
             <Button
               variant="contained"
               onClick={() => {
@@ -114,7 +150,7 @@ const SellData = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {billData?.data?.map((row) => (
+                  {filterData?.map((row) => (
                     <SellEntryData key={row.name} row={row} />
                   ))}
                 </TableBody>

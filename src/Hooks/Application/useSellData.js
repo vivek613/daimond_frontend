@@ -18,6 +18,7 @@ export const SellDataProvider = ({ children }) => {
   const [open, setOpen] = useState();
   const [dataCurrency, setDataCurrency] = useState();
   const [billData, setBillData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
 
@@ -86,6 +87,7 @@ export const SellDataProvider = ({ children }) => {
         setSelloading(false);
         if (item.data.status) {
           setBillData(item.data);
+          setFilterData(item.data.data);
         } else {
           setBillData([]);
         }
@@ -392,6 +394,8 @@ export const SellDataProvider = ({ children }) => {
         dataCurrency,
         handleEditOpenBuyModal,
         handleDeleteBuy,
+        filterData,
+        setFilterData,
       }}
     >
       {children}
