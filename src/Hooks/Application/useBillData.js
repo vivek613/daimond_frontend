@@ -16,6 +16,7 @@ export const BillDataProvider = ({ children }) => {
   const [open, setOpen] = useState();
   const [dataCurrency, setDataCurrency] = useState();
   const [billData, setBillData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [expiryDate, setExpiryDate] = useState(null);
   const [page, setPage] = useState(0);
@@ -87,7 +88,8 @@ export const BillDataProvider = ({ children }) => {
       .then((item) => {
         setBuyLoading(false);
         if (item.data.status) {
-          setBillData(item.data);
+          setBillData(item?.data);
+          setFilterData(item?.data?.data);
         } else {
           setBillData([]);
         }
@@ -394,6 +396,9 @@ export const BillDataProvider = ({ children }) => {
         setPage,
         rowsPerPage,
         setRowsPerPage,
+        setBillData,
+        filterData,
+        setFilterData,
       }}
     >
       {children}

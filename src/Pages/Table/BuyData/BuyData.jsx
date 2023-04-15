@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getCookies } from "../../../Hooks/Auth/Cookies";
 import {
   BillDataProvider,
   useBillData,
 } from "../../../Hooks/Application/useBillData";
+import style from "./BuyData.module.css";
 import { Navbar } from "../../Navbar/Navbar";
 import { BuyDataModel } from "./BuyDataModel";
 import Button from "@mui/material/Button";
@@ -16,7 +16,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { BuyEntryData } from "./BuyEntryData";
-import { LinearProgress, TablePagination } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { LinearProgress, TablePagination, TextField } from "@mui/material";
 import { useContext } from "react";
 import { productContext } from "../../../App";
 
@@ -40,8 +44,12 @@ const BillData = () => {
     rowsPerPage,
     setRowsPerPage,
     handleGetAllEntryById,
+    setBillData,
+    filterData,
+    setFilterData,
   } = useBillData();
 
+  const [filterDate, setFilterDate] = useState(null);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -63,6 +71,46 @@ const BillData = () => {
         <div className="content-wrapper">
           <div className="content-wrapper-button-div">
             <p className="content-wrapper-title">Buy Data</p>
+            <div className={style["filter-date-picker"]}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Start date"
+                    // value={startDate}
+                    format="DD-MM-YYYY"
+                    value={filterDate}
+                    onChange={(newValue) => {
+                      setFilterDate(newValue);
+                      setFilterData(
+                        billData?.data?.filter((row) => {
+                          return (
+                            row?.end_date?.substring(0, 10) ===
+                            newValue.format("YYYY-MM-DD")
+                          );
+                        })
+                      );
+                      console.log(
+                        billData?.data?.filter((row) => {
+                          return (
+                            row?.end_date?.substring(0, 10) ===
+                            newValue.format("YYYY-MM-DD")
+                          );
+                        })
+                      );
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setFilterData(billData?.data);
+                  setFilterDate(null);
+                }}
+              >
+                No filter
+              </Button>
+            </div>
             <Button
               variant="contained"
               onClick={() => {
@@ -111,7 +159,7 @@ const BillData = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {billData?.data?.map((row) => (
+                    {filterData?.map((row) => (
                       <BuyEntryData key={row.name} row={row} />
                     ))}
                   </TableBody>
