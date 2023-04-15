@@ -50,7 +50,6 @@ const BillData = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  console.log(rowsPerPage, page);
 
   useEffect(() => {
     handleGetAllBill(search, page, rowsPerPage);

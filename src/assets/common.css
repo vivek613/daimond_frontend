@@ -4,9 +4,9 @@ p {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .content-wrapper {
-  padding: 0px 25px 0px 95px;
+  padding: 10px 25px 0px 95px;
   overflow: auto;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 70px);
 }
 .df-primary-button {
   height: 40px;
@@ -27,6 +27,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 0 10px 0;
 }
 .content-wrapper-title {
   color: gray;
@@ -68,18 +69,17 @@ p {
 }
 .df-navbar-top-div {
   height: 55px;
-  background: rgb(237, 237, 237);
+  background: var(--sidebar-color);
   position: sticky;
   z-index: 999;
-  border-bottom: 1px solid rgb(203, 203, 203);
+  padding: 0 15px;
 }
 .df-navbar-header-title {
   width: fit-content;
   font-size: larger;
   letter-spacing: 0.5px;
   font-family: system-ui;
- 
-  
+
   color: gray;
 }
 .df-custom-action-cell {

@@ -1,5 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Suspense } from "react";
+
+import "./App.css"
 import { Route, Navigate } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { useProduct } from "./context/useProduct";

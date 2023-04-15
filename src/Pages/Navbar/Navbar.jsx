@@ -15,6 +15,33 @@ import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router";
 import { productContext } from "../../App";
 
+const SidebarData = [
+  {
+    id: 1,
+    title: "Home",
+    path: "company",
+    icon: "bx-wallet",
+  },
+  {
+    id: 2,
+    title: "Buy",
+    path: "buy",
+    icon: "bx-dollar-circle",
+  },
+  {
+    id: 3,
+    title: "Sell",
+    path: "sell",
+    icon: "bx-dollar-circle",
+  },
+  {
+    id: 4,
+    title: "All Data",
+    path: "alldata",
+    icon: "bx-file",
+  },
+];
+
 export const Navbar = () => {
   const { setSearch, search } = useContext(productContext);
   const navigate = useNavigate();
@@ -23,7 +50,7 @@ export const Navbar = () => {
     <>
       <div className="df-navbar-top-div">
         <div className="df-navbar-header-title">Diamond Management System</div>
-        <div>
+        {/* <div>
           <input
             className="df-navbar-search"
             id="search"
@@ -36,107 +63,47 @@ export const Navbar = () => {
               // setSearch(e.target.value);
             }}
           />
-          {/* <input className="df-navbar-search" placeholder="Search" /> */}
-        </div>
+          
+        </div> */}
+        <input
+          class="search__input"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            // setSearch(e.target.value);
+          }}
+          type="text"
+          placeholder="Search..."
+        />
       </div>
-      <SideNav
-        style={{
-          background: "#ededed",
-          borderRight: "1px solid #cbcbcb",
-          zIndex: "99",
-        }}
-        onSelect={(selected) => {
-          // Add your code here
-        }}
-      >
-        <SideNav.Nav className="df-side-bar-main-menu">
-          <NavItem
-            eventKey="home"
-            onClick={() => {
-              navigate("/company");
-            }}
-            className={
-              location.pathname.includes("company")
-                ? "df-normal-icon-selected"
-                : "df-normal-icon"
-            }
-          >
-            <NavIcon style={{ opacity: "1" }}>
-              <div className="df-title-icon-sidebar">
-                <div className="df-side-bar-icon">
-                  <MdAccessTimeFilled style={{ fill: "black" }} />
-                </div>
-                <p className="df-side-bar-title">Company</p>
-              </div>
-            </NavIcon>
-          </NavItem>
-          <NavItem
-            selected
-            eventKey="charts"
-            className={
-              location.pathname.includes("buy")
-                ? "df-normal-icon-selected"
-                : "df-normal-icon"
-            }
-          >
-            <NavIcon
-              style={{ opacity: "1" }}
-              onClick={() => {
-                navigate("/buy");
-              }}
-            >
-              <div className="df-title-icon-sidebar">
-                <div className="df-side-bar-icon">
-                  <MdAccessTimeFilled style={{ fill: "black" }} />
-                </div>
-                <p className="df-side-bar-title">Buy</p>
-              </div>
-            </NavIcon>
-          </NavItem>
-          <NavItem
-            selected
-            eventKey="charts"
-            onClick={() => {
-              navigate("/sell");
-            }}
-            className={
-              location.pathname.includes("sell")
-                ? "df-normal-icon-selected"
-                : "df-normal-icon"
-            }
-          >
-            <NavIcon style={{ opacity: "1" }}>
-              <div className="df-title-icon-sidebar">
-                <div className="df-side-bar-icon">
-                  <FaUsers style={{ fill: "black" }} />
-                </div>
-                <p className="df-side-bar-title">Sell</p>
-              </div>
-            </NavIcon>
-          </NavItem>
-          <NavItem
-            selected
-            eventKey="charts"
-            onClick={() => {
-              navigate("/alldata");
-            }}
-            className={
-              location.pathname.includes("alldata")
-                ? "df-normal-icon-selected"
-                : "df-normal-icon"
-            }
-          >
-            <NavIcon style={{ opacity: "1" }}>
-              <div className="df-title-icon-sidebar">
-                <div className="df-side-bar-icon">
-                  <BiLogOut style={{ fill: "black" }} />
-                </div>
-                <p className="df-side-bar-title">Reports</p>
-              </div>
-            </NavIcon>
-          </NavItem>
-        </SideNav.Nav>
-      </SideNav>
+
+      <nav class="sidebar close">
+        <div class="menu-bar">
+          <div class="menu">
+            <ul class="menu-links">
+              {SidebarData.map((item, i) => {
+                const active =
+                  location.pathname.includes(`${item.path}`) && "selected";
+
+                return (
+                  <li class="nav-link" key={i}>
+                    <div
+                      // href={`${item.path}`}
+                      className={`sidebar-button ${active}`}
+                      onClick={() => {
+                        navigate(`/${item.path}`);
+                      }}
+                    >
+                      <i class={`bx ${item.icon} icon`}></i>
+                      <span class="text nav-text">{item.title}</span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </nav>
     </>
   );
 };

@@ -75,13 +75,18 @@ const AllData = () => {
   useEffect(() => {
     handleGetAllBill();
   }, []);
-  var max = Math.max.apply(
+  var max1 = Math.max.apply(
     null,
     allData?.dateWiseData?.reverse().map((item) => item.buy)
   ); // Calculate the maximum value from your data
+  var max2 = Math.max.apply(
+    null,
+    allData?.dateWiseData?.reverse().map((item) => item.sell)
+  ); // Calculate the maximum value from your data
+
+  const max = Math.max(max1, max2);
   var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
   const chartData = useMemo(() => {
-    console.log("maxY", maxY);
     return {
       chartData: [
         {
