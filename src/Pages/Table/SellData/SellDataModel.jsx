@@ -122,6 +122,7 @@ export function SellDataModel({ open, setOpen }) {
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         label="Start date"
+                        disablePast
                         value={startDate}
                         onChange={(newValue) => {
                           setStartDate(newValue);

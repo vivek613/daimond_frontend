@@ -119,6 +119,7 @@ export function BuyDataModel({ open, setOpen }) {
                       <DatePicker
                         label="Start date"
                         value={startDate}
+                        disablePast
                         onChange={(newValue) => {
                           setStartDate(newValue);
                         }}

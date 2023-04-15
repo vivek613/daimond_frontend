@@ -75,21 +75,13 @@ const BillData = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
-                    label="Start date"
+                    label="filter date"
                     // value={startDate}
                     format="DD-MM-YYYY"
                     value={filterDate}
                     onChange={(newValue) => {
                       setFilterDate(newValue);
                       setFilterData(
-                        billData?.data?.filter((row) => {
-                          return (
-                            row?.end_date?.substring(0, 10) ===
-                            newValue.format("YYYY-MM-DD")
-                          );
-                        })
-                      );
-                      console.log(
                         billData?.data?.filter((row) => {
                           return (
                             row?.end_date?.substring(0, 10) ===
