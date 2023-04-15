@@ -32,7 +32,7 @@ const CompanyTable = () => {
 
       <div className="content-wrapper">
         <div className="content-wrapper-button-div">
-          <p className="content-wrapper-title">Company Data</p>
+          <p className="content-wrapper-title">Company</p>
           <button
             className="df-primary-button"
             onClick={() => {

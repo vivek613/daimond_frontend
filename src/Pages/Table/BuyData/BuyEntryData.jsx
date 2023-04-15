@@ -15,12 +15,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getCookies } from "../../../Hooks/Auth/Cookies";
 import axios from "axios";
-import { MdEdit, MdDelete } from "react-icons/md";
 import { Button, LinearProgress } from "@mui/material";
 import { BuyEntryModel } from "./BuyEntryModel";
 import { useBillData } from "../../../Hooks/Application/useBillData";
 import { toast } from "react-hot-toast";
-
 import { ReactComponent as EditIcon } from "../../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../../assets/deleteIcon.svg";
 
@@ -60,7 +58,6 @@ export const BuyEntryData = (props) => {
         if (item.data.status) {
           setIsloading(false);
           toast.success(item?.data?.message);
-
           handleGetAllEntryById(row._id);
         } else {
           setIsloading(false);
@@ -74,7 +71,6 @@ export const BuyEntryData = (props) => {
 
   const handleAddBuyEntryBuyId = async (props) => {
     setIsloading(true);
-
     await axios
       .post(
         `${process.env.REACT_APP_URL}/buy/addEntry`,
@@ -84,6 +80,7 @@ export const BuyEntryData = (props) => {
           price: props.price,
           payment: props.payment,
           brokerName: props.broker,
+          start_date: props.date,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -91,8 +88,8 @@ export const BuyEntryData = (props) => {
       )
       .then((item) => {
         if (item.data.status) {
-          setModelOpen(false);
           setCurrentData();
+          setModelOpen(false);
           toast.success(item?.data?.message);
           setIsloading(false);
           handleGetAllEntryById(row._id);
@@ -108,13 +105,12 @@ export const BuyEntryData = (props) => {
 
   const handleUpdateBuyEntryBuyId = async (props) => {
     setIsloading(true);
-
     await axios
       .post(
         `${process.env.REACT_APP_URL}/buy/updateEntry`,
         {
           id: props.buy_entry_id,
-          // date: props.date,
+          start_date: props.date,
           currency: props.currency,
           price: props.price,
           payment: props.payment,
@@ -149,7 +145,8 @@ export const BuyEntryData = (props) => {
   const handleTotal = () => {
     return buyEntryById
       .map(({ payment, price }) => payment * price)
-      .reduce((sum, i) => sum + i, 0);
+      .reduce((sum, i) => sum + i, 0)
+      .toLocaleString();
   };
 
   return (
@@ -172,7 +169,9 @@ export const BuyEntryData = (props) => {
         <TableCell align="right">{row?.description}</TableCell>
         <TableCell align="right">{row?.price}</TableCell>
         {/* <TableCell align="right">{row?.currency_type}</TableCell> */}
-        <TableCell align="right">{row?.total_payment}</TableCell>
+        <TableCell align="right">
+          {row?.total_payment.toLocaleString()}
+        </TableCell>
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
@@ -182,8 +181,9 @@ export const BuyEntryData = (props) => {
             display: "flex",
             gap: "10px",
             alignItems: "center",
-            justifyContent: "flex-start",
+            justifyContent: "end",
             height: "40px",
+            flexDirection: "unset",
           }}
         >
           <EditIcon
@@ -197,31 +197,33 @@ export const BuyEntryData = (props) => {
           />
         </TableCell>
       </TableRow>
-      <TableRow style={{ background: "aliceblue" }}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse
-            in={openById}
-            timeout="auto"
-            unmountOnExit
-            style={{ width: "calc(100vw - 500px)" }}
-          >
+      <TableRow className="history-table">
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
+          <Collapse in={openById} timeout="auto" unmountOnExit>
             {isLoading ? (
-              <LinearProgress />
+              <LinearProgress
+                sx={{
+                  backgroundColor: "white",
+                  "& .MuiLinearProgress-bar": {
+                    backgroundColor: "gray",
+                  },
+                }}
+              />
             ) : (
               <Box sx={{ margin: 1 }}>
                 <div className={styles["header-div"]}>
                   <Typography variant="h6" gutterBottom component="div">
                     History
                   </Typography>
-                  <Button
-                    variant="contained"
+                  <button
+                    className="df-primary-button"
                     onClick={() => {
                       setCurrentData();
                       setModelOpen(true);
                     }}
                   >
                     Add Entry
-                  </Button>
+                  </button>
                 </div>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
@@ -238,14 +240,16 @@ export const BuyEntryData = (props) => {
                     {buyEntryById?.map((historyRow) => (
                       <TableRow key={historyRow?.date}>
                         <TableCell className={styles["date-column"]}>
-                          {historyRow?.createdAt.substring(0, 12)}
+                          {historyRow?.start_date.substring(0, 10)}
                         </TableCell>
                         <TableCell align="right">
                           {historyRow?.currency}
                         </TableCell>
-                        <TableCell align="right">{historyRow?.price}</TableCell>
                         <TableCell align="right">
-                          {historyRow?.payment}
+                          {historyRow?.price.toLocaleString()}
+                        </TableCell>
+                        <TableCell align="right">
+                          {historyRow?.payment.toLocaleString()}
                         </TableCell>
                         <TableCell align="right">
                           {historyRow?.brokerName}
@@ -264,14 +268,14 @@ export const BuyEntryData = (props) => {
                             className={styles["action-column"]}
                             style={{ display: "flex" }}
                           >
-                            <MdEdit
+                            <EditIcon
                               size={20}
                               onClick={() => {
                                 setCurrentData(historyRow);
                                 setModelOpen(true);
                               }}
                             />
-                            <MdDelete
+                            <DeleteIcon
                               size={20}
                               onClick={() => {
                                 handleDeleteBuyEntryById(historyRow._id);
@@ -293,12 +297,14 @@ export const BuyEntryData = (props) => {
           </Collapse>
         </TableCell>
       </TableRow>
+      {console.log("555555555", currentData)}
       <BuyEntryModel
         setModelOpen={setModelOpen}
         modelOpen={modelOpen}
         handleAddBuyEntryBuyId={handleAddBuyEntryBuyId}
         handleUpdateBuyEntryBuyId={handleUpdateBuyEntryBuyId}
         currentData={currentData}
+        setCurrentData={setCurrentData}
       />
     </>
   );

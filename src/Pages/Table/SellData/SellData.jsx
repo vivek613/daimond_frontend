@@ -71,7 +71,7 @@ const SellData = () => {
         <div className="content-wrapper">
           <div className="content-wrapper-button-div">
             <p className="content-wrapper-title">Sell Data</p>
-            <div className={style["filter-date-picker"]}>
+            {/* <div className={style["filter-date-picker"]}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
@@ -102,9 +102,9 @@ const SellData = () => {
               >
                 No filter
               </Button>
-            </div>
-            <Button
-              variant="contained"
+            </div> */}
+            <button
+              className="df-primary-button"
               onClick={() => {
                 setStartDate(null);
                 setExpiryDate(null);
@@ -128,10 +128,17 @@ const SellData = () => {
               }}
             >
               Add Sell Bill
-            </Button>
+            </button>
           </div>
           {sellLoading ? (
-            <LinearProgress />
+            <LinearProgress
+              sx={{
+                backgroundColor: "white",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "gray",
+                },
+              }}
+            />
           ) : (
             <TableContainer component={Paper}>
               <Table aria-label="collapsible table">
@@ -141,7 +148,6 @@ const SellData = () => {
                     <TableCell>Company</TableCell>
                     <TableCell align="right">Desc...</TableCell>
                     <TableCell align="right">Bill No</TableCell>
-                    <TableCell align="right">currency Type</TableCell>
                     <TableCell align="right">Total</TableCell>
                     <TableCell align="right">Due Days</TableCell>
                     <TableCell align="right">Start Date</TableCell>

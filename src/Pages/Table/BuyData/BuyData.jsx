@@ -70,7 +70,7 @@ const BillData = () => {
         <div className="content-wrapper">
           <div className="content-wrapper-button-div">
             <p className="content-wrapper-title">Buy Data</p>
-            <div className={style["filter-date-picker"]}>
+            {/* <div className={style["filter-date-picker"]}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
@@ -101,9 +101,9 @@ const BillData = () => {
               >
                 No filter
               </Button>
-            </div>
-            <Button
-              variant="contained"
+            </div> */}
+            <button
+              className="df-primary-button"
               onClick={() => {
                 setStartDate(null);
                 setExpiryDate(null);
@@ -127,10 +127,17 @@ const BillData = () => {
               }}
             >
               Add Buy Bill
-            </Button>
+            </button>
           </div>
           {buyLoading ? (
-            <LinearProgress />
+            <LinearProgress
+              sx={{
+                backgroundColor: "white",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "gray",
+                },
+              }}
+            />
           ) : (
             <>
               <TableContainer component={Paper}>

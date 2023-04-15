@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Suspense } from "react";
 
-import "./App.css"
+import "./App.css";
 import { Route, Navigate } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { useProduct } from "./context/useProduct";
@@ -18,7 +18,18 @@ function App() {
 
   return (
     <>
-      <Suspense fallback={<LinearProgress />}>
+      <Suspense
+        fallback={
+          <LinearProgress
+            sx={{
+              backgroundColor: "white",
+              "& .MuiLinearProgress-bar": {
+                backgroundColor: "gray",
+              },
+            }}
+          />
+        }
+      >
         <BrowserRouter>
           <productContext.Provider value={value}>
             <AuthProvider>

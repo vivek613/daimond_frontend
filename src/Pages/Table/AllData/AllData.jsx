@@ -131,7 +131,14 @@ const AllData = () => {
           <p className="content-wrapper-title">All Data</p>
         </div>
         {allDataLoading ? (
-          <LinearProgress />
+          <LinearProgress
+            sx={{
+              backgroundColor: "white",
+              "& .MuiLinearProgress-bar": {
+                backgroundColor: "gray",
+              },
+            }}
+          />
         ) : (
           <>
             <Body {...chartData} />

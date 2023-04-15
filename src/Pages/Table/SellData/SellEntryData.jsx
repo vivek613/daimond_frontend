@@ -15,7 +15,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getCookies } from "../../../Hooks/Auth/Cookies";
 import axios from "axios";
-import { MdEdit, MdDelete } from "react-icons/md";
 import { Button, LinearProgress, TablePagination } from "@mui/material";
 import { SellEntryModel } from "./SellEntryModel";
 import { useSellData } from "../../../Hooks/Application/useSellData";
@@ -62,13 +61,9 @@ export const SellEntryData = (props) => {
   const handleSellEntryDelete = async (id) => {
     setIsloading(true);
     await axios
-      .delete(
-        `${process.env.REACT_APP_URL}sell/deleteEntry/${id}`,
-
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
+      .delete(`${process.env.REACT_APP_URL}sell/deleteEntry/${id}`, {
+        headers: { Authorization: `Bearer ${tokenStr}` },
+      })
       .then((item) => {
         if (item.data.status) {
           setModelOpen(false);
@@ -95,6 +90,8 @@ export const SellEntryData = (props) => {
           currency: props.currency,
           price: props.price,
           payment: props.payment,
+          brokerName: props.broker,
+          start_date: props.date,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -124,11 +121,11 @@ export const SellEntryData = (props) => {
         `${process.env.REACT_APP_URL}/sell/updateEntry`,
         {
           id: props.sell_entry_id,
-          // date: props.date,
+          start_date: props.date,
           currency: props.currency,
           price: props.price,
           payment: props.payment,
-          // broker: props.broker,
+          brokerName: props.broker,
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -140,7 +137,6 @@ export const SellEntryData = (props) => {
           handleGetAllEntryById(row._id);
           setCurrentData();
           setIsloading(false);
-
           toast.success(item?.data?.message);
         } else {
           toast.error(item?.data?.message);
@@ -154,7 +150,8 @@ export const SellEntryData = (props) => {
   const handleTotal = () => {
     return buyEntry
       .map(({ payment, price }) => payment * price)
-      .reduce((sum, i) => sum + i, 0);
+      .reduce((sum, i) => sum + i, 0)
+      .toLocaleString();
   };
 
   useEffect(() => {
@@ -179,8 +176,9 @@ export const SellEntryData = (props) => {
         </TableCell>
         <TableCell align="right">{row?.description}</TableCell>
         <TableCell align="right">{row?.price}</TableCell>
-        <TableCell align="right">{row?.currency_type}</TableCell>
-        <TableCell align="right">{row?.total_payment}</TableCell>
+        <TableCell align="right">
+          {row?.total_payment.toLocaleString()}
+        </TableCell>
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
         <TableCell align="right">{row?.end_date?.substring(0, 10)}</TableCell>
@@ -190,8 +188,9 @@ export const SellEntryData = (props) => {
             display: "flex",
             gap: "10px",
             alignItems: "center",
-            justifyContent: "flex-start",
+            justifyContent: "end",
             height: "40px",
+            flexDirection: "unset",
           }}
         >
           <EditIcon
@@ -205,38 +204,41 @@ export const SellEntryData = (props) => {
           />
         </TableCell>
       </TableRow>
-      <TableRow style={{ background: "aliceblue" }}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse
-            in={open1}
-            timeout="auto"
-            unmountOnExit
-            style={{ width: "calc(100vw - 500px)" }}
-          >
+      <TableRow className="history-table">
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
+          <Collapse in={open1} timeout="auto" unmountOnExit>
             {isLoading ? (
-              <LinearProgress />
+              <LinearProgress
+                sx={{
+                  backgroundColor: "white",
+                  "& .MuiLinearProgress-bar": {
+                    backgroundColor: "gray",
+                  },
+                }}
+              />
             ) : (
               <Box sx={{ margin: 1 }}>
                 <div className={styles["header-div"]}>
                   <Typography variant="h6" gutterBottom component="div">
                     History
                   </Typography>
-                  <Button
-                    variant="contained"
+                  <button
+                    className="df-primary-button"
                     onClick={() => {
                       setModelOpen(true);
                     }}
                   >
                     Add Entry
-                  </Button>
+                  </button>
                 </div>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
                       <TableCell>Date</TableCell>
-                      <TableCell align="right">currency</TableCell>
-                      <TableCell align="right">Price</TableCell>
+                      <TableCell align="right">Currency</TableCell>
+                      <TableCell align="right">$ Rate</TableCell>
                       <TableCell align="right">Payment </TableCell>
+                      <TableCell align="right">Broker</TableCell>
                       <TableCell align="center">Action</TableCell>
                     </TableRow>
                   </TableHead>
@@ -244,14 +246,19 @@ export const SellEntryData = (props) => {
                     {buyEntry?.map((historyRow) => (
                       <TableRow key={historyRow.date}>
                         <TableCell className={styles["date-column"]}>
-                          {historyRow.createdAt.substring(0, 12)}
+                          {historyRow.start_date.substring(0, 10)}
                         </TableCell>
                         <TableCell align="right">
                           {historyRow.currency}
                         </TableCell>
-                        <TableCell align="right">{historyRow.price}</TableCell>
                         <TableCell align="right">
-                          {Math.round(historyRow.payment)}
+                          {historyRow.price.toLocaleString()}
+                        </TableCell>
+                        <TableCell align="right">
+                          {historyRow.payment.toLocaleString()}
+                        </TableCell>
+                        <TableCell align="right">
+                          {historyRow?.brokerName}
                         </TableCell>
                         <TableCell
                           align="right"
@@ -300,6 +307,7 @@ export const SellEntryData = (props) => {
         handleAddBuyEntryBuyId={handleAddBuyEntryBuyId}
         handleUpdateBuyEntryBuyId={handleUpdateBuyEntryBuyId}
         currentData={currentData}
+        setCurrentData={setCurrentData}
       />
     </>
   );

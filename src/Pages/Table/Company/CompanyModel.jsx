@@ -16,7 +16,7 @@ const style = {
   boxShadow: 24,
   border: "none",
   borderRadius: "5px",
-  p: 4,
+  // p: 4,
 };
 
 export function CompanyModel() {
@@ -42,10 +42,20 @@ export function CompanyModel() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <p id="parent-modal-title">{id ? "Update company" : "Add company"}</p>
+          <h2
+            id="parent-modal-title"
+            style={{
+              padding: "20px",
+              borderBottom: "1px solid gray",
+              color: "gray",
+            }}
+          >
+            {id ? "Update company" : "Add company"}
+          </h2>
           <form
             onSubmit={handleSubmit(id ? handleUpdateCompany : handleOnSubmit)}
             className={styles["model-field"]}
+            style={{ padding: "20px" }}
           >
             <TextField
               margin="normal"
@@ -61,7 +71,18 @@ export function CompanyModel() {
               variant="outlined"
               {...register("company_description")}
             />
-            <div className={styles["button-div"]}>
+            <div
+              className={styles["button-div"]}
+              style={{ display: "flex", gap: "10px" }}
+            >
+              <button
+                className="df-primary-button"
+                onClick={() => {
+                  handleClose();
+                }}
+              >
+                Cancel
+              </button>
               <button className="df-primary-button" type="submit">
                 {id ? "Update" : "Submit"}
               </button>

@@ -185,7 +185,7 @@ const ReportModel = () => {
           setOpenReport(false);
         }}
       >
-        <div style={{ height: "100%", padding: "10px" }}>
+        <div style={{ padding: "20px" }}>
           <Box sx={{ width: "1000px", padding: "15px" }}>
             <div
               style={{

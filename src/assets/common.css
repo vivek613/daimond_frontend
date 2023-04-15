@@ -4,22 +4,29 @@ p {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .content-wrapper {
-  padding: 10px 25px 0px 95px;
+  padding: 10px 15px 0px 95px;
   overflow: auto;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 65px);
+  background: rgb(214, 212, 209);
+  background: linear-gradient(
+    0deg,
+    rgba(214, 212, 209, 1) 0%,
+    rgba(255, 255, 255, 1) 100%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 .df-primary-button {
   height: 40px;
-  background: rgb(205, 198, 235);
-  color: black;
-  border: 1px solid rgb(139, 131, 172);
+  background: transparent;
+  color: gray;
+  border: 1px solid gray;
   letter-spacing: 0.7px;
   border-radius: 4px;
   padding: 10px;
   margin: 10px 0px;
 }
 .df-primary-button:hover {
-  background: rgb(127, 108, 209);
+  background: gray;
   color: white;
   cursor: pointer;
 }
@@ -122,4 +129,22 @@ p {
 }
 .df-side-modal-body {
   padding: 20px;
+}
+.MuiDataGrid-root {
+  padding: 5px;
+  height: calc(100vh - 145px) !important;
+  overflow: auto;
+  box-shadow: 1px 1px 8px 1px rgba(145, 145, 145, 0.3);
+  background: white;
+}
+.css-11xur9t-MuiPaper-root-MuiTableContainer-root {
+  box-shadow: 1px 1px 8px 1px rgba(145, 145, 145, 0.3) !important;
+}
+.history-table {
+  background: linear-gradient(
+    0deg,
+    rgba(214, 212, 209, 1) 0%,
+    rgba(255, 255, 255, 1) 100%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import dayjs from "dayjs";
 import Modal from "@mui/material/Modal";
 import styles from "./BuyData.module.css";
 import {
@@ -11,8 +11,11 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { useBillData } from "../../../Hooks/Application/useBillData";
 import { useForm } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 export const BuyEntryModel = ({
   modelOpen,
@@ -20,6 +23,7 @@ export const BuyEntryModel = ({
   handleAddBuyEntryBuyId,
   handleUpdateBuyEntryBuyId,
   currentData,
+  setCurrentData,
 }) => {
   const {
     register,
@@ -33,25 +37,38 @@ export const BuyEntryModel = ({
       buy_entry_id: "",
       date: "",
       currency: "",
-      price: 0,
+      price: "1",
       payment: 0,
       broker: "",
     },
   });
-  const { currency, buy_entry_id } = watch();
+  const { currency, buy_entry_id, date } = watch();
+
   useEffect(() => {
     reset({
       ...getValues(),
       buy_entry_id: currentData ? currentData._id : "",
-      date: currentData ? currentData.date : "",
+      date: currentData ? dayjs(currentData.start_date) : "",
       currency: currentData ? currentData.currency : "",
-      price: currentData ? currentData.price : 0,
+      price: currentData ? currentData.price : "1",
       payment: currentData ? currentData.payment : 0,
       broker: currentData ? currentData.brokerName : "",
     });
   }, [reset, getValues, currentData]);
 
-  const handleClose = () => setModelOpen(false);
+  useEffect(() => {
+    if (currency === "₹") {
+      reset({
+        ...getValues(),
+        price: "1",
+      });
+    }
+  }, [currency]);
+
+  const handleClose = () => {
+    setCurrentData();
+    setModelOpen(false);
+  };
 
   const style = {
     position: "absolute",
@@ -59,7 +76,6 @@ export const BuyEntryModel = ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    // height: 300,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -106,10 +122,25 @@ export const BuyEntryModel = ({
               <TextField
                 id="outlined-basic"
                 label="$ Rate"
+                disabled={currency === "₹"}
                 variant="outlined"
                 {...register("price")}
                 margin="normal"
               />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    label="Date"
+                    value={date}
+                    onChange={(newValue) => {
+                      reset({
+                        ...getValues(),
+                        date: newValue,
+                      });
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
               <TextField
                 id="outlined-basic"
                 label="Payment"

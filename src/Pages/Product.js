@@ -40,7 +40,18 @@ const privateRouts = [
 ];
 
 const Common = (route) => (
-  <Suspense fallback={<LinearProgress />}>
+  <Suspense
+    fallback={
+      <LinearProgress
+        sx={{
+          backgroundColor: "white",
+          "& .MuiLinearProgress-bar": {
+            backgroundColor: "gray",
+          },
+        }}
+      />
+    }
+  >
     <route.component />
   </Suspense>
 );
@@ -60,7 +71,18 @@ const Private = (route) => {
   //     return <Navigate to={"/unauthorized"} replace />;
 
   return (
-    <Suspense fallback={<LinearProgress />}>
+    <Suspense
+      fallback={
+        <LinearProgress
+          sx={{
+            backgroundColor: "white",
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: "gray",
+            },
+          }}
+        />
+      }
+    >
       <Component />
     </Suspense>
   );

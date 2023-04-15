@@ -73,6 +73,13 @@ body.dark {
   background: var(--sidebar-color);
   transition: var(--tran-05);
   z-index: 100;
+  background: rgb(214, 212, 209);
+  background: linear-gradient(
+    0deg,
+    rgba(214, 212, 209, 1) 0%,
+    rgba(255, 255, 255, 1) 100%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 
 /* ===== Reusable code - Here ===== */
