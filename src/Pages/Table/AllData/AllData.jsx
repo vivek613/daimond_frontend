@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar } from "../../Navbar/Navbar";
-
 import { Box, LinearProgress } from "@mui/material";
 import {
   AllDataProvider,
@@ -12,8 +11,18 @@ import { useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
 const columns = [
   { field: "company_name", headerName: "Company Name", width: 200 },
-  { field: "total_buy", headerName: "Total buy", width: 200 },
-  { field: "total_sell", headerName: "Total sell", width: 200 },
+  {
+    field: "total_buy",
+    headerName: "Total buy",
+    width: 200,
+    renderCell: (data) => <>{data.row.total_buy.toLocaleString()}</>,
+  },
+  {
+    field: "total_sell",
+    headerName: "Total sell",
+    width: 200,
+    renderCell: (data) => <>{data.row.total_sell.toLocaleString()}</>,
+  },
 ];
 const Body = ({
   chartData = [],

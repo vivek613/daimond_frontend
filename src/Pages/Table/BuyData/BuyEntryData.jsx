@@ -297,7 +297,6 @@ export const BuyEntryData = (props) => {
           </Collapse>
         </TableCell>
       </TableRow>
-      {console.log("555555555", currentData)}
       <BuyEntryModel
         setModelOpen={setModelOpen}
         modelOpen={modelOpen}

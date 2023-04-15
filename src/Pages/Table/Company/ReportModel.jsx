@@ -15,11 +15,7 @@ const Sellcolumns = [
     width: 150,
     renderCell: (data) => {
       return (
-        <div
-        // onClick={() => {
-        //   handleGetCompanyReport(data.row._id);
-        // }}
-        >
+        <div>
           {new Date(data.row.start_date).toLocaleDateString().split("GMT")[0]}
         </div>
       );
@@ -34,6 +30,7 @@ const Sellcolumns = [
     field: "total_payment",
     headerName: "Total Payment",
     width: 170,
+    renderCell: (data) => <>{data.row.total_payment.toLocaleString()}</>,
   },
   {
     field: "description",
@@ -48,11 +45,7 @@ const Buycolumns = [
     width: 150,
     renderCell: (data) => {
       return (
-        <div
-        // onClick={() => {
-        //   handleGetCompanyReport(data.row._id);
-        // }}
-        >
+        <div>
           {new Date(data.row.start_date).toLocaleDateString().split("GMT")[0]}
         </div>
       );
@@ -67,6 +60,7 @@ const Buycolumns = [
     field: "total_payment",
     headerName: "Total Payment",
     width: 170,
+    renderCell: (data) => <>{data.row.total_payment.toLocaleString()}</>,
   },
   {
     field: "description",
@@ -197,6 +191,7 @@ const ReportModel = () => {
               <h2 id="parent-modal-title">Report</h2>
               <Button
                 variant="outlined"
+                className="df-secondary-button"
                 onClick={() => {
                   setOpenReport(false);
                 }}

@@ -91,17 +91,14 @@ export const SellEntryModel = ({
           onSubmit={handleSubmit(
             sell_entry_id ? handleUpdateBuyEntryBuyId : handleAddBuyEntryBuyId
           )}
-          style={{
-            height: "100%",
-          }}
         >
-          <h2 className="df-side-modal-title">{"Add Entry"}</h2>
+          <h2 className="df-side-modal-title">
+            {sell_entry_id ? "Update entry" : "Add entry"}
+          </h2>
           <div
             className={styles["model-field"]}
             style={{
               height: "auto",
-              padding: "7px",
-              margin: "10px",
             }}
           >
             <FormControl>
@@ -159,10 +156,18 @@ export const SellEntryModel = ({
             />
           </div>
           <div className={styles["button-div"]}>
-            <Button variant="outlined" onClick={handleClose}>
+            <Button
+              variant="outlined"
+              className="df-secondary-button"
+              onClick={handleClose}
+            >
               Close
             </Button>
-            <Button variant="contained" type="submit">
+            <Button
+              variant="contained"
+              className="df-primary-button"
+              type="submit"
+            >
               Submit
             </Button>
           </div>

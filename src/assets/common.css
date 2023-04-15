@@ -16,16 +16,33 @@ p {
   );
 }
 .df-primary-button {
-  height: 40px;
-  background: transparent;
-  color: gray;
-  border: 1px solid gray;
-  letter-spacing: 0.7px;
-  border-radius: 4px;
-  padding: 10px;
-  margin: 10px 0px;
+  height: 40px !important;
+  background: transparent !important;
+  color: gray !important;
+  border: 1px solid gray !important;
+  letter-spacing: 0.7px !important;
+  border-radius: 4px !important;
+  padding: 10px !important;
+  margin: 10px 0px !important;
 }
 .df-primary-button:hover {
+  background: gray !important;
+  color: white !important;
+  cursor: pointer !important;
+}
+.df-secondary-button {
+  height: 40px !important;
+  background: transparent !important;
+  color: rgb(67, 67, 67) !important;
+  border: 1px solid rgb(67, 67, 67) !important;
+  letter-spacing: 0.7px !important;
+  border-radius: 4px !important;
+  padding: 10px !important;
+  margin: 10px 0px !important;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+.df-secondary-button:hover {
   background: gray;
   color: white;
   cursor: pointer;
@@ -120,12 +137,14 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 10px;
-  border-bottom: 1px solid black;
+  padding: 15px;
+  background: rgb(230, 230, 230);
+  /* border-bottom: 1px solid gray; */
 }
 .df-side-modal-title {
   margin: 0;
   padding: 0;
+  color: gray;
 }
 .df-side-modal-body {
   padding: 20px;

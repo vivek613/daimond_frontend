@@ -148,7 +148,6 @@ const BillData = () => {
                       <TableCell>Company</TableCell>
                       <TableCell align="right">Desc...</TableCell>
                       <TableCell align="right">Bill No</TableCell>
-                      {/* <TableCell align="right">currency Type</TableCell> */}
                       <TableCell align="right">Total</TableCell>
                       <TableCell align="right">Due Days</TableCell>
                       <TableCell align="right">Start Date</TableCell>

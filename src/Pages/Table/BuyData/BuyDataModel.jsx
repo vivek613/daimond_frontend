@@ -44,13 +44,22 @@ export function BuyDataModel({ open, setOpen }) {
           <form onSubmit={handleSubmit(handleOnSubmit)}>
             <div className="df-side-modal-header">
               <h2 className="df-side-modal-title">
-                {buy_id ? "Update Buy Bill" : "Add Buy Bill"}
+                {buy_id ? "Update bill" : "Add bill"}
               </h2>
               <div className={styles["button-div"]}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button
+                  variant="outlined"
+                  onClick={handleClose}
+                  className="df-secondary-button"
+                >
                   Close
                 </Button>
-                <Button variant="contained" type="submit" disabled={buyLoading}>
+                <Button
+                  variant="contained"
+                  className="df-primary-button"
+                  type="submit"
+                  disabled={buyLoading}
+                >
                   {buyLoading ? "Loading..." : buy_id ? "Update" : "Submit"}
                 </Button>
               </div>

@@ -94,7 +94,9 @@ export const BuyEntryModel = ({
             buy_entry_id ? handleUpdateBuyEntryBuyId : handleAddBuyEntryBuyId
           )}
         >
-          <h2 className="df-side-modal-title">{"Add Entry"}</h2>
+          <h2 className="df-side-modal-title">
+            {buy_entry_id ? "Update entry" : "Add entry"}
+          </h2>
           <div>
             <div
               className={styles["model-field"]}
@@ -157,10 +159,18 @@ export const BuyEntryModel = ({
               />
             </div>
             <div className={styles["button-div"]}>
-              <Button variant="outlined" onClick={handleClose}>
+              <Button
+                variant="outlined"
+                className="df-secondary-button"
+                onClick={handleClose}
+              >
                 Close
               </Button>
-              <Button variant="contained" type="submit">
+              <Button
+                variant="contained"
+                className="df-primary-button"
+                type="submit"
+              >
                 Submit
               </Button>
             </div>

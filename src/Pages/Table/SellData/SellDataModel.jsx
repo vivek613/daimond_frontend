@@ -45,14 +45,19 @@ export function SellDataModel({ open, setOpen }) {
           <form onSubmit={handleSubmit(handleOnSubmit)}>
             <div className="df-side-modal-header">
               <h2 className="df-side-modal-title">
-                {buy_id ? "Update Sell Bill" : "Add Sell Bill"}
+                {buy_id ? "Update bill" : "Add bill"}
               </h2>
               <div className={styles["button-div"]}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button
+                  variant="outlined"
+                  className="df-secondary-button"
+                  onClick={handleClose}
+                >
                   Close
                 </Button>
                 <Button
                   variant="contained"
+                  className="df-primary-button"
                   type="submit"
                   disabled={sellLoading}
                 >
