@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -27,11 +28,10 @@ export function SellDataModel({ open, setOpen }) {
     register,
     handleSubmit,
     watch,
-    dataCurrency,
     sellLoading,
   } = useSellData();
 
-  const { company_name, currency_type, buy_id } = watch();
+  const { company_name, buy_id } = watch();
   const handleClose = () => setOpen(false);
 
   useEffect(() => {

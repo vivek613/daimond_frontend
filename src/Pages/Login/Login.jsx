@@ -1,20 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import "./Login.css";
 import { useLogin } from "../../Hooks";
-import { getCookies } from "../../Hooks/Auth/Cookies";
 import { useNavigate } from "react-router";
 
 export const Login = () => {
@@ -27,7 +24,7 @@ export const Login = () => {
     },
   });
   const onSubmit = (data) => handleLogin(data);
-  const token = getCookies("access_token");
+  const token = sessionStorage.getItem("access_token");
   React.useEffect(() => {
     token && navigate("/company");
   }, [token]);

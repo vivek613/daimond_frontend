@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { useEffect } from "react";
 import { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { getCookies } from "../Hooks/Auth/Cookies";
 
 import { useLogin } from "../Hooks/Auth/useLogin";
 import Home from "./Home/Home";
@@ -101,14 +101,17 @@ const createNestedRoutes = (routes, RouteType) => {
   });
 };
 const Product = () => {
-  const { setAuth, auth, loading, setLoading } = useLogin();
+  const { setAuth, loading, setLoading } = useLogin();
 
   useEffect(() => {
     setLoading(true)
-    if (getCookies("access_token")) {
+    if (sessionStorage.getItem("access_token")) {
       setAuth(true)
       setLoading(false)
         ;
+    } else {
+      setLoading(false)
+
     }
   }, []);
 

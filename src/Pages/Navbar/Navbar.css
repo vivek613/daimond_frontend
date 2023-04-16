@@ -203,6 +203,7 @@ body.dark .sidebar header .toggle {
   transition: var(--tran-05);
 }
 .sidebar li .sidebar-button {
+  cursor: pointer;
   list-style: none;
   flex-direction: column;
   height: 100%;

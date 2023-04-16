@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 // import { Table } from "../../../Components/index";
 import {
   SellDataProvider,
@@ -7,18 +8,12 @@ import {
 } from "../../../Hooks/Application/useSellData";
 import { Navbar } from "../../Navbar/Navbar";
 import { SellDataModel } from "./SellDataModel";
-import Button from "@mui/material/Button";
-import style from "./SellData.module.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Paper from "@mui/material/Paper";
 
 import { SellEntryData } from "./SellEntryData";
@@ -31,11 +26,8 @@ const SellData = () => {
   const {
     handleGetAllBill,
     billData,
-    setPaginationModel,
-    paginationModel,
     open,
     setOpen,
-    columns,
     sellLoading,
     setExpiryDate,
     setStartDate,
@@ -46,10 +38,8 @@ const SellData = () => {
     rowsPerPage,
     setRowsPerPage,
     filterData,
-    setFilterData,
   } = useSellData();
   // const [open, setOpen] = useState(false);
-  const [filterDate, setFilterDate] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

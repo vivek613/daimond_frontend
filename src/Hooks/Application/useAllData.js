@@ -1,6 +1,5 @@
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
-import { getCookies } from "../Auth/Cookies";
 
 
 const ctx = createContext();
@@ -8,7 +7,7 @@ const ctx = createContext();
 export const useAllData = () => useContext(ctx);
 
 export const AllDataProvider = ({ children }) => {
-    const tokenStr = getCookies("access_token");
+    const tokenStr = sessionStorage.getItem("access_token");
     const [allData, setAllData] = useState([]);
     const [allDataLoading, setAllDataLoading] = useState(false);
     const handleGetAllBill = async (props) => {

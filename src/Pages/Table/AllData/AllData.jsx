@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { Table } from "../../../Components";
 import { useMemo } from "react";
 import ReactApexChart from "react-apexcharts";
+import { findMax } from "../../../Hooks/Auth/Cookies";
 const columns = [
   { field: "company_name", headerName: "Company Name", width: 200 },
   {
@@ -84,17 +85,10 @@ const AllData = () => {
   useEffect(() => {
     handleGetAllBill();
   }, []);
-  var max1 = Math.max.apply(
-    null,
-    allData?.dateWiseData?.reverse().map((item) => item.buy)
-  ); // Calculate the maximum value from your data
-  var max2 = Math.max.apply(
-    null,
+  var maxY = findMax(
+    allData?.dateWiseData?.reverse().map((item) => item.buy),
     allData?.dateWiseData?.reverse().map((item) => item.sell)
-  ); // Calculate the maximum value from your data
-
-  const max = Math.max(max1, max2);
-  var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
+  );
   const chartData = useMemo(() => {
     return {
       chartData: [

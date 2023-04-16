@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setCookies } from "./Cookies";
+import { setCookies, setSession } from "./Cookies";
 import { toast } from "react-hot-toast";
 
 const loginCtx = createContext();
@@ -48,7 +48,8 @@ export const AuthProvider = (props) => {
           setAuth(true);
           toast.success(" Login Successfully !");
 
-          setCookies("access_token", item.data.data.accessToken);
+          // setCookies("access_token", item.data.data.accessToken);
+          sessionStorage.setItem("access_token", item.data.data.accessToken);
           navigate("/company");
         } else {
         }

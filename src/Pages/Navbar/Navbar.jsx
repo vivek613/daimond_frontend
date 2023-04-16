@@ -1,17 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useLocation } from "react-router";
 import "./Navbar.css";
-import SideNav, {
-  Toggle,
-  Nav,
-  NavItem,
-  NavIcon,
-  NavText,
-} from "@trendmicro/react-sidenav";
-import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import { FaUserAlt, FaUsers } from "react-icons/fa";
-import { MdAccessTimeFilled } from "react-icons/md";
-import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router";
 import { productContext } from "../../App";
 

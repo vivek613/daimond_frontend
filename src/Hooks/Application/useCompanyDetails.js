@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
-import { getCookies } from "../Auth/Cookies";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { ReactComponent as Graph } from "../../assets/graph.svg";
@@ -19,7 +18,7 @@ export const CompanyDetailsProvider = ({ children }) => {
   const [openReport, setOpenReport] = useState(false);
   const [companyLoading, setCompanyLoading] = useState(false);
 
-  const tokenStr = getCookies("access_token");
+  const tokenStr = sessionStorage.getItem("access_token");
 
   const {
     register,

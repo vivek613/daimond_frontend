@@ -1,6 +1,5 @@
 import React, { useContext, useState, createContext } from "react";
 import axios from "axios";
-import { getCookies } from "../Auth/Cookies";
 import { ReactComponent as EditIcon } from "../../assets/editIcon.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/deleteIcon.svg";
 import { useForm } from "react-hook-form";
@@ -26,7 +25,7 @@ export const BillDataProvider = ({ children }) => {
     pageSize: 5,
   });
   const [buyLoading, setBuyLoading] = useState(false);
-  const tokenStr = getCookies("access_token");
+  const tokenStr = sessionStorage.getItem("access_token")
   const {
     register,
     handleSubmit,

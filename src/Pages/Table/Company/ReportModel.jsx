@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 
 import ReactApexChart from "react-apexcharts";
 import { Table } from "../../../Components";
+import { findMax } from "../../../Hooks/Auth/Cookies";
 
 const Sellcolumns = [
   {
@@ -128,25 +129,24 @@ const Body = ({
 const ReportModel = () => {
   const { companyReport, openReport, setOpenReport } = useCompanyDetails();
 
-  var max = Math.max.apply(
-    null,
-    companyReport?.graphData?.reverse().map((item) => item.buy)
-  ); // Calculate the maximum value from your data
-  var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
+  var maxY = findMax(
+    companyReport?.graphData?.reverse().map((item) => item.total_buy),
+    companyReport?.graphData?.reverse().map((item) => item.total_sell)
+  );
   const chartData = useMemo(() => {
     return {
       chartData: [
         {
           name: "Total Buy",
-          data: companyReport?.graphData?.reverse().map((i) => i.total_buy),
+          data: companyReport?.graphData?.map((i) => i.total_buy),
         },
         {
           name: "Total Sell",
-          data: companyReport?.graphData?.reverse().map((i) => i.total_sell),
+          data: companyReport?.graphData?.map((i) => i.total_sell),
         },
       ],
       xaxis: {
-        categories: companyReport?.graphData?.reverse().map((i) => i.month),
+        categories: companyReport?.graphData?.reverse().map((i) => i.date),
       },
       yaxis: {
         opposite: false,

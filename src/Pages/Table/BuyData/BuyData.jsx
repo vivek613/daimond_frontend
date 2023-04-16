@@ -1,12 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import {
   BillDataProvider,
   useBillData,
 } from "../../../Hooks/Application/useBillData";
-import style from "./BuyData.module.css";
 import { Navbar } from "../../Navbar/Navbar";
 import { BuyDataModel } from "./BuyDataModel";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,11 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { BuyEntryData } from "./BuyEntryData";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { LinearProgress, TablePagination, TextField } from "@mui/material";
+import { LinearProgress, TablePagination } from "@mui/material";
 import { useContext } from "react";
 import { productContext } from "../../../App";
 
@@ -29,11 +24,8 @@ const BillData = () => {
   const {
     handleGetAllBill,
     billData,
-    setPaginationModel,
-    paginationModel,
     open,
     setOpen,
-    columns,
     buyLoading,
     setExpiryDate,
     setStartDate,
@@ -43,13 +35,9 @@ const BillData = () => {
     setPage,
     rowsPerPage,
     setRowsPerPage,
-    handleGetAllEntryById,
-    setBillData,
     filterData,
-    setFilterData,
   } = useBillData();
 
-  const [filterDate, setFilterDate] = useState(null);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

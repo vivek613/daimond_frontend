@@ -17,3 +17,15 @@ export const getCookies = (name) => {
   }
   return null;
 };
+
+
+export const findMax = (val1, val2) => {
+
+  var max1 = Math.max.apply(null, val1);
+  var max2 = Math.max.apply(null, val2);
+  const max = Math.max(max1, max2);
+  var maxY = max > 5 ? Math.ceil(max / 5) * 5 : 5;
+
+  return maxY;
+
+} 
