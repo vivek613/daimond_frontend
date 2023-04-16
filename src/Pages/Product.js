@@ -8,7 +8,7 @@ import { useLogin } from "../Hooks/Auth/useLogin";
 import Home from "./Home/Home";
 import { Login, CompanyTable, BuyData, sellData } from "./index";
 import AllData from "./Table/AllData/AllData";
-import { LinearProgress } from "@mui/material";
+import { CircularProgress, LinearProgress } from "@mui/material";
 
 const publicRouts = [
   {
@@ -101,13 +101,38 @@ const createNestedRoutes = (routes, RouteType) => {
   });
 };
 const Product = () => {
-  const { setAuth } = useLogin();
+  const { setAuth, auth, loading, setLoading } = useLogin();
 
   useEffect(() => {
+    setLoading(true)
     if (getCookies("access_token")) {
-      setAuth(true);
+      setAuth(true)
+      setLoading(false)
+        ;
     }
   }, []);
+
+  if (loading)
+    return (
+      <>
+        <div
+          id="BrowserLoader"
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "fixed",
+            zIndex: 10000000,
+            top: 0,
+            left: 0,
+            backgroundColor: "#fff",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      </>
+    );
+
+
   return (
     <Routes>
       {createNestedRoutes(privateRouts, Private)}

@@ -10,6 +10,8 @@ const loginCtx = createContext();
 export const AuthProvider = (props) => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   //------------------------ FOR LOGIN USER ------------------------//
   const handleCheckLoginPage = async (props) => {
     await axios
@@ -55,7 +57,7 @@ export const AuthProvider = (props) => {
 
   return (
     <loginCtx.Provider
-      value={{ auth, setAuth, handleLogin, handleCheckLoginPage }}
+      value={{ auth, setAuth, loading, setLoading, handleLogin, handleCheckLoginPage }}
     >
       {props.children}
     </loginCtx.Provider>
