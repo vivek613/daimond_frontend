@@ -121,12 +121,13 @@ const Product = () => {
         <div
           id="BrowserLoader"
           style={{
-            width: "100%",
+               width: "100%",
             height: "100%",
             position: "fixed",
             zIndex: 10000000,
-            top: 0,
-            left: 0,
+          display:"flex",
+          justifyContent:"center",
+          alignItems:"center",
             backgroundColor: "#fff",
           }}
         >
