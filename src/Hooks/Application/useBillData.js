@@ -25,7 +25,7 @@ export const BillDataProvider = ({ children }) => {
     pageSize: 5,
   });
   const [buyLoading, setBuyLoading] = useState(false);
-  const tokenStr = sessionStorage.getItem("access_token")
+  const tokenStr = sessionStorage.getItem("access_token");
   const {
     register,
     handleSubmit,
@@ -274,8 +274,8 @@ export const BillDataProvider = ({ children }) => {
     );
   };
   const handleEditOpenBuyModal = (row) => {
-    setExpiryDate(dayjs(row.end_date));
-    setStartDate(dayjs(row.start_date));
+    setExpiryDate(dayjs(row.end_date).subtract(1, "day"));
+    setStartDate(dayjs(row.start_date).subtract(1, "day"));
     reset({
       ...getValues(),
       company_name: row.company._id,

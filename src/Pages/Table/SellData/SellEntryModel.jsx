@@ -49,7 +49,7 @@ export const SellEntryModel = ({
     reset({
       ...getValues(),
       sell_entry_id: currentData ? currentData._id : "",
-      date: currentData ? dayjs(currentData.start_date) : "",
+      date: currentData ? dayjs(currentData.start_date).subtract(1, "day") : "",
       currency: currentData ? currentData.currency : "",
       price: currentData ? currentData.price : "1",
       payment: currentData ? currentData.payment : 0,
