@@ -89,7 +89,7 @@ export const SellEntryData = (props) => {
           price: props.price,
           payment: props.payment,
           brokerName: props.broker,
-          start_date: props.date,
+          start_date: new Date(props.date).toLocaleString(),
         },
         {
           headers: { Authorization: `Bearer ${tokenStr}` },
@@ -119,7 +119,8 @@ export const SellEntryData = (props) => {
         `${process.env.REACT_APP_URL}/sell/updateEntry`,
         {
           id: props.sell_entry_id,
-          start_date: props.date,
+          start_date: new Date(props.date).toLocaleString(),
+
           currency: props.currency,
           price: props.price,
           payment: props.payment,
