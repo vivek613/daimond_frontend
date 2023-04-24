@@ -99,6 +99,8 @@ export const BillDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
+    let newStartDate = new Date(startDate).toLocaleString();
+    let newExpiryDate = new Date(expiryDate).toLocaleString();
     try {
       setBuyLoading(true);
       if (buy_id) {
@@ -114,8 +116,8 @@ export const BillDataProvider = ({ children }) => {
               price: data.price,
               give: 0,
               due_days: data.due_days,
-              end_date: expiryDate,
-              start_date: startDate,
+              end_date: newExpiryDate,
+              start_date: newStartDate,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },
@@ -166,8 +168,8 @@ export const BillDataProvider = ({ children }) => {
               price: data.price,
               give: 0,
               due_days: data.due_days,
-              end_date: expiryDate,
-              start_date: startDate,
+              end_date: newExpiryDate,
+              start_date: newStartDate,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },

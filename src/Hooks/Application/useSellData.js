@@ -97,6 +97,9 @@ export const SellDataProvider = ({ children }) => {
   };
 
   const handleOnSubmit = async (data) => {
+
+    let newStartDate = new Date(startDate).toLocaleString();
+    let newExpiryDate = new Date(expiryDate).toLocaleString();
     try {
       setSelloading(true);
       if (buy_id) {
@@ -112,8 +115,8 @@ export const SellDataProvider = ({ children }) => {
               price: data.price,
               take: 0,
               due_days: data.due_days,
-              end_date: expiryDate,
-              start_date: startDate,
+              end_date: newExpiryDate,
+              start_date: newStartDate,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },
@@ -164,8 +167,8 @@ export const SellDataProvider = ({ children }) => {
               price: data.price,
               take: 0,
               due_days: data.due_days,
-              end_date: expiryDate,
-              start_date: startDate,
+              end_date: newExpiryDate,
+              start_date: newStartDate,
             },
             {
               headers: { Authorization: `Bearer ${tokenStr}` },
