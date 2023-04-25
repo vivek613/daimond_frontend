@@ -59,6 +59,7 @@ export const CompanyDetailsProvider = ({ children }) => {
       })
       .catch((err) => {
         setCompanyLoading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -81,6 +82,7 @@ export const CompanyDetailsProvider = ({ children }) => {
       })
       .catch((err) => {
         setCompanyLoading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -111,6 +113,7 @@ export const CompanyDetailsProvider = ({ children }) => {
       })
       .catch((err) => {
         setCompanyLoading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -149,8 +152,11 @@ export const CompanyDetailsProvider = ({ children }) => {
         })
         .catch((err) => {
           setCompanyLoading(false);
+          toast.error(err?.response?.data?.message);
         });
     } catch (error) {
+      toast.error(error.message);
+
       setCompanyLoading(false);
     }
   };
@@ -173,6 +179,7 @@ export const CompanyDetailsProvider = ({ children }) => {
       })
       .catch((err) => {
         setCompanyLoading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -258,6 +265,7 @@ export const CompanyDetailsProvider = ({ children }) => {
         handleSubmit,
         watch,
         reset,
+        errors,
         openReport,
         setOpenReport,
         getValues,

@@ -29,6 +29,7 @@ export function BuyDataModel({ open, setOpen }) {
     watch,
     dataCurrency,
     buyLoading,
+    errors,
   } = useBillData();
   const { company_name, currency_type, buy_id } = watch();
   const handleClose = () => setOpen(false);
@@ -37,6 +38,7 @@ export function BuyDataModel({ open, setOpen }) {
     handleGetAllCompany();
   }, []);
 
+  console.log(errors);
   return (
     <div>
       <Drawer anchor={"right"} open={open} onClose={handleClose}>
@@ -64,15 +66,22 @@ export function BuyDataModel({ open, setOpen }) {
                 </Button>
               </div>
             </div>
+
             <div className={styles["model-field"]}>
               <FormControl>
                 <InputLabel id="df-company-select-label">Company</InputLabel>
                 <Select
-                  labelId="df-company-select-label"
+                  // labelId="df-company-select-label"
                   label="company"
                   disabled={buy_id ? true : false}
+                  {...register("company_name", {
+                    required: "This is required.",
+                  })}
+                  require={true}
                   value={company_name}
-                  {...register("company_name")}
+                  helperText={errors?.company_name?.message}
+                  inValid={Boolean(errors?.company_name?.message)}
+                  error
                 >
                   {allCompanyData.map(({ name, _id }) => {
                     return (
@@ -117,7 +126,12 @@ export function BuyDataModel({ open, setOpen }) {
                     id="outlined-basic"
                     label="Due days"
                     variant="outlined"
-                    {...register("due_days")}
+                    {...register("due_days", {
+                      required: "This is required.",
+                    })}
+                    helperText={errors?.due_days?.message}
+                    inValid={Boolean(errors?.due_days?.message)}
+                    error={Boolean(errors?.due_days?.message)}
                     className="df-text-field"
                     margin="normal"
                   />

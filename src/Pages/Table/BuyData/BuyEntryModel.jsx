@@ -24,6 +24,7 @@ export const BuyEntryModel = ({
   handleUpdateBuyEntryBuyId,
   currentData,
   setCurrentData,
+  isLoading,
 }) => {
   const {
     register,
@@ -48,7 +49,7 @@ export const BuyEntryModel = ({
     reset({
       ...getValues(),
       buy_entry_id: currentData ? currentData._id : "",
-      date: currentData ? dayjs(currentData.start_date).subtract(1, "day") : "",
+      date: currentData ? dayjs(currentData.start_date) : dayjs(new Date()),
       currency: currentData ? currentData.currency : "",
       price: currentData ? currentData.price : "1",
       payment: currentData ? currentData.payment : 0,
@@ -170,8 +171,9 @@ export const BuyEntryModel = ({
                 variant="contained"
                 className="df-primary-button"
                 type="submit"
+                disabled={isLoading}
               >
-                Submit
+                {isLoading ? "Loading..." : buy_entry_id ? "Update" : "Add"}
               </Button>
             </div>
           </div>

@@ -65,6 +65,9 @@ export const SellDataProvider = ({ children }) => {
           setAllCompanyData(item.data.data);
         } else {
         }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
       });
   };
   //------------------------ FOR LOGIN USER ------------------------//
@@ -93,11 +96,11 @@ export const SellDataProvider = ({ children }) => {
       })
       .catch((err) => {
         setSelloading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
   const handleOnSubmit = async (data) => {
-
     let newStartDate = new Date(startDate).toLocaleString();
     let newExpiryDate = new Date(expiryDate).toLocaleString();
     try {
@@ -153,6 +156,7 @@ export const SellDataProvider = ({ children }) => {
           })
           .catch((err) => {
             setSelloading(false);
+            toast.error(err?.response?.data?.message);
           });
       } else {
         await axios
@@ -205,11 +209,13 @@ export const SellDataProvider = ({ children }) => {
           })
           .catch((err) => {
             setSelloading(false);
+            toast.error(err?.response?.data?.message);
           });
       }
     } catch (error) {
       setSelloading(false);
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -230,6 +236,7 @@ export const SellDataProvider = ({ children }) => {
       })
       .catch((err) => {
         setSelloading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -391,6 +398,7 @@ export const SellDataProvider = ({ children }) => {
         handleSubmit,
         watch,
         reset,
+        errors,
         getValues,
         sellLoading,
         dataCurrency,

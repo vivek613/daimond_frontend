@@ -29,6 +29,7 @@ export function SellDataModel({ open, setOpen }) {
     handleSubmit,
     watch,
     sellLoading,
+    errors,
   } = useSellData();
 
   const { company_name, buy_id } = watch();
@@ -73,7 +74,12 @@ export function SellDataModel({ open, setOpen }) {
                   label="company"
                   disabled={buy_id ? true : false}
                   value={company_name}
-                  {...register("company_name")}
+                  {...register("company_name", {
+                    required: "This is required.",
+                  })}
+                  helperText={errors?.company_name?.message}
+                  inValid={Boolean(errors?.company_name?.message)}
+                  error={Boolean(errors?.company_name?.message)}
                 >
                   {allCompanyData.map(({ name, _id }) => {
                     return (
@@ -117,7 +123,12 @@ export function SellDataModel({ open, setOpen }) {
                     id="outlined-basic"
                     label="Due days"
                     variant="outlined"
-                    {...register("due_days")}
+                    {...register("due_days", {
+                      required: "This is required.",
+                    })}
+                    helperText={errors?.due_days?.message}
+                    inValid={Boolean(errors?.due_days?.message)}
+                    error={Boolean(errors?.due_days?.message)}
                     className="df-text-field"
                     margin="normal"
                   />

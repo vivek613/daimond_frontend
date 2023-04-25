@@ -307,6 +307,7 @@ export const SellEntryData = (props) => {
         handleUpdateBuyEntryBuyId={handleUpdateBuyEntryBuyId}
         currentData={currentData}
         setCurrentData={setCurrentData}
+        isLoading={isLoading}
       />
     </>
   );

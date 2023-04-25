@@ -27,7 +27,9 @@ export function CompanyModel() {
     handleUpdateCompany,
     register,
     handleSubmit,
+    errors,
     watch,
+    companyLoading,
   } = useCompanyDetails();
 
   const { id } = watch();
@@ -62,7 +64,12 @@ export function CompanyModel() {
               id="outlined-basic"
               label="Company name"
               variant="outlined"
-              {...register("company_name", { required: true })}
+              {...register("company_name", {
+                required: "this field is required",
+              })}
+              helperText={errors?.company_name?.message}
+              error={Boolean(errors?.company_name?.message)}
+              onInvalid={Boolean(errors?.company_name?.message)}
             />
             <TextField
               margin="normal"
@@ -83,8 +90,12 @@ export function CompanyModel() {
               >
                 Cancel
               </button>
-              <button className="df-primary-button" type="submit">
-                {id ? "Update" : "Submit"}
+              <button
+                className="df-primary-button"
+                type="submit"
+                disabled={companyLoading}
+              >
+                {companyLoading ? "Loading" : id ? "Update" : "Submit"}
               </button>
             </div>
           </form>

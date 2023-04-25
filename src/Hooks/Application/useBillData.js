@@ -154,6 +154,7 @@ export const BillDataProvider = ({ children }) => {
           })
           .catch((err) => {
             setBuyLoading(false);
+            toast.error(err?.response?.data?.message);
           });
       } else {
         await axios
@@ -206,10 +207,12 @@ export const BillDataProvider = ({ children }) => {
           })
           .catch((err) => {
             setBuyLoading(false);
+            toast.error(err?.response?.data?.message);
           });
       }
     } catch (error) {
       setBuyLoading(false);
+      toast.error(error?.message);
     }
   };
 
@@ -229,6 +232,7 @@ export const BillDataProvider = ({ children }) => {
       })
       .catch((err) => {
         setBuyLoading(false);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -400,6 +404,8 @@ export const BillDataProvider = ({ children }) => {
         setBillData,
         filterData,
         setFilterData,
+        errors,
+        isValid,
       }}
     >
       {children}

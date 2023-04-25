@@ -25,6 +25,7 @@ export const SellEntryModel = ({
   handleUpdateBuyEntryBuyId,
   currentData,
   setCurrentData,
+  isLoading,
 }) => {
   const {
     register,
@@ -49,7 +50,7 @@ export const SellEntryModel = ({
     reset({
       ...getValues(),
       sell_entry_id: currentData ? currentData._id : "",
-      date: currentData ? dayjs(currentData.start_date).subtract(1, "day") : "",
+      date: currentData ? dayjs(currentData.start_date) : dayjs(new Date()),
       currency: currentData ? currentData.currency : "",
       price: currentData ? currentData.price : "1",
       payment: currentData ? currentData.payment : 0,
@@ -138,9 +139,16 @@ export const SellEntryModel = ({
                       date: newValue,
                     });
                   }}
+                  // {...register("date", {
+                  //   required: "this field is required",
+                  // })}
+                  // helperText={errors?.date?.message}
+                  // inValid={Boolean(errors?.date?.message)}
+                  // error={Boolean(errors?.date?.message)}
                 />
               </DemoContainer>
             </LocalizationProvider>
+            {console.log(date)}
             <TextField
               id="outlined-basic"
               label="Payment"
@@ -168,8 +176,9 @@ export const SellEntryModel = ({
               variant="contained"
               className="df-primary-button"
               type="submit"
+              disabled={isLoading}
             >
-              Submit
+              {isLoading ? "Loding" : sell_entry_id ? "Update" : "Add"}
             </Button>
           </div>
         </form>
