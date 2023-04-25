@@ -160,15 +160,10 @@ export const BuyEntryModel = ({
               />
             </div>
             <div className={styles["button-div"]}>
-              <Button
-                variant="outlined"
-                className="df-secondary-button"
-                onClick={handleClose}
-              >
+              <Button className="df-secondary-button" onClick={handleClose}>
                 Close
               </Button>
               <Button
-                variant="contained"
                 className="df-primary-button"
                 type="submit"
                 disabled={isLoading}

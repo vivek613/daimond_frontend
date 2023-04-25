@@ -65,7 +65,12 @@ export const BillDataProvider = ({ children }) => {
         if (item.data.status) {
           setAllCompanyData(item.data.data);
         } else {
+          setAllCompanyData([]);
         }
+      })
+      .catch((err) => {
+        setAllCompanyData([]);
+        toast.error(err?.response?.data?.message);
       });
   };
 
@@ -85,16 +90,20 @@ export const BillDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        setBuyLoading(false);
         if (item.data.status) {
+          setBuyLoading(false);
           setBillData(item?.data);
           setFilterData(item?.data?.data);
         } else {
           setBillData([]);
+          setFilterData([]);
+          setBuyLoading(false);
         }
       })
       .catch((err) => {
         setBuyLoading(false);
+        setBillData([]);
+        setFilterData([]);
       });
   };
 
@@ -279,6 +288,7 @@ export const BillDataProvider = ({ children }) => {
       </>
     );
   };
+
   const handleEditOpenBuyModal = (row) => {
     setExpiryDate(dayjs(row.end_date).subtract(1, "day"));
     setStartDate(dayjs(row.start_date).subtract(1, "day"));
@@ -292,7 +302,6 @@ export const BillDataProvider = ({ children }) => {
       due_days: row.due_days,
       give: row.give,
       total_payment: row.total_payment,
-
       add_give: 0,
       dollar_price: 0,
       buy_id: row._id,

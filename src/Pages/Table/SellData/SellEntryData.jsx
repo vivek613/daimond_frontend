@@ -22,7 +22,6 @@ import { ReactComponent as DeleteIcon } from "../../../assets/deleteIcon.svg";
 
 export const SellEntryData = (props) => {
   const { handleEditOpenBuyModal, handleDeleteBuy } = useSellData();
-
   const tokenStr = sessionStorage.getItem("access_token");
   const { row } = props;
   const [open1, setOpen1] = useState(false);
@@ -34,24 +33,20 @@ export const SellEntryData = (props) => {
   const handleGetAllEntryById = async (id) => {
     setIsloading(true);
     await axios
-      .get(
-        `${process.env.REACT_APP_URL}sell/getEntry/${id}`,
-
-        {
-          headers: { Authorization: `Bearer ${tokenStr}` },
-        }
-      )
+      .get(`${process.env.REACT_APP_URL}sell/getEntry/${id}`, {
+        headers: { Authorization: `Bearer ${tokenStr}` },
+      })
       .then((item) => {
         if (item.data.status) {
           setIsloading(false);
-
           setBuyEntry(item?.data?.data);
-          // setAllCompanyData(item.data.data);
         } else {
+          setBuyEntry([]);
           setIsloading(false);
         }
       })
       .catch((err) => {
+        setBuyEntry([]);
         setIsloading(false);
       });
   };

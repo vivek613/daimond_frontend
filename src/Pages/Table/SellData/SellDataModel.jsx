@@ -49,15 +49,10 @@ export function SellDataModel({ open, setOpen }) {
                 {buy_id ? "Update bill" : "Add bill"}
               </h2>
               <div className={styles["button-div"]}>
-                <Button
-                  variant="outlined"
-                  className="df-secondary-button"
-                  onClick={handleClose}
-                >
+                <Button className="df-secondary-button" onClick={handleClose}>
                   Close
                 </Button>
                 <Button
-                  variant="contained"
                   className="df-primary-button"
                   type="submit"
                   disabled={sellLoading}

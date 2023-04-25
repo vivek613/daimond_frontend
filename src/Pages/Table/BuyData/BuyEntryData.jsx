@@ -37,8 +37,13 @@ export const BuyEntryData = (props) => {
         headers: { Authorization: `Bearer ${tokenStr}` },
       })
       .then((item) => {
-        setIsloading(false);
-        setBuyEntryById(item?.data?.data);
+        if (item.data.status) {
+          setIsloading(false);
+          setBuyEntryById(item?.data?.data);
+        } else {
+          setBuyEntryById([]);
+          setIsloading(false);
+        }
       })
       .catch((err) => {
         setIsloading(false);

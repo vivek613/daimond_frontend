@@ -65,21 +65,23 @@ body.dark {
 /* ===== Sidebar ===== */
 .sidebar {
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
+  top: 5px;
+  left: 5px;
+  height: 96%;
+  border-radius: 15px 5px 5px 15px;
   width: 80px;
   padding: 10px 0px;
   background: var(--sidebar-color);
   transition: var(--tran-05);
-  z-index: 100;
-  background: rgb(214, 212, 209);
-  background: linear-gradient(
+  z-index: 9999;
+  background: linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25));
+  box-shadow: rgba(0, 0, 0, 0.05) 0rem 1.25rem 1.6875rem 0rem;
+  /* background: linear-gradient(
     0deg,
     rgba(214, 212, 209, 1) 0%,
     rgba(255, 255, 255, 1) 100%,
     rgba(255, 255, 255, 1) 100%
-  );
+  ); */
 }
 
 /* ===== Reusable code - Here ===== */
@@ -109,7 +111,8 @@ body.dark {
 
 .sidebar .text,
 .sidebar .icon {
-  color: var(--text-color);
+  color: white;
+  /* color: var(--text-color); */
   transition: var(--tran-03);
 }
 
@@ -219,10 +222,11 @@ body.dark .sidebar header .toggle {
 }
 
 .sidebar li .sidebar-button:hover {
-  background-color: var(--primary-color);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .selected {
-  background-color: var(--primary-color) !important;
+  background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+  /* background-color: var(--primary-color) !important; */
   color: #fff !important;
 }
 .sidebar li .sidebar-button:hover .icon,

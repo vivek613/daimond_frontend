@@ -32,13 +32,15 @@ export function BuyDataModel({ open, setOpen }) {
     errors,
   } = useBillData();
   const { company_name, currency_type, buy_id } = watch();
-  const handleClose = () => setOpen(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     handleGetAllCompany();
   }, []);
 
-  console.log(errors);
   return (
     <div>
       <Drawer anchor={"right"} open={open} onClose={handleClose}>
@@ -49,15 +51,10 @@ export function BuyDataModel({ open, setOpen }) {
                 {buy_id ? "Update bill" : "Add bill"}
               </h2>
               <div className={styles["button-div"]}>
-                <Button
-                  variant="outlined"
-                  onClick={handleClose}
-                  className="df-secondary-button"
-                >
+                <Button className="df-secondary-button" onClick={handleClose}>
                   Close
                 </Button>
                 <Button
-                  variant="contained"
                   className="df-primary-button"
                   type="submit"
                   disabled={buyLoading}
@@ -71,17 +68,16 @@ export function BuyDataModel({ open, setOpen }) {
               <FormControl>
                 <InputLabel id="df-company-select-label">Company</InputLabel>
                 <Select
-                  // labelId="df-company-select-label"
+                  labelId="df-company-select-label"
                   label="company"
                   disabled={buy_id ? true : false}
+                  value={company_name}
                   {...register("company_name", {
                     required: "This is required.",
                   })}
-                  require={true}
-                  value={company_name}
                   helperText={errors?.company_name?.message}
                   inValid={Boolean(errors?.company_name?.message)}
-                  error
+                  error={Boolean(errors?.company_name?.message)}
                 >
                   {allCompanyData.map(({ name, _id }) => {
                     return (

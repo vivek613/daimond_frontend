@@ -64,9 +64,11 @@ export const SellDataProvider = ({ children }) => {
         if (item.data.status) {
           setAllCompanyData(item.data.data);
         } else {
+          setAllCompanyData([]);
         }
       })
       .catch((err) => {
+        setAllCompanyData([]);
         toast.error(err?.response?.data?.message);
       });
   };
@@ -86,15 +88,19 @@ export const SellDataProvider = ({ children }) => {
         }
       )
       .then((item) => {
-        setSelloading(false);
         if (item.data.status) {
+          setSelloading(false);
           setBillData(item.data);
           setFilterData(item.data.data);
         } else {
           setBillData([]);
+          setFilterData([]);
+          setSelloading(false);
         }
       })
       .catch((err) => {
+        setBillData([]);
+        setFilterData([]);
         setSelloading(false);
         toast.error(err?.response?.data?.message);
       });
