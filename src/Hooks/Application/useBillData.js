@@ -290,8 +290,8 @@ export const BillDataProvider = ({ children }) => {
   };
 
   const handleEditOpenBuyModal = (row) => {
-    setExpiryDate(dayjs(row.end_date).subtract(1, "day"));
-    setStartDate(dayjs(row.start_date).subtract(1, "day"));
+    setExpiryDate(dayjs(row.end_date) );
+    setStartDate(dayjs(row.start_date) );
     reset({
       ...getValues(),
       company_name: row.company._id,
