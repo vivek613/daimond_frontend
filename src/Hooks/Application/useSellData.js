@@ -102,7 +102,7 @@ export const SellDataProvider = ({ children }) => {
         setBillData([]);
         setFilterData([]);
         setSelloading(false);
-        toast.error(err?.response?.data?.message);
+        // toast.error(err?.response?.data?.message);
       });
   };
 
@@ -279,8 +279,6 @@ export const SellDataProvider = ({ children }) => {
           </div>
           <div className="df-custom-action-cell">
             <DeleteIcon
-
-            
               className="df-action-delete-icon"
               onClick={() => {
                 handleDeleteBuy(row._id);

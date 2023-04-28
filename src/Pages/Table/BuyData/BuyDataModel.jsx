@@ -37,9 +37,7 @@ export function BuyDataModel({ open, setOpen }) {
     setOpen(false);
   };
 
-  useEffect(() => {
-    handleGetAllCompany();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div>

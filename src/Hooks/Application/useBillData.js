@@ -20,10 +20,7 @@ export const BillDataProvider = ({ children }) => {
   const [expiryDate, setExpiryDate] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [paginationModel, setPaginationModel] = useState({
-    page: 0,
-    pageSize: 5,
-  });
+
   const [buyLoading, setBuyLoading] = useState(false);
   const tokenStr = sessionStorage.getItem("access_token");
   const {
@@ -290,8 +287,8 @@ export const BillDataProvider = ({ children }) => {
   };
 
   const handleEditOpenBuyModal = (row) => {
-    setExpiryDate(dayjs(row.end_date) );
-    setStartDate(dayjs(row.start_date) );
+    setExpiryDate(dayjs(row.end_date));
+    setStartDate(dayjs(row.start_date));
     reset({
       ...getValues(),
       company_name: row.company._id,
@@ -393,8 +390,7 @@ export const BillDataProvider = ({ children }) => {
         allCompanyData,
         setAllCompanyData,
         billData,
-        setPaginationModel,
-        paginationModel,
+
         columns,
         open,
         setOpen,
