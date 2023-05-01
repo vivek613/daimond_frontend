@@ -130,8 +130,8 @@ const ReportModel = () => {
   const { companyReport, openReport, setOpenReport } = useCompanyDetails();
 
   var maxY = findMax(
-    companyReport?.graphData?.reverse().map((item) => item.total_buy),
-    companyReport?.graphData?.reverse().map((item) => item.total_sell)
+    companyReport?.graphData?.map((item) => item.total_buy),
+    companyReport?.graphData?.map((item) => item.total_sell)
   );
   const chartData = useMemo(() => {
     return {
@@ -146,7 +146,7 @@ const ReportModel = () => {
         },
       ],
       xaxis: {
-        categories: companyReport?.graphData?.reverse().map((i) => i.date),
+        categories: companyReport?.graphData?.map((i) => i.date),
       },
       yaxis: {
         opposite: false,

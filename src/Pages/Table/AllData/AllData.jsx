@@ -86,23 +86,23 @@ const AllData = () => {
     handleGetAllBill();
   }, []);
   var maxY = findMax(
-    allData?.dateWiseData?.reverse().map((item) => item.buy),
-    allData?.dateWiseData?.reverse().map((item) => item.sell)
+    allData?.dateWiseData?.map((item) => item.buy),
+    allData?.dateWiseData?.map((item) => item.sell)
   );
   const chartData = useMemo(() => {
     return {
       chartData: [
         {
           name: "Total Buy",
-          data: allData?.dateWiseData?.reverse().map((i) => i.buy),
+          data: allData?.dateWiseData?.map((i) => i.buy),
         },
         {
           name: "Total Sell",
-          data: allData?.dateWiseData?.reverse().map((i) => i.sell),
+          data: allData?.dateWiseData?.map((i) => i.sell),
         },
       ],
       xaxis: {
-        categories: allData?.dateWiseData?.reverse().map((i) => i.date),
+        categories: allData?.dateWiseData?.map((i) => i.date),
       },
       yaxis: {
         opposite: false,
