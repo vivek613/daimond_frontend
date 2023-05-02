@@ -11,9 +11,11 @@ export const AuthProvider = (props) => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loaginCheckLoading, setLoaginCheckLoading] = useState(false);
 
   //------------------------ FOR LOGIN USER ------------------------//
   const handleCheckLoginPage = async (props) => {
+    setLoaginCheckLoading(true);
     await axios
       .get(
         `${process.env.REACT_APP_URL}users/check-login`,
@@ -24,6 +26,7 @@ export const AuthProvider = (props) => {
       )
       .then((item) => {
         if (item.data.status) {
+          setLoaginCheckLoading(false);
           navigate("/login");
         } else {
         }
@@ -58,7 +61,7 @@ export const AuthProvider = (props) => {
 
   return (
     <loginCtx.Provider
-      value={{ auth, setAuth, loading, setLoading, handleLogin, handleCheckLoginPage }}
+      value={{ auth, setAuth, loading, setLoading, loaginCheckLoading, handleLogin, handleCheckLoginPage }}
     >
       {props.children}
     </loginCtx.Provider>

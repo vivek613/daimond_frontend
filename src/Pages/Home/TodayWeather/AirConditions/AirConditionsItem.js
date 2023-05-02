@@ -4,7 +4,7 @@ import ThermostatIcon from "@mui/icons-material/Thermostat";
 import AirIcon from "@mui/icons-material/Air";
 import FilterDramaIcon from "@mui/icons-material/FilterDrama";
 import { ReactComponent as HumidityIcon } from "../../../../assets/humidity.svg";
-
+import Loader from "../../../../Components/Loader/Loader";
 const AirConditionsItem = (props) => {
   let iconContent;
 
@@ -75,7 +75,7 @@ const AirConditionsItem = (props) => {
         justifyContent="center"
         sx={{ height: "40px" }}
       >
-        <Box
+        {props.loading ? <Loader /> : <Box
           sx={{
             fontFamily: "Poppins",
             fontWeight: "600",
@@ -86,7 +86,7 @@ const AirConditionsItem = (props) => {
           onClick={props.onClick}
         >
           {props.value}
-        </Box>
+        </Box>}
       </Grid>
     </Grid>
   );

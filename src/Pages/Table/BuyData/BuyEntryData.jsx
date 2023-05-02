@@ -170,7 +170,17 @@ export const BuyEntryData = (props) => {
         <TableCell component="th" scope="row">
           {row?.company?.name}
         </TableCell>
-        <TableCell align="right">{row?.description}</TableCell>
+        <TableCell
+          align="left"
+          style={{
+            maxWidth: "200px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {row?.description}
+        </TableCell>
         <TableCell align="right">{row?.price}</TableCell>
         {/* <TableCell align="right">{row?.currency_type}</TableCell> */}
         <TableCell align="right">

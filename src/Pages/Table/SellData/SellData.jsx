@@ -136,12 +136,22 @@ const SellData = () => {
                   <TableRow>
                     <TableCell />
                     <TableCell>Company</TableCell>
-                    <TableCell align="right">Desc...</TableCell>
-                    <TableCell align="right">Bill No</TableCell>
-                    <TableCell align="right">Total</TableCell>
-                    <TableCell align="right">Due Days</TableCell>
-                    <TableCell align="right">Start Date</TableCell>
-                    <TableCell align="right">End Date</TableCell>
+                    <TableCell align="left">Desc...</TableCell>
+                    <TableCell align="right" width={100}>
+                      Bill No
+                    </TableCell>
+                    <TableCell align="right" width={100}>
+                      Total
+                    </TableCell>
+                    <TableCell align="right" width={100}>
+                      Due Days
+                    </TableCell>
+                    <TableCell align="right" width={100}>
+                      Start Date
+                    </TableCell>
+                    <TableCell align="right" width={100}>
+                      End Date
+                    </TableCell>
                     <TableCell align="right">Action</TableCell>
                   </TableRow>
                 </TableHead>
