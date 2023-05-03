@@ -104,14 +104,12 @@ const Product = () => {
   const { setAuth, loading, setLoading } = useLogin();
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     if (sessionStorage.getItem("access_token")) {
-      setAuth(true)
-      setLoading(false)
-        ;
+      setAuth(true);
+      setLoading(false);
     } else {
-      setLoading(false)
-
+      setLoading(false);
     }
   }, []);
 
@@ -121,13 +119,13 @@ const Product = () => {
         <div
           id="BrowserLoader"
           style={{
-               width: "100%",
+            width: "100%",
             height: "100%",
             position: "fixed",
             zIndex: 10000000,
-          display:"flex",
-          justifyContent:"center",
-          alignItems:"center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             backgroundColor: "#fff",
           }}
         >
@@ -135,7 +133,6 @@ const Product = () => {
         </div>
       </>
     );
-
 
   return (
     <Routes>

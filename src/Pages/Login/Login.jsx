@@ -13,9 +13,10 @@ import { useForm } from "react-hook-form";
 import "./Login.css";
 import { useLogin } from "../../Hooks";
 import { useNavigate } from "react-router";
+import Loader from "../../Components/Loader/Loader";
 
 export const Login = () => {
-  const { handleLogin } = useLogin();
+  const { handleLogin, loginButtonLoading } = useLogin();
   const navigate = useNavigate();
   const { register, handleSubmit, control, errors } = useForm({
     defaultValues: {
@@ -74,8 +75,13 @@ export const Login = () => {
                   variant="contained"
                   style={{ background: "#715d83cc" }}
                   sx={{ mt: 3, mb: 2 }}
+                  disabled={loginButtonLoading}
                 >
-                  Sign In
+                  {loginButtonLoading ? (
+                    <Loader style={{ marginTop: "-30px", height: "48px" }} />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
               </form>
             </Box>

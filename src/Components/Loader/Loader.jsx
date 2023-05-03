@@ -1,8 +1,8 @@
 import React from "react";
 import "./Loaders.css";
-const Loader = () => {
+const Loader = (style) => {
   return (
-    <div class="lds-ellipsis">
+    <div class="lds-ellipsis" style={style.style}>
       <div></div>
       <div></div>
       <div></div>

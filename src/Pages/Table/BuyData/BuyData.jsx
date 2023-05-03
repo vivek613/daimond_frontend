@@ -50,7 +50,6 @@ const BillData = () => {
 
   useEffect(() => {
     handleGetAllBill(search, page, rowsPerPage);
-    console.log("rer");
   }, [search, page, rowsPerPage]);
   useEffect(() => {
     handleGetAllCompany();

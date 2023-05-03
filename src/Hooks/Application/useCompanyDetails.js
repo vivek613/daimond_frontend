@@ -55,10 +55,12 @@ export const CompanyDetailsProvider = ({ children }) => {
         if (item.data.status) {
           setAllCompanyData(item.data.data);
         } else {
+          setAllCompanyData([]);
         }
       })
       .catch((err) => {
         setCompanyLoading(false);
+        setAllCompanyData([]);
         toast.error(err?.response?.data?.message);
       });
   };

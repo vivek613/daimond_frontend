@@ -11,6 +11,7 @@ export const AuthProvider = (props) => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loginButtonLoading, setLoginButtonLoading] = useState(false);
   const [loaginCheckLoading, setLoaginCheckLoading] = useState(false);
 
   //------------------------ FOR LOGIN USER ------------------------//
@@ -35,6 +36,7 @@ export const AuthProvider = (props) => {
 
   //------------------------ FOR LOGIN USER ------------------------//
   const handleLogin = async (props) => {
+    setLoginButtonLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_URL}users/login`,
@@ -47,11 +49,10 @@ export const AuthProvider = (props) => {
         }
       )
       .then((item) => {
+        setLoginButtonLoading(false);
         if (item.status) {
           setAuth(true);
           toast.success(" Login Successfully !");
-
-          // setCookies("access_token", item.data.data.accessToken);
           sessionStorage.setItem("access_token", item.data.data.accessToken);
           navigate("/company");
         } else {
@@ -61,7 +62,16 @@ export const AuthProvider = (props) => {
 
   return (
     <loginCtx.Provider
-      value={{ auth, setAuth, loading, setLoading, loaginCheckLoading, handleLogin, handleCheckLoginPage }}
+      value={{
+        auth,
+        setAuth,
+        loading,
+        setLoading,
+        loaginCheckLoading,
+        handleLogin,
+        handleCheckLoginPage,
+        loginButtonLoading,
+      }}
     >
       {props.children}
     </loginCtx.Provider>

@@ -220,7 +220,6 @@ export const SellDataProvider = ({ children }) => {
       }
     } catch (error) {
       setSelloading(false);
-      console.log(error);
       toast.error(error.message);
     }
   };

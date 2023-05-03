@@ -149,8 +149,7 @@ export const BuyEntryData = (props) => {
   const handleTotal = () => {
     return buyEntryById
       .map(({ payment, price }) => payment * price)
-      .reduce((sum, i) => sum + i, 0)
-      .toLocaleString();
+      .reduce((sum, i) => sum + i, 0);
   };
 
   return (
@@ -184,7 +183,7 @@ export const BuyEntryData = (props) => {
         <TableCell align="right">{row?.price}</TableCell>
         {/* <TableCell align="right">{row?.currency_type}</TableCell> */}
         <TableCell align="right">
-          {row?.total_payment.toLocaleString()}
+          {Number(row?.total_payment).toLocaleString()}
         </TableCell>
         <TableCell align="right">{row?.due_days}</TableCell>
         <TableCell align="right">{row?.start_date?.substring(0, 10)}</TableCell>
@@ -247,7 +246,7 @@ export const BuyEntryData = (props) => {
                       <TableCell align="right">$ Rate</TableCell>
                       <TableCell align="right">Payment</TableCell>
                       <TableCell align="right">Broker</TableCell>
-                      <TableCell align="center">Action</TableCell>
+                      <TableCell align="right">Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -263,7 +262,7 @@ export const BuyEntryData = (props) => {
                           {historyRow?.price.toLocaleString()}
                         </TableCell>
                         <TableCell align="right">
-                          {historyRow?.payment.toLocaleString()}
+                          {Number(historyRow.payment).toLocaleString()}
                         </TableCell>
                         <TableCell align="right">
                           {historyRow?.brokerName}
@@ -302,7 +301,23 @@ export const BuyEntryData = (props) => {
                     <TableRow>
                       <TableCell rowSpan={3} />
                       <TableCell colSpan={2}>Total Payment : </TableCell>
-                      <TableCell align="right">{handleTotal()}</TableCell>
+                      <TableCell align="right">
+                        <span style={{ color: "green" }}>
+                          {handleTotal().toLocaleString()}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan={2}>Remaining Payment : </TableCell>
+                      <TableCell align="right">
+                        {
+                          <span style={{ color: "red" }}>
+                            {(
+                              row?.total_payment - handleTotal()
+                            ).toLocaleString()}
+                          </span>
+                        }
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

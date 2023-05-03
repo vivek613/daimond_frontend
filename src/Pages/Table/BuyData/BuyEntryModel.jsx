@@ -16,6 +16,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import Loader from "../../../Components/Loader/Loader";
 
 export const BuyEntryModel = ({
   modelOpen,
@@ -79,7 +80,6 @@ export const BuyEntryModel = ({
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
   };
 
   return (
@@ -95,7 +95,14 @@ export const BuyEntryModel = ({
             buy_entry_id ? handleUpdateBuyEntryBuyId : handleAddBuyEntryBuyId
           )}
         >
-          <h2 className="df-side-modal-title">
+          <h2
+            className="df-side-modal-title"
+            style={{
+              padding: "20px",
+              color: "gray",
+              background: "rgb(230, 230, 230)",
+            }}
+          >
             {buy_entry_id ? "Update entry" : "Add entry"}
           </h2>
           <div>
@@ -159,7 +166,10 @@ export const BuyEntryModel = ({
                 margin="normal"
               />
             </div>
-            <div className={styles["button-div"]}>
+            <div
+              className={styles["button-div"]}
+              style={{ padding: "0 20px 20px 20px", marginTop: "-10px" }}
+            >
               <Button className="df-secondary-button" onClick={handleClose}>
                 Close
               </Button>
@@ -168,7 +178,13 @@ export const BuyEntryModel = ({
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Loading..." : buy_entry_id ? "Update" : "Add"}
+                {isLoading ? (
+                  <Loader style={{ marginTop: "-30px", height: "48px" }} />
+                ) : buy_entry_id ? (
+                  "Update"
+                ) : (
+                  "Add"
+                )}
               </Button>
             </div>
           </div>

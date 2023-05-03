@@ -68,7 +68,7 @@ body.dark {
   top: 5px;
   left: 5px;
   height: 96%;
-  border-radius: 15px 5px 5px 15px;
+  border-radius: 5px;
   width: 80px;
   padding: 10px 0px;
   background: var(--sidebar-color);

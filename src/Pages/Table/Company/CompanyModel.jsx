@@ -4,6 +4,8 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import styles from "./Company.module.css";
 import { useCompanyDetails } from "../../../Hooks";
+import Loader from "../../../Components/Loader/Loader";
+import { Button } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -48,8 +50,8 @@ export function CompanyModel() {
             id="parent-modal-title"
             style={{
               padding: "20px",
-              borderBottom: "1px solid gray",
               color: "gray",
+              background: "rgb(230, 230, 230)",
             }}
           >
             {id ? "Update company" : "Add company"}
@@ -76,27 +78,35 @@ export function CompanyModel() {
               id="outlined-basic"
               label="Description"
               variant="outlined"
+              minRows={3}
+              multiline
               {...register("company_description")}
             />
             <div
               className={styles["button-div"]}
               style={{ display: "flex", gap: "10px" }}
             >
-              <button
-                className="df-primary-button"
+              <Button
+                className="df-secondary-button"
                 onClick={() => {
                   handleClose();
                 }}
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 className="df-primary-button"
                 type="submit"
                 disabled={companyLoading}
               >
-                {companyLoading ? "Loading" : id ? "Update" : "Submit"}
-              </button>
+                {companyLoading ? (
+                  <Loader style={{ marginTop: "-30px", height: "48px" }} />
+                ) : id ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </Button>
             </div>
           </form>
         </Box>

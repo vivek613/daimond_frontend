@@ -15,6 +15,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Grid from "@mui/system/Unstable_Grid/Grid";
 import { useSellData } from "../../../Hooks/Application/useSellData";
 import { InputLabel } from "@mui/material";
+import Loader from "../../../Components/Loader/Loader";
 
 export function SellDataModel({ open, setOpen }) {
   const {
@@ -57,7 +58,13 @@ export function SellDataModel({ open, setOpen }) {
                   type="submit"
                   disabled={sellLoading}
                 >
-                  {sellLoading ? "Loading..." : buy_id ? "Update" : "Submit"}
+                  {sellLoading ? (
+                    <Loader style={{ marginTop: "-30px", height: "48px" }} />
+                  ) : buy_id ? (
+                    "Update"
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </div>
             </div>
